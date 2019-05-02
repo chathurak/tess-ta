@@ -1,1 +1,1 @@
-export {default as Sidebar} from './Dashboard'
+export {default as Dashboard} from './Dashboard'
