@@ -2,26 +2,18 @@ package com.languagematters.tessta.web.controller;
 
 import com.languagematters.tessta.web.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class UploadController {
 
     @Autowired
     StorageService storageService;
-
-    List<String> files = new ArrayList<>();
 
     @PostMapping("/api/upload/post")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
@@ -30,33 +22,14 @@ public class UploadController {
         try {
             storageService.store(file, pid);
 
-            // TODO : WHAT IS THIS? Shows only the temp file list? Should be removed later
-            files.add(file.getOriginalFilename());
-
-            message = "You successfully uploaded " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.OK).body(message);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(String.format("You successfully uploaded %s!", file.getOriginalFilename()));
         } catch (Exception e) {
-            message = "FAIL to upload " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(String.format("FAIL to upload %s!", file.getOriginalFilename()));
         }
     }
 
-    @GetMapping("/api/upload/getallfiles")
-    public ResponseEntity<List<String>> getListFiles(Model model) {
-        List<String> fileNames = files
-                .stream().map(fileName -> MvcUriComponentsBuilder
-                        .fromMethodName(UploadController.class, "getFile", fileName).build().toString())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok().body(fileNames);
-    }
-
-    @GetMapping("/api/upload/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = storageService.loadFile(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(file);
-    }
 }
