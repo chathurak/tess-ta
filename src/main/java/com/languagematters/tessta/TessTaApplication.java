@@ -1,4 +1,4 @@
-package com.languagematters.tessta.web;
+package com.languagematters.tessta;
 
 import com.languagematters.tessta.web.service.StorageService;
 import org.springframework.boot.CommandLineRunner;

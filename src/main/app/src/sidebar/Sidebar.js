@@ -37,39 +37,39 @@ class Sidebar extends React.Component {
           component="nav"
           subheader={<ListSubheader component="div">Tess-TA</ListSubheader>}
         >
-          <ListItem button component={Link} button to="/home">
+          <ListItem button component={Link} to="/home">
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText inset primary="Home" />
           </ListItem>
-          <ListItem button component={Link} button to="/library">
+          <ListItem button component={Link} to="/library">
             <ListItemIcon>
               <LibraryBooksIcon />
             </ListItemIcon>
             <ListItemText inset primary="Library" />
           </ListItem>
-          <ListItem button component={Link} button to="/queue">
+          <ListItem button component={Link} to="/queue">
             <ListItemIcon>
               <QueueIcon />
             </ListItemIcon>
             <ListItemText inset primary="Queue" />
           </ListItem>
           <Divider />
-          <ListItem component={Link} button to="/ocr">
+          <ListItem component={Link} to="/ocr">
             <ListItemIcon>
               <FindInPageIcon />
             </ListItemIcon>
             <ListItemText inset primary="OCR" />
           </ListItem>
-          <ListItem button component={Link} button to="/grammar">
+          <ListItem button component={Link} to="/grammar">
             <ListItemIcon>
               <SpellcheckIcon />
             </ListItemIcon>
             <ListItemText inset primary="Grammar" />
           </ListItem>
           <Divider />
-          <ListItem button component={Link} button to="/settings">
+          <ListItem button component={Link} to="/settings">
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
