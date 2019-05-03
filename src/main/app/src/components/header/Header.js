@@ -1,9 +1,9 @@
 import * as React from "react";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
+import Toolbar from "@material-ui/core/Toolbar/index";
+import IconButton from "@material-ui/core/IconButton/index";
 import MenuIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography/index";
+import AppBar from "@material-ui/core/AppBar/index";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import styles from "./Header.styles";

@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import {Sidebar} from "./sidebar";
-import {Header} from "./header";
+import {Sidebar} from "./components/sidebar";
+import {Header} from "./components/header";
 import styles from './App.styles'
 import {Route} from "react-router-dom";
-import {Ocr} from "./ocr";
-import {Home} from "./home";
+import {Ocr} from "./scenes/ocr";
+import {Home} from "./scenes/home";
 
 class App extends React.Component {
 
