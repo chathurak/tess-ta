@@ -16,6 +16,7 @@ import FindInPageIcon from '@material-ui/icons/FindInPage';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import styles from './Sidebar.styles'
+import { Link } from 'react-router-dom'
 
 class Sidebar extends React.Component {
 
@@ -36,39 +37,39 @@ class Sidebar extends React.Component {
           component="nav"
           subheader={<ListSubheader component="div">Tess-TA</ListSubheader>}
         >
-          <ListItem button>
+          <ListItem button component={Link} button to="/home">
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText inset primary="Home" />
           </ListItem>
-          <ListItem button>
+          <ListItem button component={Link} button to="/library">
             <ListItemIcon>
               <LibraryBooksIcon />
             </ListItemIcon>
             <ListItemText inset primary="Library" />
           </ListItem>
-          <ListItem button>
+          <ListItem button component={Link} button to="/queue">
             <ListItemIcon>
               <QueueIcon />
             </ListItemIcon>
             <ListItemText inset primary="Queue" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem component={Link} button to="/ocr">
             <ListItemIcon>
               <FindInPageIcon />
             </ListItemIcon>
             <ListItemText inset primary="OCR" />
           </ListItem>
-          <ListItem button>
+          <ListItem button component={Link} button to="/grammar">
             <ListItemIcon>
               <SpellcheckIcon />
             </ListItemIcon>
             <ListItemText inset primary="Grammar" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          <ListItem button component={Link} button to="/settings">
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
