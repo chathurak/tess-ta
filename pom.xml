@@ -80,6 +80,14 @@
 			<type>jar</type>
 		</dependency>
 
+
+		<!--MongoDB-->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-sync</artifactId>
+			<version>3.10.1</version>
+		</dependency>
+
 		<!--Other-->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
