@@ -13,6 +13,9 @@ const theme = createMuiTheme({
   },
   layout: {
     sidebarWidth: 240
+  },
+  border: {
+    defaultBorder: 'solid #CFD8DC 1px',
   }
 });
 

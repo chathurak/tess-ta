@@ -1,13 +1,24 @@
-import React, {Component} from "react";
+import {withStyles} from '@material-ui/core'
+import PropTypes    from 'prop-types'
+import * as React   from 'react'
+import styles       from './Dashboard.styles'
 
-class Dashboard extends Component {
+class Dashboard extends React.Component {
 
-    render() {
-        return (
-            <h1>Dashboard</h1>
-        )
-    }
+  render() {
+    const {classes} = this.props
+
+    return (
+      <div>
+      </div>
+    )
+  }
 
 }
 
-export default Dashboard
+Dashboard.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme  : PropTypes.object.isRequired,
+}
+
+export default withStyles(styles, {withTheme: true})(Dashboard)

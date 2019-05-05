@@ -1,22 +1,22 @@
 import {withStyles} from '@material-ui/core'
 import PropTypes    from 'prop-types'
 import * as React   from 'react'
-import styles       from './Home.styles'
+import styles       from './ActionPanel.styles'
 
-class Home extends React.Component {
+class ActionPanel extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={this.props.className}>
       </div>
     )
   }
 
 }
 
-Home.propTypes = {
+ActionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
   theme  : PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(Home)
+export default withStyles(styles, {withTheme: true})(ActionPanel)

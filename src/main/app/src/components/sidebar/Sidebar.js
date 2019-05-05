@@ -1,35 +1,36 @@
-import * as React from "react";
-import Hidden from "@material-ui/core/Hidden/index";
-import Drawer from "@material-ui/core/Drawer/index";
-import List from "@material-ui/core/List/index";
-import ListSubheader from "@material-ui/core/ListSubheader/index";
-import ListItem from "@material-ui/core/ListItem/index";
-import ListItemIcon from "@material-ui/core/ListItemIcon/index";
-import ListItemText from "@material-ui/core/ListItemText/index";
-import Divider from "@material-ui/core/Divider/index";
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import SpellcheckIcon from '@material-ui/icons/Spellcheck';
-import HomeIcon from '@material-ui/icons/Home';
-import SettingsIcon from '@material-ui/icons/Settings';
-import QueueIcon from '@material-ui/icons/Queue';
-import FindInPageIcon from '@material-ui/icons/FindInPage';
-import PropTypes from "prop-types";
-import {withStyles} from "@material-ui/core";
-import styles from './Sidebar.styles'
-import { Link } from 'react-router-dom'
+import {withStyles}     from '@material-ui/core'
+import Divider          from '@material-ui/core/Divider/index'
+import Drawer           from '@material-ui/core/Drawer/index'
+import Hidden           from '@material-ui/core/Hidden/index'
+import List             from '@material-ui/core/List/index'
+import ListItem         from '@material-ui/core/ListItem/index'
+import ListItemIcon     from '@material-ui/core/ListItemIcon/index'
+import ListItemText     from '@material-ui/core/ListItemText/index'
+import ListSubheader    from '@material-ui/core/ListSubheader/index'
+import FindInPageIcon   from '@material-ui/icons/FindInPage'
+import HomeIcon         from '@material-ui/icons/Home'
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
+import QueueIcon        from '@material-ui/icons/Queue'
+import SettingsIcon     from '@material-ui/icons/Settings'
+import SpellcheckIcon   from '@material-ui/icons/Spellcheck'
+import PropTypes        from 'prop-types'
+import * as React       from 'react'
+import {Link}           from 'react-router-dom'
+import styles           from './Sidebar.styles'
+
 
 class Sidebar extends React.Component {
 
   state = {
     mobileOpen: false,
-  };
+  }
 
   handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-  };
+    this.setState(state => ({mobileOpen: !state.mobileOpen}))
+  }
 
   render() {
-    const { classes, theme } = this.props;
+    const {classes, theme} = this.props
 
     const drawer = (
       <div>
@@ -39,45 +40,45 @@ class Sidebar extends React.Component {
         >
           <ListItem button component={Link} to="/home">
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon/>
             </ListItemIcon>
-            <ListItemText inset primary="Home" />
+            <ListItemText inset primary="Home"/>
           </ListItem>
           <ListItem button component={Link} to="/library">
             <ListItemIcon>
-              <LibraryBooksIcon />
+              <LibraryBooksIcon/>
             </ListItemIcon>
-            <ListItemText inset primary="Library" />
+            <ListItemText inset primary="Library"/>
           </ListItem>
           <ListItem button component={Link} to="/queue">
             <ListItemIcon>
-              <QueueIcon />
+              <QueueIcon/>
             </ListItemIcon>
-            <ListItemText inset primary="Queue" />
+            <ListItemText inset primary="Queue"/>
           </ListItem>
-          <Divider />
-          <ListItem component={Link} to="/ocr">
+          <Divider/>
+          <ListItem button component={Link} to="/ocr">
             <ListItemIcon>
-              <FindInPageIcon />
+              <FindInPageIcon/>
             </ListItemIcon>
-            <ListItemText inset primary="OCR" />
+            <ListItemText inset primary="OCR"/>
           </ListItem>
           <ListItem button component={Link} to="/grammar">
             <ListItemIcon>
-              <SpellcheckIcon />
+              <SpellcheckIcon/>
             </ListItemIcon>
-            <ListItemText inset primary="Grammar" />
+            <ListItemText inset primary="Grammar"/>
           </ListItem>
-          <Divider />
+          <Divider/>
           <ListItem button component={Link} to="/settings">
             <ListItemIcon>
-              <SettingsIcon />
+              <SettingsIcon/>
             </ListItemIcon>
-            <ListItemText inset primary="Settings" />
+            <ListItemText inset primary="Settings"/>
           </ListItem>
         </List>
       </div>
-    );
+    )
 
     return (
       <nav className={classes.drawer}>
@@ -115,10 +116,7 @@ class Sidebar extends React.Component {
 
 Sidebar.propTypes = {
   classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  // container: PropTypes.object,
-  theme: PropTypes.object.isRequired,
-};
+  theme  : PropTypes.object.isRequired,
+}
 
-export default withStyles(styles, { withTheme: true })(Sidebar);
+export default withStyles(styles, {withTheme: true})(Sidebar)
