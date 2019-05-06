@@ -1,35 +1,39 @@
-import CssBaseline  from '@material-ui/core/CssBaseline'
-import {withStyles} from '@material-ui/core/styles'
-import PropTypes    from 'prop-types'
-import React        from 'react'
-import {Route}      from 'react-router-dom'
-import styles       from './App.styles'
-import {Header}     from './components/header'
-import {Sidebar}    from './components/sidebar'
-import {Home}       from './scenes/home'
-import {Ocr}        from './scenes/ocr'
+import {withStyles}    from '@material-ui/core/styles'
+import PropTypes       from 'prop-types'
+import React           from 'react'
+import {Route, Router} from 'react-router-dom'
+import styles          from './App.styles'
+import {PrivateRoute}  from './components'
+import {history}       from './helpers'
+import {Dashboard}     from './pages/dashboard'
+import {SignIn}        from './pages/signin'
+import {SignUp}        from './pages/signup'
 
 class App extends React.Component {
 
   render() {
-    const {classes} = this.props
-
     // return (
-    //   <div className={classes.root}>
-    //     <CssBaseline/>
-    //     <Header/>
-    //     <Sidebar/>
-    //     <main className={classes.content}>
-    //       <div className={classes.toolbar}/>
-    //       <Route exact path='/home' component={Home}/>
-    //       <Route exact path='/ocr' component={Ocr}/>
-    //     </main>
+    //   <div>
+    //     {this.props.children}
     //   </div>
     // )
 
+    const {alert} = this.props
+
     return (
-      <div>
-        {this.props.children}
+      <div className="jumbotron">
+        <div className="container">
+          <div className="col-sm-8 col-sm-offset-2">
+            {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+            <Router history={history}>
+              <div>
+                <PrivateRoute exact path="/" component={Dashboard}/>
+                <Route path="/login" component={SignIn}/>
+                <Route path="/register" component={SignUp}/>
+              </div>
+            </Router>
+          </div>
+        </div>
       </div>
     )
   }
@@ -37,7 +41,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes : PropTypes.object.isRequired,
   children: PropTypes.object.isRequired
 }
 
