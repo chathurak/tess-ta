@@ -1,9 +1,9 @@
-package com.languagematters.tessta.grammar.helpers;
+package com.languagematters.tessta.grammar.helper;
 
 
-import com.languagematters.tessta.grammar.models.LetterObj;
-import com.languagematters.tessta.grammar.models.WordObj;
-import com.languagematters.tessta.grammar.unicode.Sinhala;
+import com.languagematters.tessta.grammar.model.LetterObj;
+import com.languagematters.tessta.grammar.model.WordObj;
+import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class DocHelper {
             }
 
             // Add complete character
-            if (i + 1 == text.length() || text.charAt(i + 1) == '\n' || !(Sinhala.isModifier(text.charAt(i + 1)) || text.charAt(i + 1) == ZERO_WIDTH_JOINER)) {
+            if (i + 1 == text.length() || text.charAt(i + 1) == '\n' || !(SinhalaUnicode.isModifier(text.charAt(i + 1)) || text.charAt(i + 1) == ZERO_WIDTH_JOINER)) {
                 word.letters.add(new LetterObj(text.substring(start, i + 1)));
                 start = i + 1;
             }

@@ -1,4 +1,4 @@
-package com.languagematters.tessta.grammar.models;
+package com.languagematters.tessta.grammar.model;
 
 import java.util.ArrayList;
 import java.util.List;

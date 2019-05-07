@@ -1,9 +1,9 @@
-package com.languagematters.tessta.grammar.unicode;
+package com.languagematters.tessta.grammar.config;
 
 import com.google.common.collect.ImmutableBiMap;
 import org.jetbrains.annotations.Contract;
 
-public class Sinhala {
+public class SinhalaUnicode {
 
     private static final ImmutableBiMap<String, Character> vowels;
 

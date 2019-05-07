@@ -1,4 +1,4 @@
-package com.languagematters.tessta.grammar.utils;
+package com.languagematters.tessta.grammar.util;
 
 import java.io.*;
 import java.util.HashMap;

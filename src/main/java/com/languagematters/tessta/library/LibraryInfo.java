@@ -1,6 +1,6 @@
 package com.languagematters.tessta.library;
 
-import com.languagematters.tessta.admin.db.Mongo;
+import com.languagematters.tessta.db.Mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;

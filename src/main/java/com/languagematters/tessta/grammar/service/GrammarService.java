@@ -1,13 +1,13 @@
-package com.languagematters.tessta.grammar.common;
+package com.languagematters.tessta.grammar.service;
 
 import com.languagematters.tessta.grammar.config.Rules;
-import com.languagematters.tessta.grammar.controllers.DictionaryChecker;
-import com.languagematters.tessta.grammar.controllers.LegitimacyChecker;
-import com.languagematters.tessta.grammar.controllers.MandatoryChecker;
-import com.languagematters.tessta.grammar.controllers.OptionalChecker;
-import com.languagematters.tessta.grammar.helpers.DocHelper;
-import com.languagematters.tessta.grammar.models.WordObj;
-import com.languagematters.tessta.grammar.utils.FileUtils;
+import com.languagematters.tessta.grammar.checker.DictionaryChecker;
+import com.languagematters.tessta.grammar.checker.LegitimacyChecker;
+import com.languagematters.tessta.grammar.checker.MandatoryChecker;
+import com.languagematters.tessta.grammar.checker.OptionalChecker;
+import com.languagematters.tessta.grammar.helper.DocHelper;
+import com.languagematters.tessta.grammar.model.WordObj;
+import com.languagematters.tessta.grammar.util.FileUtils;
 
 import java.util.List;
 

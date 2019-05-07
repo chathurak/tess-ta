@@ -1,8 +1,8 @@
-package com.languagematters.tessta.grammar.common;
+package com.languagematters.tessta.grammar.service;
 
 
 
-import com.languagematters.tessta.grammar.utils.DBUtils;
+import com.languagematters.tessta.grammar.util.DBUtils;
 
 import java.util.HashSet;
 

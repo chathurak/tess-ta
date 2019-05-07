@@ -1,10 +1,10 @@
-package com.languagematters.tessta.grammar.controllers;
+package com.languagematters.tessta.grammar.checker;
 
 
 import com.languagematters.tessta.grammar.config.Rules;
-import com.languagematters.tessta.grammar.models.LetterObj;
-import com.languagematters.tessta.grammar.models.WordObj;
-import com.languagematters.tessta.grammar.unicode.Sinhala;
+import com.languagematters.tessta.grammar.model.LetterObj;
+import com.languagematters.tessta.grammar.model.WordObj;
+import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 
 import java.util.List;
 
@@ -25,12 +25,12 @@ public class LegitimacyChecker {
             }
 
             // Check grammar legitimacy
-            if (wordObj.letters.size() > 0 && Sinhala.isModifier(wordObj.letters.get(0).value.charAt(0))) {
+            if (wordObj.letters.size() > 0 && SinhalaUnicode.isModifier(wordObj.letters.get(0).value.charAt(0))) {
                 wordObj.letters.get(0).flags.add("GRAMMAR_LEGITIMACY_ERROR");
             }
 
             for (LetterObj letterObj : wordObj.letters) {
-                if (wordObj.letters.indexOf(letterObj) > 0 && Sinhala.isVowel(letterObj.value.charAt(0))) {
+                if (wordObj.letters.indexOf(letterObj) > 0 && SinhalaUnicode.isVowel(letterObj.value.charAt(0))) {
                     letterObj.flags.add("GRAMMAR_LEGITIMACY_ERROR");
                 }
             }

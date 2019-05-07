@@ -1,11 +1,11 @@
-package com.languagematters.tessta.grammar.controllers;
+package com.languagematters.tessta.grammar.checker;
 
 
-import com.languagematters.tessta.grammar.common.DictionaryService;
+import com.languagematters.tessta.grammar.service.DictionaryService;
 import com.languagematters.tessta.grammar.config.Rules;
-import com.languagematters.tessta.grammar.helpers.DocHelper;
-import com.languagematters.tessta.grammar.models.LetterObj;
-import com.languagematters.tessta.grammar.models.WordObj;
+import com.languagematters.tessta.grammar.helper.DocHelper;
+import com.languagematters.tessta.grammar.model.LetterObj;
+import com.languagematters.tessta.grammar.model.WordObj;
 
 import java.util.ArrayList;
 import java.util.List;

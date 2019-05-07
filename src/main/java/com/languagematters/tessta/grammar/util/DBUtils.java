@@ -1,4 +1,4 @@
-package com.languagematters.tessta.grammar.utils;
+package com.languagematters.tessta.grammar.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class DBUtils {
-    static final String DB_URL = "jdbc:mysql://ocr-db/tesseract_server?autoReconnect=true&useSSL=false"; // TODO: Load HOST as a property
 
-    //  Database credentials
-    static final String USER = "root"; // TODO: temp
-    static final String PASS = "root"; // TODO: temp
+    private static final String DB_URL = "jdbc:mysql://ocr-db/tesseract_server?autoReconnect=true&useSSL=false"; // TODO: Load HOST as a property
+
+    private static final String USER = "root";
+    private static final String PASS = "";
 
     public static HashMap<String, String> loadKeyVal(String sql) {
         HashMap<String, String> data = new HashMap<>();
@@ -21,7 +21,6 @@ public class DBUtils {
         Statement stmt;
 
         try {
-
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Connecting to database...");
 

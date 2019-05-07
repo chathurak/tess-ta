@@ -1,7 +1,7 @@
-package com.languagematters.tessta.grammar.utils;
+package com.languagematters.tessta.grammar.util;
 
 
-import com.languagematters.tessta.grammar.unicode.Sinhala;
+import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class TextUtils {
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) != ZERO_WIDTH_JOINER) { // Ignore zoro width characters
                 // If next char starts _ new letter
-                if (i + 1 == text.length() || !(Sinhala.isModifier(text.charAt(i + 1)) || text.charAt(i + 1) == ZERO_WIDTH_JOINER)) {
+                if (i + 1 == text.length() || !(SinhalaUnicode.isModifier(text.charAt(i + 1)) || text.charAt(i + 1) == ZERO_WIDTH_JOINER)) {
                     String letter = text.substring(start, i + 1);
                     letters.add(letter);
                     start = i + 1;

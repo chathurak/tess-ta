@@ -1,4 +1,4 @@
-package com.languagematters.tessta.grammar.controllers;
+package com.languagematters.tessta.grammar.checker;
 
 
 import com.languagematters.tessta.grammar.config.Rules;
