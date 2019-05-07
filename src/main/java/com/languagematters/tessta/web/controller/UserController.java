@@ -42,11 +42,11 @@ public class UserController {
         if (result) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(String.format(String.format("New user successfully created : %s", email)));
+                    .body(String.format("New user successfully created : %s", email));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(String.format(String.format("Failed to create the new user : %s", email)));
+                    .body(String.format("Failed to create the new user : %s", email));
         }
     }
 }

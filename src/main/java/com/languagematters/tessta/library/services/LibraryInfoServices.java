@@ -1,14 +1,22 @@
-package com.languagematters.tessta.library;
+package com.languagematters.tessta.library.services;
 
-import com.languagematters.tessta.db.Mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class LibraryInfo {
+@Service
+public class LibraryInfoServices {
     public static String LIBRARY_COLLECTION_NAME = "library";
 
+    private final MongoDatabase mongoDatabase;
+
+    @Autowired
+    public LibraryInfoServices(final MongoDatabase mongoDatabase) {
+        this.mongoDatabase = mongoDatabase;
+    }
 
     // Create new file in db
     // =====================
@@ -17,10 +25,9 @@ public class LibraryInfo {
     //     "_id": "filename",
     //     "drive_id": "drive_url_id"
     // }
-    public static void addNewFile(String jsonFileInfo) {
+    public void addNewFile(String jsonFileInfo) {
         // Get collection
-        MongoDatabase database = Mongo.database;
-        MongoCollection<Document> collection = database.getCollection(LIBRARY_COLLECTION_NAME);
+        MongoCollection<Document> collection = mongoDatabase.getCollection(LIBRARY_COLLECTION_NAME);
 
         // Save doc
         Document doc = Document.parse(jsonFileInfo);
@@ -40,10 +47,9 @@ public class LibraryInfo {
     //     }
     //     ...
     // }
-    public static void addNewTask(String filename, String jsonTaskInfo){
+    public void addNewTask(String filename, String jsonTaskInfo){
         // Get collection
-        MongoDatabase database = Mongo.database;
-        MongoCollection<Document> collection = database.getCollection(LIBRARY_COLLECTION_NAME);
+        MongoCollection<Document> collection = mongoDatabase.getCollection(LIBRARY_COLLECTION_NAME);
 
         // Create filter
         BasicDBObject filter = new BasicDBObject();
