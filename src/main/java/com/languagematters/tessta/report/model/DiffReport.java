@@ -4,9 +4,9 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
-import com.languagematters.tessta.ocr.service.DiffService;
-import com.languagematters.tessta.report.service.DriveService;
-import com.languagematters.tessta.report.service.SheetsService;
+import com.languagematters.tessta.report.service.DiffServices;
+import com.languagematters.tessta.report.service.DriveServices;
+import com.languagematters.tessta.report.service.SheetsServices;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -21,13 +21,13 @@ public class DiffReport {
     private static Sheets sheetsService;
     private static Drive driveService;
 
-    List<DiffService.CustomDiff> deltas;
+    List<DiffServices.CustomDiff> deltas;
 
     List<List<Object>> rows;
 
-    public DiffReport(@NotNull List<DiffService.CustomDiff> deltas) throws IOException, GeneralSecurityException {
-        sheetsService = SheetsService.getSheetsService();
-        driveService = DriveService.getDriveService();
+    public DiffReport(@NotNull List<DiffServices.CustomDiff> deltas) throws IOException, GeneralSecurityException {
+        sheetsService = SheetsServices.getSheetsService();
+        driveService = DriveServices.getDriveService();
 
         this.deltas = deltas;
 
@@ -35,7 +35,7 @@ public class DiffReport {
         rows.add(Arrays.asList("Input text", "OCR output", "Type"));
 
         int i = 1;
-        for (DiffService.CustomDiff d : deltas) {
+        for (DiffServices.CustomDiff d : deltas) {
             List<Object> row = new ArrayList<>();
 
             String modifiedText = d.text

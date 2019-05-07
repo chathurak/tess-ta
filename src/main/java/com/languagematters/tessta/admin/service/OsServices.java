@@ -2,7 +2,7 @@ package com.languagematters.tessta.admin.service;
 
 import org.jetbrains.annotations.Contract;
 
-public class OsService {
+public class OsServices {
     private static String OS = System.getProperty("os.name").toLowerCase();
 
     @Contract(pure = true)

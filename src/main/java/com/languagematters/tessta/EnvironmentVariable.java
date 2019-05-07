@@ -1,4 +1,4 @@
-package com.languagematters.tessta.admin.type;
+package com.languagematters.tessta;
 
 public enum EnvironmentVariable {
     TESS_TESSDATA,

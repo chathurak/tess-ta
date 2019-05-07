@@ -1,7 +1,7 @@
 package com.languagematters.tessta.web.controller;
 
-import com.languagematters.tessta.web.rest.ProcessTask;
-import com.languagematters.tessta.web.service.AsynchronousService;
+import com.languagematters.tessta.web.task.ProcessTask;
+import com.languagematters.tessta.web.service.AsynchronousServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProcessController {
 
     @Autowired
-    private AsynchronousService asynchronousService;
+    private AsynchronousServices asynchronousServices;
 
     @RequestMapping(value = "/api/process", method = RequestMethod.POST)
     public void process(@RequestParam(value = "pid") String pid,
@@ -22,7 +22,7 @@ public class ProcessController {
         processTask.setPid(pid);
         processTask.setOriginalFileName(originalFileName);
 
-        asynchronousService.executeProcessAsynchronously(processTask);
+        asynchronousServices.executeProcessAsynchronously(processTask);
     }
 
 }

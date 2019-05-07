@@ -1,6 +1,6 @@
 package com.languagematters.tessta.web.service;
 
-import com.languagematters.tessta.admin.type.EnvironmentVariable;
+import com.languagematters.tessta.EnvironmentVariable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-public class StorageService {
+public class StorageServices {
 
     private Jedis jedis = new Jedis("localhost");
 

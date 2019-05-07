@@ -1,4 +1,4 @@
-package com.languagematters.tessta.web.config;
+package com.languagematters.tessta.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

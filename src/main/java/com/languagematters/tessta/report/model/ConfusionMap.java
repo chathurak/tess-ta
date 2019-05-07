@@ -1,4 +1,4 @@
-package com.languagematters.tessta.ocr.model;
+package com.languagematters.tessta.report.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

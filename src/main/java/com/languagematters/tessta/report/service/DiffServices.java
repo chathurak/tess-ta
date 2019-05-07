@@ -1,4 +1,4 @@
-package com.languagematters.tessta.ocr.service;
+package com.languagematters.tessta.report.service;
 
 import com.languagematters.tessta.ocr.google.DiffMatchPatch;
 import com.languagematters.tessta.ocr.google.DiffMatchPatch.Operation;
@@ -13,7 +13,7 @@ import java.util.ListIterator;
 
 import static com.languagematters.tessta.ocr.google.DiffMatchPatch.Operation.*;
 
-public class DiffService {
+public class DiffServices {
 
     /**
      * @param outputDirectoryPath
@@ -56,7 +56,7 @@ public class DiffService {
             deltas.add(diff);
         }
 
-        DiffService.formatDiff(deltas);
+        DiffServices.formatDiff(deltas);
 
         return deltas;
     }

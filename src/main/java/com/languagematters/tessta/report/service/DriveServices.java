@@ -12,7 +12,7 @@ import java.security.GeneralSecurityException;
 
 import static com.languagematters.tessta.report.util.GoogleAuthorizeUtil.getCredentials;
 
-public class DriveService {
+public class DriveServices {
     private static final String APPLICATION_NAME = "TesseractTA";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
@@ -25,7 +25,7 @@ public class DriveService {
     }
 
     public static File getRoot() throws IOException, GeneralSecurityException {
-        return DriveService.getDriveService().files().list()
+        return DriveServices.getDriveService().files().list()
                 .setQ("name='TessTA'")
                 .setSpaces("drive")
                 .setFields("nextPageToken, files(id, name)")
@@ -34,7 +34,7 @@ public class DriveService {
     }
 
     public static File getTessLibrary() throws IOException, GeneralSecurityException {
-        return DriveService.getDriveService().files().list()
+        return DriveServices.getDriveService().files().list()
                 .setQ("name='tess_library'")
                 .setSpaces("drive")
                 .setFields("nextPageToken, files(id, name)")

@@ -1,6 +1,6 @@
 package com.languagematters.tessta.ocr.service;
 
-import com.languagematters.tessta.admin.type.EnvironmentVariable;
+import com.languagematters.tessta.EnvironmentVariable;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.environment.EnvironmentUtils;
@@ -8,7 +8,7 @@ import redis.clients.jedis.Jedis;
 
 import java.util.Map;
 
-public class OCRService {
+public class OCRServices {
 
     public static void ocr(Executor executor, String inputPath, String outputPath) throws Exception {
         Jedis jedis = new Jedis("localhost");

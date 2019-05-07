@@ -1,20 +1,17 @@
-package com.languagematters.tessta.web.rest;
+package com.languagematters.tessta.web.task;
 
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.languagematters.tessta.admin.type.EnvironmentVariable;
-import com.languagematters.tessta.ocr.model.ConfusionMap;
-import com.languagematters.tessta.ocr.model.OCRLog;
-import com.languagematters.tessta.ocr.service.ConfusionMapService;
-import com.languagematters.tessta.ocr.service.DiffService;
-import com.languagematters.tessta.ocr.service.ImageService;
-import com.languagematters.tessta.ocr.service.OCRService;
+import com.languagematters.tessta.EnvironmentVariable;
+import com.languagematters.tessta.report.model.ConfusionMap;
+import com.languagematters.tessta.report.service.ConfusionMapServices;
+import com.languagematters.tessta.report.service.DiffServices;
+import com.languagematters.tessta.ocr.service.ImageServices;
+import com.languagematters.tessta.ocr.service.OCRServices;
 import com.languagematters.tessta.report.model.ConfusionReport;
 import com.languagematters.tessta.report.model.ConfusionSummaryReport;
 import com.languagematters.tessta.report.model.DiffReport;
-import com.languagematters.tessta.report.service.DriveService;
+import com.languagematters.tessta.report.service.DriveServices;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.FileUtils;
@@ -48,8 +45,8 @@ public class ProcessTask implements Runnable {
 
     public ProcessTask() {
         try {
-            driveService = DriveService.getDriveService();
-            tessLibraryDir = DriveService.getTessLibrary();
+            driveService = DriveServices.getDriveService();
+            tessLibraryDir = DriveServices.getTessLibrary();
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
         }
@@ -85,30 +82,23 @@ public class ProcessTask implements Runnable {
 
             // Text to image
             resetExecutor();
-            ImageService.text2Image(executor, tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/out");
+            ImageServices.text2Image(executor, tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/out");
 
             // OCR
             resetExecutor();
-            OCRService.ocr(executor, tempDir.getAbsolutePath() + "/out.tif", tempDir.getAbsolutePath() + "/output");
+            OCRServices.ocr(executor, tempDir.getAbsolutePath() + "/out.tif", tempDir.getAbsolutePath() + "/output");
 
             // Comparison
-            List<DiffService.CustomDiff> deltas = DiffService.getDefaultDiff(tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/output.txt");
+            List<DiffServices.CustomDiff> deltas = DiffServices.getDefaultDiff(tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/output.txt");
             new DiffReport(deltas).writeReport(parentDir.getId(), "diff");
 
             // Confusion Matrix
-            ConfusionMap confusionMap = ConfusionMapService.getConfusionMap(deltas);
+            ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(deltas);
             new ConfusionReport(confusionMap).writeReport(parentDir.getId(), "confusion");
             new ConfusionSummaryReport(confusionMap).writeReport(parentDir.getId(), "confusion_summary");
 
             // Log
-            OCRLog ocrLog = new OCRLog();
-            ocrLog.setOriginalFileName(originalFileName);
-            try (Writer writer = new FileWriter(tempDir.getAbsolutePath() + "/log.json")) {
-                Gson gson = new GsonBuilder().create();
-                gson.toJson(ocrLog, writer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // TODO : Generate Json and save as ./log.json
 
             // Upload files
             ArrayList<Upload> uploadFileList = new ArrayList<>();

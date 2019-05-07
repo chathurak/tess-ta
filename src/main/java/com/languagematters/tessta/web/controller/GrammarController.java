@@ -1,8 +1,8 @@
 package com.languagematters.tessta.web.controller;
 
-import com.languagematters.tessta.grammar.common.GrammarService;
-import com.languagematters.tessta.grammar.models.WordObj;
-import com.languagematters.tessta.grammar.utils.FileUtils;
+import com.languagematters.tessta.grammar.service.GrammarService;
+import com.languagematters.tessta.grammar.model.WordObj;
+import com.languagematters.tessta.grammar.util.FileUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

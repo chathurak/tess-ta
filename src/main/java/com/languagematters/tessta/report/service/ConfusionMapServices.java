@@ -1,22 +1,22 @@
-package com.languagematters.tessta.ocr.service;
+package com.languagematters.tessta.report.service;
 
-import com.languagematters.tessta.grammar.utils.TextUtils;
+import com.languagematters.tessta.grammar.util.TextUtils;
 import com.languagematters.tessta.ocr.google.DiffMatchPatch;
-import com.languagematters.tessta.ocr.model.ConfusionMap;
+import com.languagematters.tessta.report.model.ConfusionMap;
 
 import java.util.List;
 
-public class ConfusionMapService {
+public class ConfusionMapServices {
 
     /**
      * @param deltas
      * @return
      */
-    public static ConfusionMap getConfusionMap(List<DiffService.CustomDiff> deltas) {
+    public static ConfusionMap getConfusionMap(List<DiffServices.CustomDiff> deltas) {
         ConfusionMap confusionMap = new ConfusionMap();
 
         for (int i = 0; i < deltas.size(); i++) {
-            DiffService.CustomDiff currentDiff = deltas.get(i);
+            DiffServices.CustomDiff currentDiff = deltas.get(i);
 
             if (currentDiff.googleDiffOperation == DiffMatchPatch.Operation.EQUAL) {    // Add equally matched
                 for (String letter : TextUtils.splitLetters(currentDiff.text)) {
@@ -31,12 +31,12 @@ public class ConfusionMapService {
                 }
             } else {    // Add unmatched
                 try {   // Handle one character change
-                    DiffService.CustomDiff preDiff = deltas.get(i - 1);
-                    DiffService.CustomDiff nextDiff = deltas.get(i + 1);
-                    DiffService.CustomDiff afterNextDiff = deltas.get(i + 2);
-                    if (preDiff.customOperation == DiffService.CustomOperation.CUSTOM_EQUAL
-                            && afterNextDiff.customOperation == DiffService.CustomOperation.CUSTOM_EQUAL
-                            && nextDiff.customOperation != DiffService.CustomOperation.CUSTOM_EQUAL) {
+                    DiffServices.CustomDiff preDiff = deltas.get(i - 1);
+                    DiffServices.CustomDiff nextDiff = deltas.get(i + 1);
+                    DiffServices.CustomDiff afterNextDiff = deltas.get(i + 2);
+                    if (preDiff.customOperation == DiffServices.CustomOperation.CUSTOM_EQUAL
+                            && afterNextDiff.customOperation == DiffServices.CustomOperation.CUSTOM_EQUAL
+                            && nextDiff.customOperation != DiffServices.CustomOperation.CUSTOM_EQUAL) {
                         List<String> currentLetters = TextUtils.splitLetters(currentDiff.text);
                         List<String> nextLetters = TextUtils.splitLetters(nextDiff.text);
 

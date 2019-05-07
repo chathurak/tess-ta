@@ -10,7 +10,7 @@ import com.languagematters.tessta.report.util.GoogleAuthorizeUtil;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public class SheetsService {
+public class SheetsServices {
     private static final String APPLICATION_NAME = "TesseractTA";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 

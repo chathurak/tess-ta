@@ -1,6 +1,6 @@
 package com.languagematters.tessta.web.controller;
 
-import com.languagematters.tessta.web.service.StorageService;
+import com.languagematters.tessta.web.service.StorageServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadController {
 
     @Autowired
-    StorageService storageService;
+    StorageServices storageServices;
 
     @PostMapping("/api/upload/post")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
                                                    @RequestParam(value = "pid") String pid) {
         String message = "";
         try {
-            storageService.store(file, pid);
+            storageServices.store(file, pid);
 
             return ResponseEntity
                     .status(HttpStatus.OK)
