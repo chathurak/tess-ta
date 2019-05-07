@@ -1,7 +1,9 @@
 import {withStyles}    from '@material-ui/core/styles'
 import PropTypes       from 'prop-types'
 import React           from 'react'
+import {connect}       from 'react-redux'
 import {Route, Router} from 'react-router-dom'
+import {alertActions}  from './actions/alert.actions'
 import styles          from './App.styles'
 import {PrivateRoute}  from './components'
 import {history}       from './helpers'
@@ -11,29 +13,29 @@ import {SignUp}        from './pages/signup'
 
 class App extends React.Component {
 
-  render() {
-    // return (
-    //   <div>
-    //     {this.props.children}
-    //   </div>
-    // )
+  constructor(props) {
+    super(props)
 
-    const {alert} = this.props
+    const {dispatch} = this.props
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear())
+    })
+  }
+
+  render() {
+    const {classes, alert} = this.props
 
     return (
-      <div className="jumbotron">
-        <div className="container">
-          <div className="col-sm-8 col-sm-offset-2">
-            {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-            <Router history={history}>
-              <div>
-                <PrivateRoute exact path="/" component={Dashboard}/>
-                <Route path="/login" component={SignIn}/>
-                <Route path="/register" component={SignUp}/>
-              </div>
-            </Router>
+      <div className={classes.root}>
+        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        <Router history={history}>
+          <div>
+            <PrivateRoute exact path="/" component={Dashboard}/>
+            <Route path="/login" component={SignIn}/>
+            <Route path="/register" component={SignUp}/>
           </div>
-        </div>
+        </Router>
       </div>
     )
   }
@@ -41,8 +43,15 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  classes : PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(App)
+function mapStateToProps(state) {
+  const {alert} = state
+  return {
+    alert
+  }
+}
+
+const styledComponent = withStyles(styles, {withTheme: true})(App)
+export default connect(mapStateToProps)(styledComponent)
