@@ -7,19 +7,19 @@ import styles        from './Ocr.styles'
 
 class Ocr extends React.Component {
 
-  render() {
-    const {classes} = this.props
+    render() {
+        const {classes} = this.props
 
-    return (
-      <div className={classes.ocrRoot}>
-        <div className={classes.contentPane}>
-          <ActionPanel className={classes.actionPanel}/>
-          <TaskPanel className={classes.taskPanel}/>
-        </div>
-        <OptionPanel className={classes.optionsPane}/>
-      </div>
-    )
-  }
+        return (
+            <div className={classes.ocrRoot}>
+                <div className={classes.contentPane}>
+                    <ActionPanel className={classes.actionPanel}/>
+                    <TaskPanel className={classes.taskPanel}/>
+                </div>
+                <OptionPanel className={classes.optionsPane}/>
+            </div>
+        )
+    }
 
 }
 

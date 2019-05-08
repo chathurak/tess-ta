@@ -1,7 +1,6 @@
-import axios        from 'axios'
-import {authHeader} from '../../helpers'
+import axios from 'axios'
 
-const signup = (user) => {
+const signUp = (user) => {
     return axios({
         method : 'post',
         url    : '/api/users/signup',
@@ -43,7 +42,7 @@ const handleResponse = response => {
         if (!response.ok) {
             // Auto logout if 401 response returned from api
             if (response.status === 401) {
-                logout()
+                signOut()
                 window.location.reload(true)
             }
 
@@ -58,7 +57,7 @@ const handleResponse = response => {
 export const userServices = {
     signIn,
     signOut,
-    signup,
+    signUp,
     getAll,
     getById,
     update,

@@ -21,102 +21,102 @@ import styles           from './Sidebar.styles'
 
 class Sidebar extends React.Component {
 
-  state = {
-    mobileOpen: false,
-  }
+    state = {
+        mobileOpen: false,
+    }
 
-  handleDrawerToggle = () => {
-    this.setState(state => ({mobileOpen: !state.mobileOpen}))
-  }
+    handleDrawerToggle = () => {
+        this.setState(state => ({mobileOpen: !state.mobileOpen}))
+    }
 
-  render() {
-    const {classes, theme} = this.props
+    render() {
+        const {classes, theme} = this.props
 
-    const drawer = (
-      <div>
-        <List
-          component="nav"
-          subheader={<ListSubheader component="div">Tess-TA</ListSubheader>}
-        >
-          <ListItem button component={Link} to="/home">
-            <ListItemIcon>
-              <HomeIcon/>
-            </ListItemIcon>
-            <ListItemText inset primary="Home"/>
-          </ListItem>
-          <ListItem button component={Link} to="/library">
-            <ListItemIcon>
-              <LibraryBooksIcon/>
-            </ListItemIcon>
-            <ListItemText inset primary="Library"/>
-          </ListItem>
-          <ListItem button component={Link} to="/queue">
-            <ListItemIcon>
-              <QueueIcon/>
-            </ListItemIcon>
-            <ListItemText inset primary="Queue"/>
-          </ListItem>
-          <Divider/>
-          <ListItem button component={Link} to="/ocr">
-            <ListItemIcon>
-              <FindInPageIcon/>
-            </ListItemIcon>
-            <ListItemText inset primary="OCR"/>
-          </ListItem>
-          <ListItem button component={Link} to="/grammar">
-            <ListItemIcon>
-              <SpellcheckIcon/>
-            </ListItemIcon>
-            <ListItemText inset primary="Grammar"/>
-          </ListItem>
-          <Divider/>
-          <ListItem button component={Link} to="/settings">
-            <ListItemIcon>
-              <SettingsIcon/>
-            </ListItemIcon>
-            <ListItemText inset primary="Settings"/>
-          </ListItem>
-        </List>
-      </div>
-    )
+        const drawer = (
+            <div>
+                <List
+                    component="nav"
+                    subheader={<ListSubheader component="div">Tess-TA</ListSubheader>}
+                >
+                    <ListItem button component={Link} to="/home">
+                        <ListItemIcon>
+                            <HomeIcon/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="Home"/>
+                    </ListItem>
+                    <ListItem button component={Link} to="/library">
+                        <ListItemIcon>
+                            <LibraryBooksIcon/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="Library"/>
+                    </ListItem>
+                    <ListItem button component={Link} to="/queue">
+                        <ListItemIcon>
+                            <QueueIcon/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="Queue"/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem button component={Link} to="/ocr">
+                        <ListItemIcon>
+                            <FindInPageIcon/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="OCR"/>
+                    </ListItem>
+                    <ListItem button component={Link} to="/grammar">
+                        <ListItemIcon>
+                            <SpellcheckIcon/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="Grammar"/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem button component={Link} to="/settings">
+                        <ListItemIcon>
+                            <SettingsIcon/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="Settings"/>
+                    </ListItem>
+                </List>
+            </div>
+        )
 
-    return (
-      <nav className={classes.drawer}>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            // container={this.props.container}
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={this.state.mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-    )
-  }
+        return (
+            <nav className={classes.drawer}>
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Hidden smUp implementation="css">
+                    <Drawer
+                        // container={this.props.container}
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={this.state.mobileOpen}
+                        onClose={this.handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        variant="permanent"
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+            </nav>
+        )
+    }
 
 }
 
 Sidebar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme  : PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired,
 }
 
 export default withStyles(styles, {withTheme: true})(Sidebar)

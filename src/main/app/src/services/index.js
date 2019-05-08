@@ -1,1 +1,3 @@
-export * from './api/user.services'
+export {userServices} from './api/user.services'
+
+

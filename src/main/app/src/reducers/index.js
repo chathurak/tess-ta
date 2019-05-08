@@ -6,10 +6,10 @@ import {registration}   from './registration.reducer'
 import {users}          from './users.reducer'
 
 const rootReducer = combineReducers({
-  authentication,
-  registration,
-  users,
-  alert
+    authentication,
+    registration,
+    users,
+    alert
 })
 
 export default rootReducer

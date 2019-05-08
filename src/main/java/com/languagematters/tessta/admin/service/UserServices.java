@@ -1,5 +1,6 @@
 package com.languagematters.tessta.admin.service;
 
+import com.languagematters.tessta.admin.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class UserServices {
         this.dataSource = dataSource;
     }
 
-    public boolean addUser(String firstName, String lastName, String email, String password) {
+    public boolean createUser(User user) {
         // Generate salt
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -33,7 +34,7 @@ public class UserServices {
         try {
             md = MessageDigest.getInstance("SHA-256");
             md.update(salt);
-            md.update(password.getBytes(StandardCharsets.UTF_8));
+            md.update(user.getPassword().getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -53,15 +54,18 @@ public class UserServices {
 
         // Insert user
         parameters.clear();
-        parameters.put("first_name", firstName);
-        parameters.put("last_name", lastName);
-        parameters.put("email", email);
+        parameters.put("first_name", user.getFirstName());
+        parameters.put("last_name", user.getLastName());
+        parameters.put("email", user.getEmail());
         parameters.put("password_id", passwordId.intValue());
 
-        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("user");
+        simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("user");
 
         return simpleJdbcInsert.execute(parameters) > 0;
+    }
+
+    public boolean getUser() {
+        throw new UnsupportedOperationException();
     }
 
     public boolean updateUser() {

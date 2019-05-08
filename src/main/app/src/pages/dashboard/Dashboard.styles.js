@@ -1,17 +1,17 @@
 const styles = theme => ({
-  root: {
-    height: '100%',
+    root: {
+        height: '100%',
 
-    display: 'flex',
-  },
+        display: 'flex',
+    },
 
-  toolbar: theme.mixins.toolbar,
+    toolbar: theme.mixins.toolbar,
 
-  content: {
-    flexGrow: 1,
+    content: {
+        flexGrow: 1,
 
-    padding: theme.spacing.unit * 2,
-  },
-});
+        padding: theme.spacing.unit * 2,
+    },
+})
 
 export default styles

@@ -5,18 +5,18 @@ import styles       from './Home.styles'
 
 class Home extends React.Component {
 
-  render() {
-    return (
-      <div>
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div>
+            </div>
+        )
+    }
 
 }
 
 Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme  : PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired,
 }
 
 export default withStyles(styles, {withTheme: true})(Home)

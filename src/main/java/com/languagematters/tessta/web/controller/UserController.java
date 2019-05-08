@@ -1,7 +1,6 @@
 package com.languagematters.tessta.web.controller;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.languagematters.tessta.admin.model.User;
 import com.languagematters.tessta.admin.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,26 +34,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/api/users/signup", method = RequestMethod.POST)
-    public ResponseEntity<String> signUp(@RequestBody String jsonString) {
+    public ResponseEntity<String> signUp(@RequestBody User user) {
 
-        JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-
-        boolean result = userServices.addUser(
-                jsonObject.get("firstName").getAsString(),
-                jsonObject.get("lastName").getAsString(),
-                jsonObject.get("email").getAsString(),
-                jsonObject.get("password").getAsString()
-        );
+        boolean result = userServices.createUser(user);
 
         if (result) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(String.format("New user successfully created : %s", jsonObject.get("email").getAsString()));
+                    .body(String.format("New user successfully created : %s", user.getEmail()));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(String.format("Failed to create the new user : %s", jsonObject.get("email").getAsString()));
+                    .body(String.format("Failed to create the new user : %s", user.getEmail()));
         }
     }
 }

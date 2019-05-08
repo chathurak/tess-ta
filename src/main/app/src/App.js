@@ -13,44 +13,44 @@ import {SignUp}        from './pages/signup'
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props)
+    constructor(props) {
+        super(props)
 
-    const {dispatch} = this.props
-    history.listen((location, action) => {
-      // clear alert on location change
-      dispatch(alertActions.clear())
-    })
-  }
+        const {dispatch} = this.props
+        history.listen((location, action) => {
+            // clear alert on location change
+            dispatch(alertActions.clear())
+        })
+    }
 
-  render() {
-    const {classes, alert} = this.props
+    render() {
+        const {classes, alert} = this.props
 
-    return (
-      <div className={classes.root}>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        <Router history={history}>
-          <div>
-            <PrivateRoute exact path="/" component={Dashboard}/>
-            <Route path="/login" component={SignIn}/>
-            <Route path="/register" component={SignUp}/>
-          </div>
-        </Router>
-      </div>
-    )
-  }
+        return (
+            <div className={classes.root}>
+                {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+                <Router history={history}>
+                    <div>
+                        <PrivateRoute exact path="/" component={Dashboard}/>
+                        <Route path="/login" component={SignIn}/>
+                        <Route path="/register" component={SignUp}/>
+                    </div>
+                </Router>
+            </div>
+        )
+    }
 
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {
-  const {alert} = state
-  return {
-    alert
-  }
+    const {alert} = state
+    return {
+        alert
+    }
 }
 
 const styledComponent = withStyles(styles, {withTheme: true})(App)
