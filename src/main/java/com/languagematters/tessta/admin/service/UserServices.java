@@ -64,7 +64,7 @@ public class UserServices {
         return simpleJdbcInsert.execute(parameters) > 0;
     }
 
-    public boolean editUser() {
+    public boolean updateUser() {
         throw new UnsupportedOperationException();
     }
 

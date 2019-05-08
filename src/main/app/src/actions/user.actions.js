@@ -1,6 +1,6 @@
 import {userConstants} from '../constants'
 import {history}       from '../helpers'
-import {userService}   from '../services'
+import {userServices}  from '../services'
 import {alertActions}  from './'
 
 export const userActions = {
@@ -15,7 +15,7 @@ function login(username, password) {
   return dispatch => {
     dispatch(request({username}))
 
-    userService.login(username, password)
+    userServices.login(username, password)
       .then(
         user => {
           dispatch(success(user))
@@ -42,7 +42,7 @@ function login(username, password) {
 }
 
 function logout() {
-  userService.logout()
+  userServices.logout()
   return {type: userConstants.LOGOUT}
 }
 
@@ -50,7 +50,7 @@ function register(user) {
   return dispatch => {
     dispatch(request(user))
 
-    userService.register(user)
+    userServices.register(user)
       .then(
         user => {
           dispatch(success())
@@ -81,7 +81,7 @@ function getAll() {
   return dispatch => {
     dispatch(request())
 
-    userService.getAll()
+    userServices.getAll()
       .then(
         users => dispatch(success(users)),
         error => dispatch(failure(error.toString()))
@@ -106,7 +106,7 @@ function _delete(id) {
   return dispatch => {
     dispatch(request(id))
 
-    userService.delete(id)
+    userServices.delete(id)
       .then(
         user => dispatch(success(id)),
         error => dispatch(failure(id, error.toString()))

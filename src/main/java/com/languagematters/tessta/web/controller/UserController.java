@@ -1,10 +1,13 @@
 package com.languagematters.tessta.web.controller;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.languagematters.tessta.admin.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,32 +24,37 @@ public class UserController {
         this.userServices = userServices;
     }
 
-    @RequestMapping(value = "/api/user/all", method = RequestMethod.GET)
-    public ArrayList<Object> getAllUsers() {
+    @RequestMapping(value = "/api/users/all", method = RequestMethod.GET)
+    public ArrayList<Object> getAll() {
         throw new UnsupportedOperationException();
     }
 
-    @RequestMapping(value = "/api/user/withid", method = RequestMethod.GET)
-    public ArrayList<Object> getUserWithId(@RequestParam(value = "id") String id) {
+    @RequestMapping(value = "/api/users/withid", method = RequestMethod.GET)
+    public ArrayList<Object> getById(@RequestParam(value = "id") String id) {
         throw new UnsupportedOperationException();
     }
 
-    @RequestMapping(value = "/api/user/signup", method = RequestMethod.POST)
-    public ResponseEntity<String> signUpUser(@RequestParam(value = "firstName") String firstName,
-                                             @RequestParam(value = "lastName") String lastName,
-                                             @RequestParam(value = "email") String email,
-                                             @RequestParam(value = "password") String password) {
+    @RequestMapping(value = "/api/users/signup", method = RequestMethod.POST)
+    public ResponseEntity<String> signUp(@RequestBody String jsonString) {
 
-        boolean result = userServices.addUser(firstName, lastName, email, password);
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
+
+        boolean result = userServices.addUser(
+                jsonObject.get("firstName").getAsString(),
+                jsonObject.get("lastName").getAsString(),
+                jsonObject.get("email").getAsString(),
+                jsonObject.get("password").getAsString()
+        );
 
         if (result) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(String.format("New user successfully created : %s", email));
+                    .body(String.format("New user successfully created : %s", jsonObject.get("email").getAsString()));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(String.format("Failed to create the new user : %s", email));
+                    .body(String.format("Failed to create the new user : %s", jsonObject.get("email").getAsString()));
         }
     }
 }
