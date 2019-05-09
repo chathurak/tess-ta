@@ -1,15 +1,12 @@
-package com.languagematters.tessta.admin.model;
+package com.languagematters.tessta.jpa.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class User {
+public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-
-    private String passwordHash;
-    private String salt;
 }
