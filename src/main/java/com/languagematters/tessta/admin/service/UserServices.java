@@ -1,14 +1,15 @@
 package com.languagematters.tessta.admin.service;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import com.languagematters.tessta.admin.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,25 +27,20 @@ public class UserServices {
     public boolean createUser(User user) {
         // Generate salt
         SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[64];
         random.nextBytes(salt);
 
         // Generate password hash
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            md.update(user.getPassword().getBytes(StandardCharsets.UTF_8));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        assert md != null;
-        byte[] passwordHash = md.digest();
+        HashFunction hf = Hashing.sha512();
+        HashCode hc = hf.newHasher()
+                .putString(user.getPassword(), Charsets.UTF_8)
+                .putBytes(salt)
+                .hash();
 
         Map<String, Object> parameters = new HashMap<>();
 
         // Insert password
-        parameters.put("password_hash", passwordHash);
+        parameters.put("password_hash", hc.asBytes());
         parameters.put("salt", salt);
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("password")
@@ -59,7 +55,8 @@ public class UserServices {
         parameters.put("email", user.getEmail());
         parameters.put("password_id", passwordId.intValue());
 
-        simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("user");
+        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("user");
 
         return simpleJdbcInsert.execute(parameters) > 0;
     }
