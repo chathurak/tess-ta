@@ -4,10 +4,12 @@ import com.google.common.base.Charsets;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
+import com.languagematters.tessta.exception.ResourceNotFoundException;
 import com.languagematters.tessta.jpa.dto.UserDto;
 import com.languagematters.tessta.jpa.entity.User;
 import com.languagematters.tessta.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import javax.sql.DataSource;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Service
 public class UserServices {
@@ -54,7 +57,7 @@ public class UserServices {
         return simpleJdbcInsert.execute(parameters) > 0;
     }
 
-    public boolean createUser(UserDto userDto) {
+    public User createUser(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -75,13 +78,16 @@ public class UserServices {
         user.setPasswordHash(hc.asBytes());
         user.setSalt(salt);
 
-        User resultUser = userRepository.save(user);
-
-        return resultUser.getId() > 0;
+        return userRepository.save(user);
     }
 
-    public boolean getUser() {
-        throw new UnsupportedOperationException();
+    public User getUser(String email) {
+        User user = new User();
+        user.setEmail(email);
+
+        Example<User> userExample = Example.of(user);
+
+        return userRepository.findAll(userExample).get(0);
     }
 
     public boolean updateUser() {
