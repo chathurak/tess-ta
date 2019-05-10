@@ -4,6 +4,7 @@ import com.languagematters.tessta.admin.service.UserServices;
 import com.languagematters.tessta.jpa.dto.UserDto;
 import com.languagematters.tessta.jpa.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/api/users/signin", method = RequestMethod.POST)
-    public ResponseEntity<User> signIn(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> signIn(@RequestBody UserDto userDto) {
 
         User user = userServices.getUser(userDto.getEmail());
 
@@ -39,6 +40,11 @@ public class UserController {
         userDtoResponse.setLastName(user.getLastName());
         userDtoResponse.setEmail(user.getEmail());
 
-        return ResponseEntity.ok().body(user);
+        var k = ResponseEntity.ok().body(user);
+        System.out.println(k);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(String.format("New userDto successfully created : %s", userDto.getEmail()));
     }
 }

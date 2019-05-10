@@ -83,7 +83,7 @@ class SignIn extends React.Component {
                     </form>
                     <p>
                         Don&apos;t have an account?&nbsp;
-                        <Link to="/register">Sign Up</Link>
+                        <Link to="/signup">Sign Up</Link>
                     </p>
                 </Paper>
             </main>

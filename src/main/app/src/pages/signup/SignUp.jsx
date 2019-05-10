@@ -100,7 +100,7 @@ class SignUp extends React.Component {
                     </form>
                     <p>
                         Already have an account?&nbsp;
-                        <Link to="/login">Sign In</Link>
+                        <Link to="/signin">Sign In</Link>
                     </p>
                 </Paper>
             </main>
