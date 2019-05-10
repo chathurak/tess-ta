@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class ConfusionMap {
+    // TODO :  Make this more efficient by first reading the whole text and count the unique characters
+    // Multidimensional array of integers => Two hash maps
+
     private HashMap<String, HashMap<String, Integer>> countMap = new HashMap<>();
     private HashMap<String, HashMap<String, ArrayList<String>>> wordMap = new HashMap<>();
 
     private int outerCount = 0;
-
-    public ConfusionMap() {
-    }
 
     public int getOuterCount() {
         return outerCount;

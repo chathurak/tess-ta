@@ -30,19 +30,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO : Make this class injected and not manually initiated
 @Component
 @Scope("prototype")
 public class ProcessTask implements Runnable {
 
-    // TODO : Autowire these
-    private static Drive drive;
-    private static com.google.api.services.drive.model.File tessLibraryDir;
-    @Value("${app.tempstore}")
-    private String tempStorePath;
     @Autowired
     private ImageServices imageServices;
     @Autowired
     private OCRServices ocrServices;
+
+    @Value("${app.tempstore}")
+    private String tempStorePath;
+
+    // TODO : Autowire these
+    private static Drive drive;
+    private static com.google.api.services.drive.model.File tessLibraryDir;
+
     @Setter
     private String pid;
     @Setter

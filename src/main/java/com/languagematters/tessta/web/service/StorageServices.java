@@ -6,7 +6,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,12 +19,9 @@ public class StorageServices {
     @Value("${app.tempstore}")
     private String tempStorePath;
 
-//    private Jedis jedis = new Jedis("localhost");
-
-    private final Path rootLocation = Paths.get("/Users/ivantha/Git/tess-deploy/storage/temp");
-
-    public void init() {
+    public void initStorage() {
         try {
+            Path rootLocation = Paths.get(tempStorePath);
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize storage!");
@@ -34,8 +30,9 @@ public class StorageServices {
 
     public void store(MultipartFile file, String pid) {
         try {
-            Files.createDirectory(this.rootLocation.resolve(pid));
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(pid + "/" + file.getOriginalFilename()));
+            Path rootLocation = Paths.get(tempStorePath);
+            Files.createDirectory(rootLocation.resolve(pid));
+            Files.copy(file.getInputStream(), rootLocation.resolve(pid + "/" + file.getOriginalFilename()));
         } catch (Exception e) {
             throw new RuntimeException("FAIL!");
         }
@@ -43,6 +40,7 @@ public class StorageServices {
 
     public Resource loadFile(String filename) {
         try {
+            Path rootLocation = Paths.get(tempStorePath);
             Path file = rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
@@ -55,7 +53,8 @@ public class StorageServices {
         }
     }
 
-    public void deleteAll() {
+    public void clearStorage() {
+        Path rootLocation = Paths.get(tempStorePath);
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
