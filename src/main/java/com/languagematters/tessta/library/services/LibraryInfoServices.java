@@ -47,13 +47,13 @@ public class LibraryInfoServices {
     //     }
     //     ...
     // }
-    public void addNewTask(String filename, String jsonTaskInfo){
+    public void addNewTask(String filename, String jsonTaskInfo) {
         // Get collection
         MongoCollection<Document> collection = mongoDatabase.getCollection(LIBRARY_COLLECTION_NAME);
 
         // Create filter
         BasicDBObject filter = new BasicDBObject();
-        filter.put( "_id", filename);
+        filter.put("_id", filename);
 
         // Create task doc
         Document doc = Document.parse(jsonTaskInfo);
@@ -61,6 +61,6 @@ public class LibraryInfoServices {
         // Store doc
         BasicDBObject update = new BasicDBObject();
         update.put("$push", new BasicDBObject("addresses", doc));
-        collection.updateOne ( filter, update );
+        collection.updateOne(filter, update);
     }
 }

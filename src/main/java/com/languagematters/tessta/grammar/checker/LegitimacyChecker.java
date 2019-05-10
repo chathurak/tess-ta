@@ -2,9 +2,9 @@ package com.languagematters.tessta.grammar.checker;
 
 
 import com.languagematters.tessta.grammar.config.Rules;
+import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 import com.languagematters.tessta.grammar.model.LetterObj;
 import com.languagematters.tessta.grammar.model.WordObj;
-import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 
 import java.util.List;
 

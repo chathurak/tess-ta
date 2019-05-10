@@ -5,14 +5,14 @@ import com.languagematters.tessta.jpa.dto.UserDto;
 import com.languagematters.tessta.jpa.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 public class UserController {
 
     private final UserServices userServices;
@@ -33,6 +33,12 @@ public class UserController {
     public ResponseEntity<User> signIn(@RequestBody UserDto userDto) {
 
         User user = userServices.getUser(userDto.getEmail());
+
+        UserDto userDtoResponse = new UserDto();
+        userDtoResponse.setFirstName(user.getFirstName());
+        userDtoResponse.setLastName(user.getLastName());
+        userDtoResponse.setEmail(user.getEmail());
+
         return ResponseEntity.ok().body(user);
     }
 }

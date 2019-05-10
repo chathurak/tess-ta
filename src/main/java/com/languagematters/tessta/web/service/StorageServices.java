@@ -1,6 +1,6 @@
 package com.languagematters.tessta.web.service;
 
-import com.languagematters.tessta.EnvironmentVariable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,12 @@ import java.nio.file.Paths;
 @Service
 public class StorageServices {
 
-    private Jedis jedis = new Jedis("localhost");
+    @Value("${app.tempstore}")
+    private String tempStorePath;
 
-    private final Path rootLocation = Paths.get(jedis.get(EnvironmentVariable.TESS_STORAGE_TEMP.toString()));
+//    private Jedis jedis = new Jedis("localhost");
+
+    private final Path rootLocation = Paths.get("/Users/ivantha/Git/tess-deploy/storage/temp");
 
     public void init() {
         try {

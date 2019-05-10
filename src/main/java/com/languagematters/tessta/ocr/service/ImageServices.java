@@ -1,19 +1,21 @@
 package com.languagematters.tessta.ocr.service;
 
-import com.languagematters.tessta.EnvironmentVariable;
 import com.languagematters.tessta.admin.service.OsServices;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import redis.clients.jedis.Jedis;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
 public class ImageServices {
 
-    public static void text2Image(Executor executor, String inputPath, String outputPath) throws Exception {
-        Jedis jedis = new Jedis("localhost");
+    @Value("${app.tessdata}")
+    private String tessdataPath;
 
+    public void text2Image(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = null;
 
         if (OsServices.isMac()) {
@@ -30,7 +32,7 @@ public class ImageServices {
         cmdLine.addArgument("--outputbase");
         cmdLine.addArgument(outputPath);
         cmdLine.addArgument("--fonts_dir");
-        cmdLine.addArgument(jedis.get(EnvironmentVariable.TESS_TESSDATA.toString()));
+        cmdLine.addArgument(tessdataPath);
         cmdLine.addArgument("--font");
         cmdLine.addArgument("Iskoola Pota", false);
 

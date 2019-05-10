@@ -1,9 +1,6 @@
 package com.languagematters.tessta.grammar.util;
 
 
-
-import com.languagematters.tessta.grammar.util.Convert;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

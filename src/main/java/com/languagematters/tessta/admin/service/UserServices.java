@@ -4,7 +4,6 @@ import com.google.common.base.Charsets;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import com.languagematters.tessta.exception.ResourceNotFoundException;
 import com.languagematters.tessta.jpa.dto.UserDto;
 import com.languagematters.tessta.jpa.entity.User;
 import com.languagematters.tessta.jpa.repository.UserRepository;
@@ -17,7 +16,6 @@ import javax.sql.DataSource;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 @Service
 public class UserServices {

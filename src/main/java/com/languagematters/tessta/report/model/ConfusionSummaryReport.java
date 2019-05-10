@@ -5,8 +5,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import com.languagematters.tessta.grammar.util.DBUtils;
-import com.languagematters.tessta.report.service.DriveServices;
-import com.languagematters.tessta.report.service.SheetsServices;
+import com.languagematters.tessta.report.service.GoogleAPIServices;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -22,8 +21,8 @@ public class ConfusionSummaryReport {
     List<List<Object>> rows;
 
     public ConfusionSummaryReport(ConfusionMap confusionMap) throws IOException, GeneralSecurityException {
-        sheetsService = SheetsServices.getSheetsService();
-        driveService = DriveServices.getDriveService();
+        sheetsService = GoogleAPIServices.getSheetsInstance();
+        driveService = GoogleAPIServices.getDriveInstance();
 
         this.confusionMap = confusionMap;
 

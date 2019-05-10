@@ -1,7 +1,5 @@
 package com.languagematters.tessta.grammar.util;
 
-import com.languagematters.tessta.grammar.util.TextReader;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;

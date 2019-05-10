@@ -1,9 +1,9 @@
 package com.languagematters.tessta.grammar.helper;
 
 
+import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 import com.languagematters.tessta.grammar.model.LetterObj;
 import com.languagematters.tessta.grammar.model.WordObj;
-import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 
 import java.util.ArrayList;
 import java.util.List;

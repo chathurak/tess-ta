@@ -1,7 +1,6 @@
 package com.languagematters.tessta.grammar.service;
 
 
-
 import com.languagematters.tessta.grammar.util.DBUtils;
 
 import java.util.HashSet;

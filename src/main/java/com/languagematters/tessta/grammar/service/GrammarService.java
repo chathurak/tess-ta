@@ -1,10 +1,10 @@
 package com.languagematters.tessta.grammar.service;
 
-import com.languagematters.tessta.grammar.config.Rules;
 import com.languagematters.tessta.grammar.checker.DictionaryChecker;
 import com.languagematters.tessta.grammar.checker.LegitimacyChecker;
 import com.languagematters.tessta.grammar.checker.MandatoryChecker;
 import com.languagematters.tessta.grammar.checker.OptionalChecker;
+import com.languagematters.tessta.grammar.config.Rules;
 import com.languagematters.tessta.grammar.helper.DocHelper;
 import com.languagematters.tessta.grammar.model.WordObj;
 import com.languagematters.tessta.grammar.util.FileUtils;

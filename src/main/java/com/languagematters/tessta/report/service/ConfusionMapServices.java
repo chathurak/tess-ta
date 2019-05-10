@@ -8,10 +8,6 @@ import java.util.List;
 
 public class ConfusionMapServices {
 
-    /**
-     * @param deltas
-     * @return
-     */
     public static ConfusionMap getConfusionMap(List<DiffServices.CustomDiff> deltas) {
         ConfusionMap confusionMap = new ConfusionMap();
 

@@ -5,8 +5,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import com.languagematters.tessta.report.service.DiffServices;
-import com.languagematters.tessta.report.service.DriveServices;
-import com.languagematters.tessta.report.service.SheetsServices;
+import com.languagematters.tessta.report.service.GoogleAPIServices;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -21,13 +20,13 @@ public class DiffReport {
     private static Sheets sheetsService;
     private static Drive driveService;
 
-    List<DiffServices.CustomDiff> deltas;
+    private List<DiffServices.CustomDiff> deltas;
 
-    List<List<Object>> rows;
+    private List<List<Object>> rows;
 
     public DiffReport(@NotNull List<DiffServices.CustomDiff> deltas) throws IOException, GeneralSecurityException {
-        sheetsService = SheetsServices.getSheetsService();
-        driveService = DriveServices.getDriveService();
+        sheetsService = GoogleAPIServices.getSheetsInstance();
+        driveService = GoogleAPIServices.getDriveInstance();
 
         this.deltas = deltas;
 

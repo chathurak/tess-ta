@@ -2,7 +2,6 @@ package com.languagematters.tessta.grammar.config;
 
 
 import com.languagematters.tessta.grammar.util.DBUtils;
-import org.jetbrains.annotations.Contract;
 
 import java.util.HashMap;
 import java.util.HashSet;

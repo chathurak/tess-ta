@@ -12,13 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class UploadController {
 
+    private final StorageServices storageServices;
+
     @Autowired
-    StorageServices storageServices;
+    public UploadController(final StorageServices storageServices) {
+        this.storageServices = storageServices;
+    }
 
     @PostMapping("/api/upload/post")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
                                                    @RequestParam(value = "pid") String pid) {
-        String message = "";
         try {
             storageServices.store(file, pid);
 

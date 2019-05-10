@@ -15,11 +15,6 @@ import static com.languagematters.tessta.ocr.google.DiffMatchPatch.Operation.*;
 
 public class DiffServices {
 
-    /**
-     * @param outputDirectoryPath
-     * @return
-     * @throws IOException
-     */
     public static List<CustomDiff> getDefaultDiff(String inputTxtPath, String outputTxtPath) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(inputTxtPath));
         String s1 = new String(encoded, Charset.defaultCharset());
@@ -61,9 +56,6 @@ public class DiffServices {
         return deltas;
     }
 
-    /**
-     * @param deltas
-     */
     private static void formatDiff(List<CustomDiff> deltas) {
         ListIterator<CustomDiff> iterator = deltas.listIterator();
         while (iterator.hasNext()) {

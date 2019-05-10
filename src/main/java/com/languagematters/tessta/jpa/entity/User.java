@@ -24,10 +24,10 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password_hash", columnDefinition="BINARY(64) NOT NULL")
+    @Column(name = "password_hash", columnDefinition = "BINARY(64) NOT NULL")
     private byte[] passwordHash;
 
-    @Column(name = "salt", columnDefinition="BINARY(64) NOT NULL")
+    @Column(name = "salt", columnDefinition = "BINARY(64) NOT NULL")
     private byte[] salt;
 
 //    @Column(name = "created_at", nullable = false)

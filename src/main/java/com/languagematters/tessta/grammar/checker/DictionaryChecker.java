@@ -1,8 +1,8 @@
 package com.languagematters.tessta.grammar.checker;
 
 
-import com.languagematters.tessta.grammar.service.DictionaryService;
 import com.languagematters.tessta.grammar.model.WordObj;
+import com.languagematters.tessta.grammar.service.DictionaryService;
 
 import java.util.List;
 
