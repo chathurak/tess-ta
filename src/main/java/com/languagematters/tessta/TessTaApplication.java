@@ -5,13 +5,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class TessTaApplication implements CommandLineRunner {
 
     @Resource
     StorageServices storageServices;
+
+    @PostConstruct
+    void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(TessTaApplication.class, args);

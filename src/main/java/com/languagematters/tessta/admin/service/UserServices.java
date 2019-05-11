@@ -73,8 +73,9 @@ public class UserServices {
                 .putBytes(salt)
                 .hash();
 
-        user.setPasswordHash(hc.asBytes());
-        user.setSalt(salt);
+        // TODO : This doesn't work anymore
+//        user.setPasswordHash(hc.asBytes());
+//        user.setSalt(salt);
 
         return userRepository.save(user);
     }

@@ -1,4 +1,4 @@
-package com.languagematters.tessta.config;
+package com.languagematters.tessta.web.config;
 
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;

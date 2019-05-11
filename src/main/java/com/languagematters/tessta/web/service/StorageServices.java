@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.TimeZone;
 
 @Service
 public class StorageServices {
@@ -19,9 +21,15 @@ public class StorageServices {
     @Value("${app.tempstore}")
     private String tempStorePath;
 
+    private Path rootLocation;
+
+    @PostConstruct
+    void init() {
+        rootLocation = Paths.get(tempStorePath);
+    }
+
     public void initStorage() {
         try {
-            Path rootLocation = Paths.get(tempStorePath);
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize storage!");
@@ -30,7 +38,6 @@ public class StorageServices {
 
     public void store(MultipartFile file, String pid) {
         try {
-            Path rootLocation = Paths.get(tempStorePath);
             Files.createDirectory(rootLocation.resolve(pid));
             Files.copy(file.getInputStream(), rootLocation.resolve(pid + "/" + file.getOriginalFilename()));
         } catch (Exception e) {
@@ -40,7 +47,6 @@ public class StorageServices {
 
     public Resource loadFile(String filename) {
         try {
-            Path rootLocation = Paths.get(tempStorePath);
             Path file = rootLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
@@ -54,7 +60,6 @@ public class StorageServices {
     }
 
     public void clearStorage() {
-        Path rootLocation = Paths.get(tempStorePath);
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
