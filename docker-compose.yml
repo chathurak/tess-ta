@@ -1,0 +1,28 @@
+version: '2'
+services:
+  ocr:
+    build: . 
+    container_name: ocr-daemon
+    hostname: ocr-daemon
+    ports:
+     - "4001:4001"
+     - "4002:4002"
+    volumes:
+     - ./storage:/ocr/storage
+    depends_on:
+     - ocr-db
+  ocr-db:
+    image: mysql
+    container_name: ocr-db-daemon
+    hostname: ocr-db-daemon
+    command: mysqld --user=root --verbose
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: "tesseract_server"
+      MYSQL_PASSWORD: ""
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    expose:
+      - "3306"
+      
