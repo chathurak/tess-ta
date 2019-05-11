@@ -1,7 +1,6 @@
 package com.languagematters.tessta.jpa.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,7 +22,7 @@ import java.util.Set;
         })
 })
 @EntityListeners(AuditingEntityListener.class)
-public class User extends DateAudit {
+public class User extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,23 +56,5 @@ public class User extends DateAudit {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-
-//    @Column(name = "created_at", nullable = false)
-//    @CreatedDate
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date createdAt;
-//
-//    @Column(name = "created_by", nullable = false)
-//    @CreatedBy
-//    private String createdBy;
-//
-//    @Column(name = "updated_at", nullable = false)
-//    @LastModifiedDate
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date updatedAt;
-//
-//    @Column(name = "updated_by", nullable = false)
-//    @LastModifiedBy
-//    private String updatedby;
 
 }
