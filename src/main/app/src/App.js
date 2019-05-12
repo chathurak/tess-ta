@@ -31,7 +31,7 @@ class App extends React.Component {
                 {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
                 <Router history={history}>
                     <div>
-                        <PrivateRoute exact path="/" component={Dashboard}/>
+                        <PrivateRoute path="/" component={Dashboard}/>
                         <Route path="/signin" component={SignIn}/>
                         <Route path="/signup" component={SignUp}/>
                     </div>

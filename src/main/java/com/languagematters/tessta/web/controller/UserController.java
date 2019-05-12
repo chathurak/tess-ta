@@ -1,50 +1,30 @@
 package com.languagematters.tessta.web.controller;
 
-import com.languagematters.tessta.admin.service.UserServices;
-import com.languagematters.tessta.jpa.dto.UserDto;
-import com.languagematters.tessta.jpa.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.languagematters.tessta.web.payload.response.UserSummary;
+import com.languagematters.tessta.web.security.CurrentUser;
+import com.languagematters.tessta.web.security.UserPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
 
-    private final UserServices userServices;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    public UserController(final UserServices userServices) {
-        this.userServices = userServices;
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('USER')")
+    public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+        UserSummary userSummary = new UserSummary(currentUser.getId(),
+                currentUser.getFirstName(),
+                currentUser.getLastName(),
+                currentUser.getUsername(),
+                currentUser.getEmail());
+        return userSummary;
     }
 
-    @RequestMapping(value = "/api/users/signup", method = RequestMethod.POST)
-    public ResponseEntity<User> signUp(@Valid @RequestBody UserDto userDto) {
-
-        User user = userServices.createUser(userDto);
-        return ResponseEntity.ok().body(user);
-    }
-
-    @RequestMapping(value = "/api/users/signin", method = RequestMethod.POST)
-    public ResponseEntity<String> signIn(@RequestBody UserDto userDto) {
-
-        User user = userServices.getUser(userDto.getEmail());
-
-        UserDto userDtoResponse = new UserDto();
-        userDtoResponse.setFirstName(user.getFirstName());
-        userDtoResponse.setLastName(user.getLastName());
-        userDtoResponse.setEmail(user.getEmail());
-
-        var k = ResponseEntity.ok().body(user);
-        System.out.println(k);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(String.format("New userDto successfully created : %s", userDto.getEmail()));
-    }
 }

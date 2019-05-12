@@ -1,6 +1,6 @@
 import {userConstants} from '../constants'
 
-export function registration(state = {}, action) {
+export function signup(state = {}, action) {
     switch (action.type) {
         case userConstants.SIGNUP_REQUEST:
             return {registering: true}

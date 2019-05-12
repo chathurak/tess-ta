@@ -14,7 +14,7 @@ import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
-import {userActions}    from '../../actions/user.actions'
+import {authActions}    from '../../actions'
 import styles           from './SignUp.styles'
 
 
@@ -27,6 +27,7 @@ class SignUp extends React.Component {
             user     : {
                 firstName: '',
                 lastName : '',
+                username : '',
                 email    : '',
                 password : ''
             },
@@ -54,8 +55,8 @@ class SignUp extends React.Component {
         this.setState({submitted: true})
         const {user}     = this.state
         const {dispatch} = this.props
-        if (user.firstName && user.lastName && user.email && user.password) {
-            dispatch(userActions.signUp(user))
+        if (user.firstName && user.lastName && user.username && user.email && user.password) {
+            dispatch(authActions.signUp(user))
         }
     }
 
@@ -81,6 +82,11 @@ class SignUp extends React.Component {
                             <InputLabel htmlFor="lastName">Last name</InputLabel>
                             <Input id="lastName" name="lastName" value={user.lastName} onChange={this.handleChange}
                                    autoComplete="email"/>
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="username">Username</InputLabel>
+                            <Input id="username" name="username" value={user.username} onChange={this.handleChange}
+                                   autoComplete="username"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
@@ -116,7 +122,7 @@ SignUp.propTypes = {
 
 
 function mapStateToProps(state) {
-    const {registering} = state.registration
+    const {registering} = state.signup
     return {
         registering
     }

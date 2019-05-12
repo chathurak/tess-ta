@@ -14,7 +14,7 @@ import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
-import {userActions}    from '../../actions/user.actions'
+import {authActions}    from '../../actions'
 import styles           from './SignIn.styles'
 
 class SignIn extends React.Component {
@@ -23,7 +23,7 @@ class SignIn extends React.Component {
         super(props)
 
         // reset login status
-        this.props.dispatch(userActions.signOut())
+        this.props.dispatch(authActions.signOut())
 
         this.state = {
             email    : '',
@@ -47,7 +47,7 @@ class SignIn extends React.Component {
         const {email, password} = this.state
         const {dispatch}        = this.props
         if (email && password) {
-            dispatch(userActions.signIn(email, password))
+            dispatch(authActions.signIn(email, password))
         }
     }
 
@@ -98,7 +98,7 @@ SignIn.propTypes = {
 }
 
 function mapStateToProps(state) {
-    const {loggingIn} = state.authentication
+    const {loggingIn} = state.signin
     return {
         loggingIn
     }
