@@ -5,12 +5,12 @@ import com.languagematters.tessta.jpa.entity.RoleName;
 import com.languagematters.tessta.jpa.entity.User;
 import com.languagematters.tessta.jpa.repository.RoleRepository;
 import com.languagematters.tessta.jpa.repository.UserRepository;
-import com.languagematters.tessta.web.security.JwtTokenProvider;
 import com.languagematters.tessta.web.exception.AppException;
-import com.languagematters.tessta.web.payload.response.ApiResponse;
-import com.languagematters.tessta.web.payload.response.JwtAuthenticationResponse;
 import com.languagematters.tessta.web.payload.request.SignInRequest;
 import com.languagematters.tessta.web.payload.request.SignUpRequest;
+import com.languagematters.tessta.web.payload.response.ApiResponse;
+import com.languagematters.tessta.web.payload.response.JwtAuthenticationResponse;
+import com.languagematters.tessta.web.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,12 +69,12 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if(userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
