@@ -12,11 +12,8 @@ class Ocr extends React.Component {
 
         return (
             <div className={classes.ocrRoot}>
-                <div className={classes.contentPane}>
-                    <ActionPanel className={classes.actionPanel}/>
-                    <TaskPanel className={classes.taskPanel}/>
-                </div>
-                <OptionPanel className={classes.optionsPane}/>
+                <TaskPanel className={classes.taskPanel}/>
+                <OptionPanel className={classes.optionPanel}/>
             </div>
         )
     }

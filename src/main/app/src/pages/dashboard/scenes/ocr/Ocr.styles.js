@@ -5,32 +5,17 @@ const styles = theme => ({
         display      : 'flex',
         flexDirection: 'row',
     },
-
-    contentPane: {
+    taskPanel: {
         height: '100%',
 
         display      : 'inline-flex',
         flexDirection: 'column',
         flexGrow     : 1,
-    },
-    actionPanel: {
-        display  : 'inline-flex',
-        flexBasis: '60px',
-        flexGrow : 0,
-
-        border           : theme.border.defaultBorder,
-        borderBottomWidth: 0,
-        borderRightWidth : 0
-    },
-    taskPanel  : {
-        display : 'inline-flex',
-        flexGrow: 1,
 
         border          : theme.border.defaultBorder,
-        borderRightWidth: 0
+        borderRightWidth : 0
     },
-
-    optionsPane: {
+    optionPanel: {
         height: '100%',
 
         display  : 'inline-flex',

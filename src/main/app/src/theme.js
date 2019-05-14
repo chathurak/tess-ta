@@ -10,6 +10,7 @@ const theme = createMuiTheme({
     },
     typography: {
         useNextVariants: true,
+        fontSize: 12,
     },
     layout    : {
         sidebarWidth: 240
