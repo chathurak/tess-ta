@@ -19,6 +19,7 @@ public class AuditingConfig {
     public AuditorAware<Integer> auditorProvider() {
         return new SpringSecurityAuditAwareImpl();
     }
+
 }
 
 class SpringSecurityAuditAwareImpl implements AuditorAware<Integer> {
@@ -35,4 +36,5 @@ class SpringSecurityAuditAwareImpl implements AuditorAware<Integer> {
 
         return Optional.ofNullable(userPrincipal.getId());
     }
+
 }

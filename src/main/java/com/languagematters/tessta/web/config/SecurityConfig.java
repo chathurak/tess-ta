@@ -3,7 +3,6 @@ package com.languagematters.tessta.web.config;
 import com.languagematters.tessta.jpa.service.CustomUserDetailsService;
 import com.languagematters.tessta.web.security.JwtAuthenticationEntryPoint;
 import com.languagematters.tessta.web.security.JwtAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,11 +27,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    public SecurityConfig(final CustomUserDetailsService customUserDetailsService, final JwtAuthenticationEntryPoint unauthorizedHandler) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -71,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/",
+                .antMatchers(
+                        "/",
                         "/favicon.ico",
                         "/**/*.png",
                         "/**/*.gif",
@@ -79,14 +81,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.jpg",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                .antMatchers("/api/auth/**")
-                .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
-                .permitAll()
+                        "/**/*.js"
+                ).permitAll()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/configuration/**"
+                ).permitAll()
+                .antMatchers(
+                        "/api/auth/**"
+                ).permitAll()
+                .antMatchers(
+                        "/api/user/checkUsernameAvailability",
+                        "/api/user/checkEmailAvailability"
+                ).permitAll()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/api/polls/**",
+                        "/api/users/**"
+                ).permitAll()
                 .anyRequest()
                 .authenticated();
 
