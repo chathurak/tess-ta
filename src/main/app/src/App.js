@@ -2,7 +2,7 @@ import {withStyles}    from '@material-ui/core/styles'
 import PropTypes       from 'prop-types'
 import React           from 'react'
 import {connect}       from 'react-redux'
-import {Route, Router} from 'react-router-dom'
+import {Switch, Route, Router} from 'react-router-dom'
 import {alertActions}  from './actions/alert.actions'
 import styles          from './App.styles'
 import {PrivateRoute}  from './components'
@@ -31,9 +31,11 @@ class App extends React.Component {
                 {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
                 <Router history={history}>
                     <div>
-                        <PrivateRoute path="/" component={Dashboard}/>
-                        <Route path="/signin" component={SignIn}/>
-                        <Route path="/signup" component={SignUp}/>
+                        <Switch>
+                            <Route path="/signin" component={SignIn}/>
+                            <Route path="/signup" component={SignUp}/>
+                            <PrivateRoute path="/" component={Dashboard}/>
+                        </Switch>
                     </div>
                 </Router>
             </div>

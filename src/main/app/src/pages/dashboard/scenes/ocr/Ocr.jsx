@@ -1,6 +1,5 @@
 import {withStyles}  from '@material-ui/core'
 import * as React    from 'react'
-import {ActionPanel} from './components/actionpanel'
 import {OptionPanel} from './components/optionpanel'
 import {TaskPanel}   from './components/taskpanel'
 import styles        from './Ocr.styles'
