@@ -15,7 +15,7 @@ const signUp = (user) => {
 const signIn = (email, password) => {
     let loginRequest = {
         usernameOrEmail: email,
-        password       : password
+        password
     }
 
     return axios.request({

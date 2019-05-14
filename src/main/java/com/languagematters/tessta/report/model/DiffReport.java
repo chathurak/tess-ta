@@ -63,6 +63,8 @@ public class DiffReport {
                     row.add(d.description);
                     break;
                 }
+                default:
+                    break;
             }
 
             rows.add(row);

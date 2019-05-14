@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class TessTaApplication implements CommandLineRunner {
 
     @Resource
-    StorageServices storageServices;
+    private StorageServices storageServices;
 
     @PostConstruct
     void init() {

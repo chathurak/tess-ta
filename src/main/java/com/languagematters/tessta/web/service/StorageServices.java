@@ -23,7 +23,7 @@ public class StorageServices {
     private Path rootLocation;
 
     @PostConstruct
-    void init() {
+    private void init() {
         rootLocation = Paths.get(tempStorePath);
     }
 
@@ -31,7 +31,8 @@ public class StorageServices {
         try {
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
-            throw new RuntimeException("Could not initialize storage!");
+            System.out.println("Could not initialize storage!");
+            // TODO : Handle this
         }
     }
 
@@ -51,10 +52,12 @@ public class StorageServices {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("FAIL!");
+                throw new UnsupportedOperationException();
+                // TODO : Handle this
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("FAIL!");
+            throw new UnsupportedOperationException();
+            // TODO : Handle this
         }
     }
 
