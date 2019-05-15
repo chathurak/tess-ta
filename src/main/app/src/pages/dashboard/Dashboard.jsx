@@ -3,11 +3,11 @@ import CssBaseline  from '@material-ui/core/CssBaseline'
 import PropTypes    from 'prop-types'
 import * as React   from 'react'
 import {Route}      from 'react-router-dom'
-import {Header}     from './components/header'
-import {Sidebar}    from './components/sidebar'
-import styles       from './Dashboard.styles'
-import {Home}       from './scenes/home'
-import {Ocr}        from './scenes/ocr'
+import Header       from './components/header/Header'
+import Sidebar      from './components/sidebar/Sidebar'
+import Home         from './scenes/home/Home'
+import Ocr          from './scenes/ocr/Ocr'
+import styles       from './styles'
 
 class Dashboard extends React.Component {
 

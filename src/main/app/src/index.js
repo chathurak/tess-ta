@@ -8,7 +8,6 @@ import './index.sass'
 import * as serviceWorker from './serviceWorker'
 import theme              from './theme'
 
-
 ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider theme={theme}>

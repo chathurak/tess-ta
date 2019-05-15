@@ -14,9 +14,8 @@ import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
-import {authActions}    from '../../actions'
-import styles           from './SignUp.styles'
-
+import {actions}        from './duck'
+import styles           from './styles'
 
 class SignUp extends React.Component {
 
@@ -52,11 +51,13 @@ class SignUp extends React.Component {
     handleSubmit(event) {
         event.preventDefault()
 
-        this.setState({submitted: true})
+        this.setState({
+            submitted: true
+        })
         const {user}     = this.state
         const {dispatch} = this.props
         if (user.firstName && user.lastName && user.username && user.email && user.password) {
-            dispatch(authActions.signUp(user))
+            dispatch(actions.signUp(user))
         }
     }
 
@@ -122,7 +123,7 @@ SignUp.propTypes = {
 
 
 function mapStateToProps(state) {
-    const {registering} = state.signup
+    const {registering} = state.signUpReducer
     return {
         registering
     }

@@ -14,8 +14,8 @@ import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
-import {authActions}    from '../../actions'
-import styles           from './SignIn.styles'
+import {actions}        from './duck'
+import styles           from './styles'
 
 class SignIn extends React.Component {
 
@@ -23,7 +23,7 @@ class SignIn extends React.Component {
         super(props)
 
         // reset login status
-        this.props.dispatch(authActions.signOut())
+        this.props.dispatch(actions.signOut())
 
         this.state = {
             email    : '',
@@ -47,7 +47,7 @@ class SignIn extends React.Component {
         const {email, password} = this.state
         const {dispatch}        = this.props
         if (email && password) {
-            dispatch(authActions.signIn(email, password))
+            dispatch(actions.signIn(email, password))
         }
     }
 
@@ -97,8 +97,8 @@ SignIn.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-function mapStateToProps(state) {
-    const {loggingIn} = state.signin
+const mapStateToProps = (state) => {
+    const {loggingIn} = state.signInReducer
     return {
         loggingIn
     }

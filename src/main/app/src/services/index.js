@@ -1,3 +1,4 @@
-export {userServices} from './api/user.services'
+export {userServices} from './user.services'
+export {ocrServices}  from './ocr.services'
 
 
