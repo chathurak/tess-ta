@@ -21,23 +21,6 @@ public class FileController {
         this.storageServices = storageServices;
     }
 
-    @Deprecated
-    @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
-                                                   @RequestParam(value = "pid") String pid) {
-        try {
-            storageServices.store(file, pid);
-
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(String.format("You successfully uploaded %s!", file.getOriginalFilename()));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(String.format("FAIL to upload %s!", file.getOriginalFilename()));
-        }
-    }
-
     @PostMapping("/process")
     public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file) {
         LocalDateTime now = LocalDateTime.now();
