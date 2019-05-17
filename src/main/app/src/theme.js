@@ -12,11 +12,21 @@ const theme = createMuiTheme({
         useNextVariants: true,
         fontSize: 12,
     },
-    layout    : {
-        sidebarWidth: 240
-    },
-    border    : {
-        defaultBorder: 'solid #CFD8DC 1px',
+    app: {
+        border    : {
+            defaultBorder: 'solid #CFD8DC 1px',
+        },
+
+        dashboard : {
+            layout    : {
+                sidebarWidth: 240
+            }
+        },
+        ocr : {
+            layout : {
+                optionPanelWidth: 350
+            }
+        }
     }
 })
 

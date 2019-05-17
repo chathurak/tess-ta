@@ -1,10 +1,8 @@
 const styles = theme => ({
     appBar    : {
-        height: theme.layout.headerHeight,
-
-        marginLeft                  : theme.layout.sidebarWidth,
+        marginLeft                  : theme.app.dashboard.layout.sidebarWidth,
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${theme.layout.sidebarWidth}px)`,
+            width: `calc(100% - ${theme.app.dashboard.layout.sidebarWidth}px)`,
         },
     },
     menuButton: {

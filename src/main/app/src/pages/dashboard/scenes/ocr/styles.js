@@ -8,16 +8,16 @@ const styles = theme => ({
         flexDirection: 'column',
         flexGrow     : 1,
 
-        border          : theme.border.defaultBorder,
+        border          : theme.app.border.defaultBorder,
         borderRightWidth : 0
     },
     optionPanel: {
         display  : 'inline-flex',
         flexDirection: 'row',
-        flexBasis: '350px',
+        flexBasis: theme.app.ocr.layout.optionPanelWidth,
         flexGrow : 0,
 
-        border: theme.border.defaultBorder,
+        border: theme.app.border.defaultBorder,
     }
 })
 
