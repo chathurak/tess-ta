@@ -1,3 +1,1 @@
-const styles = theme => ({})
-
-export default styles
+export const styles = (theme) => ({})

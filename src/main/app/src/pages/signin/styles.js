@@ -1,4 +1,4 @@
-const styles = theme => ({
+export const styles = theme => ({
     root  : {
         width : '100vw',
         height: '80vh',
@@ -35,5 +35,3 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
 })
-
-export default styles

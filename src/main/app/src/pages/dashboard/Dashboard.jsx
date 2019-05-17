@@ -8,7 +8,7 @@ import Sidebar      from './components/sidebar/Sidebar'
 import Home         from './scenes/home/Home'
 import Library      from './scenes/library/Library'
 import Ocr          from './scenes/ocr/Ocr'
-import styles       from './styles'
+import {styles}     from './styles'
 
 class Dashboard extends React.Component {
 

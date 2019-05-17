@@ -1,4 +1,4 @@
-const styles = theme => ({
+export const styles = theme => ({
     drawer     : {
         [theme.breakpoints.up('sm')]: {
             width     : theme.app.dashboard.layout.sidebarWidth,
@@ -9,5 +9,3 @@ const styles = theme => ({
         width: theme.app.dashboard.layout.sidebarWidth,
     },
 })
-
-export default styles

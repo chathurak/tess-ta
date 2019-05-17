@@ -1,4 +1,4 @@
-const styles = (theme) => ({
+export const styles = (theme) => ({
     root: {
         display      : 'flex',
         flexDirection: 'row',
@@ -20,5 +20,3 @@ const styles = (theme) => ({
         border: theme.app.border.defaultBorder,
     }
 })
-
-export default styles

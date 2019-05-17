@@ -16,7 +16,7 @@ import SpellcheckIcon   from '@material-ui/icons/Spellcheck'
 import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {Link}           from 'react-router-dom'
-import styles           from './styles'
+import {styles}         from './styles'
 
 
 class Sidebar extends React.Component {

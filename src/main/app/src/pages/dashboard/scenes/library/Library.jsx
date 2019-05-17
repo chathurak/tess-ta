@@ -1,8 +1,8 @@
 import {withStyles} from '@material-ui/core'
 import * as React   from 'react'
-import OptionPanel  from './components/optionpanel/OptionPanel'
 import TaskPanel    from './components/filemanagerpanel/FileManagerPanel'
-import styles       from './styles'
+import OptionPanel  from './components/optionpanel/OptionPanel'
+import {styles}     from './styles'
 
 class Library extends React.Component {
 

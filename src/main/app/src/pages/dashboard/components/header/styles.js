@@ -1,4 +1,4 @@
-const styles = theme => ({
+export const styles = theme => ({
     appBar    : {
         marginLeft                  : theme.app.dashboard.layout.sidebarWidth,
         [theme.breakpoints.up('sm')]: {
@@ -12,5 +12,3 @@ const styles = theme => ({
         },
     },
 })
-
-export default styles

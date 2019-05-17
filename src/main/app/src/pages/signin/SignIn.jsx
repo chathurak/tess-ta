@@ -15,7 +15,7 @@ import * as React       from 'react'
 import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
 import {actions}        from './duck'
-import styles           from './styles'
+import {styles}         from './styles'
 
 class SignIn extends React.Component {
 
