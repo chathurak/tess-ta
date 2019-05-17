@@ -9,7 +9,7 @@ import {ACCESS_TOKEN}             from '../../../../../../constants/auth.constan
 import styles                     from './styles'
 
 // Register the plugins
-registerPlugin(FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImagePreview)
 
 class OptionPanel extends React.Component {
 
@@ -19,9 +19,7 @@ class OptionPanel extends React.Component {
         this.state = {
             // Set initial files, type 'local' means this is a file
             // that has already been uploaded to the server (see docs)
-            files: [
-
-            ]
+            files: []
         }
     }
 
@@ -42,23 +40,23 @@ class OptionPanel extends React.Component {
                           maxFiles={3}
                           server={
                               {
-                                  url: '/api/file',
+                                  url    : '/api/file',
                                   process: {
-                                      url: '/process',
-                                      method: 'POST',
+                                      url            : '/process',
+                                      method         : 'POST',
                                       withCredentials: false,
-                                      headers: {
+                                      headers        : {
                                           'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
                                       },
-                                      timeout: 7000,
-                                      onload: null,
-                                      onerror: null,
-                                      ondata: null
+                                      timeout        : 7000,
+                                      onload         : null,
+                                      onerror        : null,
+                                      ondata         : null
                                   },
-                                  revert: './revert',
-                                  restore: './restore/',
-                                  load: './load/',
-                                  fetch: './fetch/'
+                                  revert : '/revert',
+                                  restore: '/restore/',
+                                  load   : '/load/',
+                                  fetch  : '/fetch/'
                               }
                           }
                           oninit={() => this.handleInit()}

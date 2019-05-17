@@ -1,9 +1,12 @@
 package com.languagematters.tessta.web.controller;
 
+import com.languagematters.tessta.web.security.CurrentUser;
+import com.languagematters.tessta.web.security.UserPrincipal;
 import com.languagematters.tessta.web.service.StorageServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,13 +25,15 @@ public class FileController {
     }
 
     @PostMapping("/process")
-    public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file,
+                                          @CurrentUser UserPrincipal currentUser) {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         String pid = now.format(formatter);
 
         try {
-            storageServices.store(file, pid);
+            storageServices.store(file, currentUser.getUsername() + "/" + pid);
 
             return ResponseEntity
                     .status(HttpStatus.OK)

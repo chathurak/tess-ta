@@ -36,10 +36,10 @@ public class StorageServices {
         }
     }
 
-    public void store(MultipartFile file, String pid) {
+    public void store(MultipartFile file, String location) {
         try {
-            Files.createDirectory(rootLocation.resolve(pid));
-            Files.copy(file.getInputStream(), rootLocation.resolve(pid + "/" + file.getOriginalFilename()));
+            Files.createDirectories(rootLocation.resolve(location));
+            Files.copy(file.getInputStream(), rootLocation.resolve(location + "/" + file.getOriginalFilename()));
         } catch (Exception e) {
             throw new RuntimeException("FAIL!");
         }

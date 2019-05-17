@@ -1,7 +1,5 @@
 import {withStyles} from '@material-ui/core'
 import * as React   from 'react'
-import OptionPanel  from './components/optionpanel/OptionPanel'
-import TaskPanel    from './components/taskpanel/TaskPanel'
 import styles       from './styles'
 
 class Ocr extends React.Component {
@@ -11,8 +9,6 @@ class Ocr extends React.Component {
 
         return (
             <div className={classes.root}>
-                <TaskPanel className={classes.taskPanel}/>
-                <OptionPanel className={classes.optionPanel}/>
             </div>
         )
     }

@@ -3,7 +3,7 @@ import PropTypes    from 'prop-types'
 import * as React   from 'react'
 import styles       from './styles'
 
-class TaskPanel extends React.Component {
+class FileManagerPanel extends React.Component {
 
     render() {
         return (
@@ -14,9 +14,9 @@ class TaskPanel extends React.Component {
 
 }
 
-TaskPanel.propTypes = {
+FileManagerPanel.propTypes = {
     classes: PropTypes.object.isRequired,
     theme  : PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(TaskPanel)
+export default withStyles(styles, {withTheme: true})(FileManagerPanel)

@@ -6,6 +6,7 @@ import {Route}      from 'react-router-dom'
 import Header       from './components/header/Header'
 import Sidebar      from './components/sidebar/Sidebar'
 import Home         from './scenes/home/Home'
+import Library      from './scenes/library/Library'
 import Ocr          from './scenes/ocr/Ocr'
 import styles       from './styles'
 
@@ -22,6 +23,7 @@ class Dashboard extends React.Component {
                 <main className={classes.content}>
                     <div className={classes.toolbar}/>
                     <Route exact path='/home' component={Home}/>
+                    <Route exact path='/library' component={Library}/>
                     <Route exact path='/ocr' component={Ocr}/>
                 </main>
             </div>
