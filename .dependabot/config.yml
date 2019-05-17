@@ -1,0 +1,10 @@
+version: 1
+
+update_configs:
+  - package_manager: "javascript"
+    directory: "/src/main/app"
+    update_schedule: "monthly"
+
+  - package_manager: "java:maven"
+    directory: "/"
+    update_schedule: "monthly"
