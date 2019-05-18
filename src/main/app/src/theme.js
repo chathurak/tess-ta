@@ -5,12 +5,12 @@ const theme = createMuiTheme({
     palette   : {
         primary  : lightBlue,
         secondary: {
-            main: '#f44336',
+            main: '#1976d2',
         },
     },
     typography: {
         useNextVariants: true,
-        fontSize: 12,
+        fontSize: 13,
     },
     app: {
         border    : {

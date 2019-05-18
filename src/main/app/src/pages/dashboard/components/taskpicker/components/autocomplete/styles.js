@@ -28,12 +28,12 @@ export const styles = theme => ({
         padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
     },
     singleValue     : {
-        fontSize: theme.typography.fontSize * 1.15,
+        fontSize: theme.typography.fontSize,
     },
     placeholder     : {
         position: 'absolute',
         left    : 2,
-        fontSize: theme.typography.fontSize * 1.15,
+        fontSize: theme.typography.fontSize,
     },
     paper           : {
         position : 'absolute',
