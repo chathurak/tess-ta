@@ -36,6 +36,19 @@ const styles = {
         root: {
           padding: 20,
         },
+      },
+    button: {
+        margin: 5
+    },
+    table: {
+        root: {
+          width: '100%',
+          marginTop: 30,
+          overflowX: 'auto',
+        },
+        table: {
+          minWidth: 700,
+        },
       }
 }
 
