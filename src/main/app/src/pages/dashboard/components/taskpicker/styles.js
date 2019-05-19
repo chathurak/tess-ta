@@ -10,7 +10,7 @@ export const styles = (theme) => ({
         padding: theme.spacing.unit * 2
     },
     datetimepicker: {
-        width: '150px',
+        width: '180px',
 
         marginRight: theme.spacing.unit * 4,
     },
