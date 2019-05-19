@@ -33,28 +33,37 @@ class FileManagerPanel extends React.Component {
 
     constructor(props) {
         super(props);
-    
+
         this.state = {
             expanded: '1',
-    
-            // TODO: Load data from the server
             files: [],
-    
-            taskInfo: [
-                { id: '201212120000', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v1', accuracy: '95%' },
-                { id: '201212120101', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v2', accuracy: '97%' },
-            ],
-
+            taskInfo: [],
             isLoading: true,
         };
       }
 
-
+    
 
     handleChange = panel => (event, expanded) => {
         this.setState({
             expanded: expanded ? panel : false,
         });
+
+        if (expanded) {
+            this.setState({ isLoading: true })
+            LibraryService.getTasks(this.state.files[panel].name)
+            .then(res => {
+                console.log(res.data);
+    
+                this.setState({
+                    taskInfo: res.data,
+                    isLoading: false
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
     };
 
     handleDelete = event => {
@@ -66,9 +75,10 @@ class FileManagerPanel extends React.Component {
     componentDidMount() {
         LibraryService.getUserFiles()
         .then(res => {
-            console.log(res);
+            console.log(res.data);
+
             this.setState({
-                files: res,
+                files: res.data,
                 isLoading: false
             })
         })
@@ -84,7 +94,7 @@ class FileManagerPanel extends React.Component {
         return (
             <div className={this.props.className}>
                 {this.state.isLoading && <LinearProgress />}
-                {this.state.files.map((file, i) => {         
+                {this.state.files !== [] && this.state.files.map((file, i) => {         
                     return (
                         <div key={i}>
                             <ExpansionPanel
@@ -123,19 +133,17 @@ class FileManagerPanel extends React.Component {
                                                         <TableRow>
                                                             <TableCell>ID</TableCell>
                                                             <TableCell align="right">Created On</TableCell>
-                                                            <TableCell align="right">Input File</TableCell>
                                                             <TableCell align="right">Tessdata</TableCell>
                                                             <TableCell align="right">Accuracy</TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                    {this.state.taskInfo.map(task => (
-                                                        <TableRow key={task.id}>
-                                                            <TableCell>{task.id}</TableCell>
+                                                    {this.state.taskInfo.map((task, i) => (
+                                                        <TableRow key={i}>
+                                                            <TableCell>{task.key}</TableCell>
                                                             <TableCell align="right">{task.createdAt}</TableCell>
-                                                            <TableCell align="right">{task.input}</TableCell>
-                                                            <TableCell align="right">{task.tessdata}</TableCell>
-                                                            <TableCell align="right">{task.accuracy}</TableCell>
+                                                            <TableCell align="right">{task.tessdataName}</TableCell>
+                                                            <TableCell align="right">{task.accuracy}%</TableCell>
                                                         </TableRow>
                                                     ))}
                                                     </TableBody>

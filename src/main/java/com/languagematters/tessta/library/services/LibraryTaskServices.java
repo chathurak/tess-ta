@@ -38,7 +38,6 @@ public class LibraryTaskServices {
                 ResultSet result = statement.executeQuery(sql);
 
                 while (result.next()){
-                    System.out.println(result.getString("key"));
                     Task task = new Task();
                     task.setKey(result.getString("key"));
                     task.setUserFileId(result.getInt("user_file_id"));
