@@ -2,13 +2,13 @@ package com.languagematters.tessta.library.services;
 
 import com.languagematters.tessta.library.services.model.UserFile;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LibraryUserFileServices {
 
+    // Connection info. TODO: Load from properties
     String URI = "jdbc:mysql://localhost:3306/tesseract_ta";
     String USER = "root";
     String PASS = "";
@@ -21,30 +21,38 @@ public class LibraryUserFileServices {
         return service;
     }
 
-    public void getUserFiles() {
+    public List<UserFile> getUserFiles() {
         int userId = 1; // TODO: Get userId from session
+        List<UserFile> userFiles = new ArrayList<UserFile>();
 
         try {
             Connection conn = DriverManager.getConnection(URI, USER, PASS);
 
             if (conn != null) {
-                System.out.println("Connected");
+                String sql = "SELECT * FROM user_file";
+
+                Statement statement = conn.createStatement();
+                ResultSet result = statement.executeQuery(sql);
+
+                while (result.next()){
+                    UserFile userFile = new UserFile();
+                    userFile.setName(result.getString("name"));
+                    userFile.setPath(result.getString("path"));
+                    userFile.setIsText(result.getInt("is_text") == 1);
+                    userFile.setCreatedAt(result.getDate("created_at"));
+                    userFile.setUserId(result.getInt("user_id"));
+                    userFiles.add(userFile);
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+
+        return userFiles;
     }
 
     public void createUserFile(UserFile userFile) {
         int userId = 1; // TODO: Get userId from session
-
-        // TODO: Temp
-        userFile = new UserFile();
-        userFile.setName("Silumina");
-        userFile.setPath("/home/silumina.txt");
-        userFile.setIsText(true);
-        userFile.setCreatedAt(new java.util.Date());
-        userFile.setUserId(1);
 
         try {
             Connection conn = DriverManager.getConnection(URI, USER, PASS);
