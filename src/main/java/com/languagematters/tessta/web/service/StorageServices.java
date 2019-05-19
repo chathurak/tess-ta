@@ -32,14 +32,13 @@ public class StorageServices {
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
             System.out.println("Could not initialize storage!");
-            // TODO : Handle this
         }
     }
 
     public void store(MultipartFile file, String location) {
         try {
             Files.createDirectories(rootLocation.resolve(location));
-            Files.copy(file.getInputStream(), rootLocation.resolve(location + "/" + file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), rootLocation.resolve(location + file.getOriginalFilename()));
         } catch (Exception e) {
             throw new RuntimeException("FAIL!");
         }

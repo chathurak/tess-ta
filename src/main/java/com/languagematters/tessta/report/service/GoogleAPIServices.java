@@ -39,15 +39,6 @@ public class GoogleAPIServices {
                 .setSpaces("drive")
                 .setFields("nextPageToken, files(id, name)")
                 .execute().getFiles().get(0);
-
     }
 
-    public static File getTessLibrary() throws IOException, GeneralSecurityException {
-        return GoogleAPIServices.getDriveInstance().files().list()
-                .setQ("name='tess_library'")
-                .setSpaces("drive")
-                .setFields("nextPageToken, files(id, name)")
-                .execute().getFiles().get(0);
-
-    }
 }

@@ -2,7 +2,9 @@ package com.languagematters.tessta.web.controller;
 
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
+import com.languagematters.tessta.web.service.AsynchronousServices;
 import com.languagematters.tessta.web.service.StorageServices;
+import com.languagematters.tessta.web.task.ProcessTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,12 @@ import java.time.format.DateTimeFormatter;
 public class FileController {
 
     private final StorageServices storageServices;
+    private final AsynchronousServices asynchronousServices;
 
     @Autowired
-    public FileController(final StorageServices storageServices) {
+    public FileController(final StorageServices storageServices, final AsynchronousServices asynchronousServices) {
         this.storageServices = storageServices;
+        this.asynchronousServices = asynchronousServices;
     }
 
     @PostMapping("/process")
@@ -33,7 +37,15 @@ public class FileController {
         String pid = now.format(formatter);
 
         try {
-            storageServices.store(file, currentUser.getUsername() + "/" + pid);
+            storageServices.store(file, String.format("%s/%s/", currentUser.getUsername(), pid));
+
+            // TODO : Delete this processing part
+            ProcessTask processTask = new ProcessTask();
+            processTask.setPid(pid);
+            processTask.setUsername(currentUser.getUsername());
+            processTask.setOriginalFileName(file.getOriginalFilename());
+
+            asynchronousServices.executeProcessAsynchronously(processTask);
 
             return ResponseEntity
                     .status(HttpStatus.OK)

@@ -45,17 +45,19 @@ public class ProcessTask implements Runnable {
 
     // TODO : Autowire these
     private static Drive drive;
-    private static com.google.api.services.drive.model.File tessLibraryDir;
+    private static com.google.api.services.drive.model.File tessRoot;
 
     @Setter
     private String pid;
+    @Setter
+    private String username;
     @Setter
     private String originalFileName;
 
     public ProcessTask() {
         try {
             drive = GoogleAPIServices.getDriveInstance();
-            tessLibraryDir = GoogleAPIServices.getTessLibrary();
+            tessRoot = GoogleAPIServices.getRoot();
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
         }
@@ -68,7 +70,7 @@ public class ProcessTask implements Runnable {
             com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
             parentDirMetadata.setName(pid);
             parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
-            parentDirMetadata.setParents(Collections.singletonList(tessLibraryDir.getId()));
+            parentDirMetadata.setParents(Collections.singletonList(tessRoot.getId()));
             com.google.api.services.drive.model.File parentDir = drive.files()
                     .create(parentDirMetadata)
                     .setFields("id")
@@ -78,8 +80,8 @@ public class ProcessTask implements Runnable {
             String fileExtension = FilenameUtils.getExtension(tempStorePath + "/" + originalFileName);
 
             // Temp
-            File tempDir = new File(tempStorePath + "/" + pid);
-            File tempFile = new File(tempStorePath + "/" + pid + "/" + originalFileName);
+            File tempDir = new File(String.format("%s/%s/%s", tempStorePath, username, pid));
+            File tempFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, pid, originalFileName));
 
             // Text to image
             imageServices.text2Image(getExecutor(), tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/out");
