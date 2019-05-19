@@ -1,10 +1,12 @@
 package com.languagematters.tessta.library.services.model;
 
+import java.util.Date;
+
 public class UserFile {
     String name;
     String path;
     Boolean isText;
-    String createdAt;
+    Date createdAt;
     int userId;
 
     public String getName() {
@@ -23,19 +25,23 @@ public class UserFile {
         this.path = path;
     }
 
-    public boolean isText() {
+    public boolean getIsText() {
         return isText;
+    }
+
+    public void setIsText(Boolean isText) {
+        this.isText = isText;
     }
 
     public void setText(boolean text) {
         isText = text;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
