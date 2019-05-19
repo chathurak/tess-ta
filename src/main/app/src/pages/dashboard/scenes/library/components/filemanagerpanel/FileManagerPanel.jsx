@@ -14,7 +14,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input';
-
+import { LibraryService } from '../../../../../../services/library.service'
 
 
 const ExpansionPanel = withStyles(styles.expansionPanel)(MuiExpansionPanel);
@@ -28,20 +28,24 @@ const ExpansionPanelDetails = withStyles(styles.expansionPanelDetails)(MuiExpans
 
 class FileManagerPanel extends React.Component {
 
-    state = {
-        expanded: '1',
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            expanded: '1',
+    
+            // TODO: Load data from the server
+            files: [],
+    
+            taskInfo: [
+                { id: '201212120000', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v1', accuracy: '95%' },
+                { id: '201212120101', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v2', accuracy: '97%' },
+            ],
 
-        // TODO: Load data from the server
-        files: [
-            {name: 'Mawbima', type: 'TEXT', createdOn: '2012.12.12 00:00'},
-            {name: 'Silumina', type: 'TIFF', createdOn: '2013.11.12 12:00'},
-        ],
+        };
+      }
 
-        taskInfo: [
-            { id: '201212120000', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v1', accuracy: '95%' },
-            { id: '201212120101', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v2', accuracy: '97%' },
-        ]
-    };
+
 
     handleChange = panel => (event, expanded) => {
         this.setState({
@@ -53,6 +57,20 @@ class FileManagerPanel extends React.Component {
         var selectedIndex = this.state.expanded;
         
         // TODO: Implement delete function
+    }
+
+    componentDidMount() {
+        LibraryService.getUserFiles()
+        .then(res => {
+            console.log(res);
+            this.setState({
+                files: res,
+                isLoading: false
+            })
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     render() {
@@ -75,10 +93,10 @@ class FileManagerPanel extends React.Component {
                                             <Typography style={{fontWeight: 500}}>{file.name}</Typography>
                                         </Grid>
                                         <Grid item xs>
-                                            <Typography>{file.type}</Typography>
+                                            <Typography>{file.isText ? "TEXT" : "TIFF"}</Typography>
                                         </Grid>
                                         <Grid item xs >
-                                            <Typography style={{textAlign: 'right'}}>{file.createdOn}</Typography>
+                                            <Typography style={{textAlign: 'right'}}>{file.createdAt}</Typography>
                                         </Grid>
                                     </Grid>
                                     
