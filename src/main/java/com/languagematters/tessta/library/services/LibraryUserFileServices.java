@@ -69,15 +69,20 @@ public class LibraryUserFileServices {
                 statement.setInt(5, userFile.getUserId());
 
                 int rowsInserted = statement.executeUpdate();
-                if (rowsInserted > 0) {
-                    System.out.println("A new user was inserted successfully!");
-                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
 
+    }
+
+    public void deleteUserFile(String userFileName){
+        // TODO: Implement delete from the db
+    }
+
+    public void rename(String userFileName, String newName) {
+        // TODO: Implement rename
     }
 }
 

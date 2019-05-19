@@ -7,6 +7,9 @@ public class Task {
     int userFileId;
     Date createdAt;
     Double Accuracy;
+    int tessdataId;
+    String tessdataName;
+
 
     public String getKey() {
         return key;
@@ -38,5 +41,21 @@ public class Task {
 
     public void setAccuracy(Double accuracy) {
         Accuracy = accuracy;
+    }
+
+    public int getTessdataId() {
+        return tessdataId;
+    }
+
+    public void setTessdataId(int tessdataId) {
+        this.tessdataId = tessdataId;
+    }
+
+    public String getTessdataName() {
+        return tessdataName;
+    }
+
+    public void setTessdataName(String tessdataName) {
+        this.tessdataName = tessdataName;
     }
 }

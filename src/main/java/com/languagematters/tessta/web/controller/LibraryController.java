@@ -3,7 +3,9 @@ package com.languagematters.tessta.web.controller;
 import com.languagematters.tessta.grammar.model.WordObj;
 import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
+import com.languagematters.tessta.library.services.LibraryTaskServices;
 import com.languagematters.tessta.library.services.LibraryUserFileServices;
+import com.languagematters.tessta.library.services.model.Task;
 import com.languagematters.tessta.library.services.model.UserFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,18 +25,16 @@ public class LibraryController {
         return LibraryUserFileServices.getInstance().getUserFiles();
     }
 
+    @RequestMapping(value = "/api/library/tasks", method = RequestMethod.GET)
+    public List<Task> getTasks(@RequestParam(value = "userfilename") String userFileName) {
+        return LibraryTaskServices.getInstance().getTasks(userFileName);
+    }
+
     @RequestMapping(value = "/api/library/test", method = RequestMethod.GET)
     public String createUserFile() {
 
-        UserFile userFile = new UserFile();
-        userFile = new UserFile();
-        userFile.setName("Silumina");
-        userFile.setPath("/home/silumina.txt");
-        userFile.setIsText(true);
-        userFile.setCreatedAt(new java.util.Date());
-        userFile.setUserId(1);
-        LibraryUserFileServices.getInstance().createUserFile(userFile);
-
+        // TESTS
+        LibraryTaskServices.getInstance().getTasks("Mawbima");
         return "hello";
     }
 }
