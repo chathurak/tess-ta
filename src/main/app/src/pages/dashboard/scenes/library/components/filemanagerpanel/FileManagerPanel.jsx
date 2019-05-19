@@ -15,6 +15,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input';
 import { LibraryService } from '../../../../../../services/library.service'
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+
 
 
 const ExpansionPanel = withStyles(styles.expansionPanel)(MuiExpansionPanel);
@@ -42,6 +45,7 @@ class FileManagerPanel extends React.Component {
                 { id: '201212120101', createdAt: '2012.12.12 00:00', input: 'Mawbima', tessdata: 'v2', accuracy: '97%' },
             ],
 
+            isLoading: true,
         };
       }
 
@@ -79,6 +83,7 @@ class FileManagerPanel extends React.Component {
 
         return (
             <div className={this.props.className}>
+                {this.state.isLoading && <LinearProgress />}
                 {this.state.files.map((file, i) => {         
                     return (
                         <div key={i}>
