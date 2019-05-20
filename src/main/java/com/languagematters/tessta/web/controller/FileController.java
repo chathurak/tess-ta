@@ -1,10 +1,11 @@
 package com.languagematters.tessta.web.controller;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import com.languagematters.tessta.web.service.AsynchronousServices;
 import com.languagematters.tessta.web.service.StorageServices;
-import com.languagematters.tessta.web.task.ProcessTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,24 +33,19 @@ public class FileController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file,
                                           @CurrentUser UserPrincipal currentUser) {
-        LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        String pid = now.format(formatter);
+        String fileId = Hashing.sha512().newHasher().putString(file.getOriginalFilename(), Charsets.UTF_8).hash().toString();
+        String taskId = LocalDateTime.now().format(formatter);
 
         try {
-            storageServices.store(file, String.format("%s/%s/", currentUser.getUsername(), pid));
+            storageServices.store(file, String.format("%s/%s/%s/", currentUser.getUsername(), fileId, taskId));
 
             // TODO : Delete this processing part
-            ProcessTask processTask = new ProcessTask();
-            processTask.setPid(pid);
-            processTask.setUsername(currentUser.getUsername());
-            processTask.setOriginalFileName(file.getOriginalFilename());
-
-            asynchronousServices.executeProcessAsynchronously(processTask);
+            asynchronousServices.executeOcrTask(fileId, taskId, currentUser.getUsername(), file.getOriginalFilename());
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(pid);
+                    .body(fileId);
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)

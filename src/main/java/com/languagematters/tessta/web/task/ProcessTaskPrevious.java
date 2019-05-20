@@ -3,7 +3,7 @@ package com.languagematters.tessta.web.task;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.languagematters.tessta.ocr.service.ImageServices;
-import com.languagematters.tessta.ocr.service.OCRServices;
+import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.ConfusionReport;
 import com.languagematters.tessta.report.model.ConfusionSummaryReport;
@@ -17,12 +17,9 @@ import lombok.Setter;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
@@ -31,14 +28,14 @@ import java.util.Collections;
 import java.util.List;
 
 // TODO : Make this class injected and not manually initiated
-@Component
-@Scope("prototype")
-public class ProcessTask implements Runnable {
+//@Component
+//@Scope("prototype")
+public class ProcessTaskPrevious implements Runnable {
 
     @Autowired
     private ImageServices imageServices;
     @Autowired
-    private OCRServices ocrServices;
+    private OcrServices ocrServices;
 
     @Value("${app.tempstore}")
     private String tempStorePath;
@@ -54,7 +51,7 @@ public class ProcessTask implements Runnable {
     @Setter
     private String originalFileName;
 
-    public ProcessTask() {
+    public ProcessTaskPrevious() {
         try {
             drive = GoogleAPIServices.getDriveInstance();
             tessRoot = GoogleAPIServices.getRoot();
@@ -123,9 +120,6 @@ public class ProcessTask implements Runnable {
                     e.printStackTrace();
                 }
             }
-
-            // Delete temp dir
-            FileUtils.deleteQuietly(tempDir);
 
             System.out.println("Process completed : " + pid);
         } catch (Exception e) {

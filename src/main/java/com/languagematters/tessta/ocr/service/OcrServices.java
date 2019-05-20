@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class OCRServices {
+public class OcrServices {
 
     @Value("${app.tessdata}")
     private String tessdataPath;
