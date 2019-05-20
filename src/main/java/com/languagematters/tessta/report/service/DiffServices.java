@@ -1,7 +1,8 @@
 package com.languagematters.tessta.report.service;
 
-import com.languagematters.tessta.ocr.google.DiffMatchPatch;
-import com.languagematters.tessta.ocr.google.DiffMatchPatch.Operation;
+import com.languagematters.tessta.report.google.DiffMatchPatch;
+import com.languagematters.tessta.report.model.CustomDiff;
+import com.languagematters.tessta.report.model.CustomOperation;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import static com.languagematters.tessta.ocr.google.DiffMatchPatch.Operation.*;
+import static com.languagematters.tessta.report.google.Operation.*;
 
 public class DiffServices {
 
@@ -27,24 +28,23 @@ public class DiffServices {
 
         for (DiffMatchPatch.Diff d : difference.diff_main(s2, s1)) {
             CustomDiff diff = new CustomDiff();
-            diff.text = d.text;
+            diff.setText(d.text);
 
             switch (d.operation) {
                 case EQUAL:
-                    diff.googleDiffOperation = EQUAL;
-                    diff.customOperation = CustomOperation.CUSTOM_EQUAL;
-                    diff.description = "Equal";
+                    diff.setOperation(EQUAL);
+                    diff.setCustomOperation(CustomOperation.CUSTOM_EQUAL);
+                    diff.setDescription("Equal");
                     break;
                 case INSERT:
-                    diff.googleDiffOperation = INSERT;
-                    diff.customOperation = CustomOperation.CUSTOM_INSERT;
-
-                    diff.description = "Insert";
+                    diff.setOperation(INSERT);
+                    diff.setCustomOperation(CustomOperation.CUSTOM_INSERT);
+                    diff.setDescription("Insert");
                     break;
                 case DELETE:
-                    diff.googleDiffOperation = DELETE;
-                    diff.customOperation = CustomOperation.CUSTOM_DELETE;
-                    diff.description = "Delete";
+                    diff.setOperation(DELETE);
+                    diff.setCustomOperation(CustomOperation.CUSTOM_DELETE);
+                    diff.setDescription("Delete");
                     break;
             }
 
@@ -61,40 +61,40 @@ public class DiffServices {
         while (iterator.hasNext()) {
             CustomDiff diff = iterator.next();
 
-            if (diff.text.matches("[ ]+")) {                                      // One or more than one space
-                if (diff.text.equals(" ")) {                                                    // One space
-                    if (diff.googleDiffOperation == INSERT) {                             // Insert
-                        diff.customOperation = CustomOperation.INSERT_SPACE;
-                        diff.description = "Insert space";
-                    } else if (diff.googleDiffOperation == DELETE) {                      // Delete
-                        diff.customOperation = CustomOperation.DELETE_SPACE;
-                        diff.description = "Delete space";
+            if (diff.getText().matches("[ ]+")) {                                      // One or more than one space
+                if (diff.getText().equals(" ")) {                                                    // One space
+                    if (diff.getOperation() == INSERT) {                             // Insert
+                        diff.setCustomOperation(CustomOperation.INSERT_SPACE);
+                        diff.setDescription("Insert space");
+                    } else if (diff.getOperation() == DELETE) {                      // Delete
+                        diff.setCustomOperation(CustomOperation.DELETE_SPACE);
+                        diff.setDescription("Delete space");
                     }
                 } else {                                                                        // Multiple spaces
-                    if (diff.googleDiffOperation == INSERT) {                             // Insert
-                        diff.customOperation = CustomOperation.INSERT_SPACES;
-                        diff.description = "Insert spaces";
-                    } else if (diff.googleDiffOperation == DELETE) {                      // Delete
-                        diff.customOperation = CustomOperation.DELETE_SPACES;
-                        diff.description = "Delete spaces";
+                    if (diff.getOperation() == INSERT) {                             // Insert
+                        diff.setCustomOperation(CustomOperation.INSERT_SPACES);
+                        diff.setDescription("Insert spaces");
+                    } else if (diff.getOperation() == DELETE) {                      // Delete
+                        diff.setCustomOperation(CustomOperation.DELETE_SPACES);
+                        diff.setDescription("Delete spaces");
                     }
                 }
-            } else if (diff.text.matches("[\n]+")) {                                // One or more than one new line
-                if (diff.text.equals("\n")) {                                                   // One new line
-                    if (diff.googleDiffOperation == INSERT) {                             // Insert
-                        diff.customOperation = CustomOperation.INSERT_LINE;
-                        diff.description = "Insert new line";
-                    } else if (diff.googleDiffOperation == DELETE) {                      // Delete
-                        diff.customOperation = CustomOperation.DELETE_LINE;
-                        diff.description = "Delete line";
+            } else if (diff.getText().matches("[\n]+")) {                                // One or more than one new line
+                if (diff.getText().equals("\n")) {                                                   // One new line
+                    if (diff.getOperation() == INSERT) {                             // Insert
+                        diff.setCustomOperation(CustomOperation.INSERT_LINE);
+                        diff.setDescription("Insert new line");
+                    } else if (diff.getOperation() == DELETE) {                      // Delete
+                        diff.setCustomOperation(CustomOperation.DELETE_LINE);
+                        diff.setDescription("Delete line");
                     }
                 } else {                                                                        // Multiple new lines
-                    if (diff.googleDiffOperation == INSERT) {                             // Insert
-                        diff.customOperation = CustomOperation.INSERT_LINES;
-                        diff.description = "Insert new lines";
-                    } else if (diff.googleDiffOperation == DELETE) {                      // Delete
-                        diff.customOperation = CustomOperation.DELETE_LINES;
-                        diff.description = "Delete lines";
+                    if (diff.getOperation() == INSERT) {                             // Insert
+                        diff.setCustomOperation(CustomOperation.INSERT_LINES);
+                        diff.setDescription("Insert new lines");
+                    } else if (diff.getOperation() == DELETE) {                      // Delete
+                        diff.setCustomOperation(CustomOperation.DELETE_LINES);
+                        diff.setDescription("Delete lines");
                     }
                 }
             }
@@ -102,28 +102,4 @@ public class DiffServices {
         }
     }
 
-    public enum CustomOperation {
-        CUSTOM_EQUAL,
-        CUSTOM_INSERT,
-        CUSTOM_DELETE,
-
-        INSERT_SPACE,
-        DELETE_SPACE,
-
-        INSERT_SPACES,
-        DELETE_SPACES,
-
-        INSERT_LINE,
-        DELETE_LINE,
-
-        INSERT_LINES,
-        DELETE_LINES
-    }
-
-    public static class CustomDiff {
-        public String text;
-        public Operation googleDiffOperation;
-        public CustomOperation customOperation;
-        public String description;
-    }
 }

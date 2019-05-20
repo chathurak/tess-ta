@@ -4,7 +4,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
-import com.languagematters.tessta.report.service.DiffServices;
+import com.languagematters.tessta.report.model.CustomDiff;
 import com.languagematters.tessta.report.service.GoogleAPIServices;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,11 +20,11 @@ public class DiffReport {
     private static Sheets sheetsService;
     private static Drive driveService;
 
-    private List<DiffServices.CustomDiff> deltas;
+    private List<CustomDiff> deltas;
 
     private List<List<Object>> rows;
 
-    public DiffReport(@NotNull List<DiffServices.CustomDiff> deltas) throws IOException, GeneralSecurityException {
+    public DiffReport(@NotNull List<CustomDiff> deltas) throws IOException, GeneralSecurityException {
         sheetsService = GoogleAPIServices.getSheetsInstance();
         driveService = GoogleAPIServices.getDriveInstance();
 
@@ -34,33 +34,33 @@ public class DiffReport {
         rows.add(Arrays.asList("Input text", "OCR output", "Type"));
 
         int i = 1;
-        for (DiffServices.CustomDiff d : deltas) {
+        for (CustomDiff d : deltas) {
             List<Object> row = new ArrayList<>();
 
-            String modifiedText = d.text
+            String modifiedText = d.getText()
                     .replace("\n", "<n>")
                     .replace("\t", "<t>")
                     .replace("\r", "<r>")
                     .replace("\b", "<b>")
                     .replace(" ", "<s>");
 
-            switch (d.googleDiffOperation) {
+            switch (d.getOperation()) {
                 case EQUAL: {
                     row.add(modifiedText);
                     row.add(modifiedText);
-                    row.add(d.description);
+                    row.add(d.getDescription());
                     break;
                 }
                 case INSERT: {
                     row.add(modifiedText);
                     row.add("");
-                    row.add(d.description);
+                    row.add(d.getDescription());
                     break;
                 }
                 case DELETE: {
                     row.add("");
                     row.add(modifiedText);
-                    row.add(d.description);
+                    row.add(d.getDescription());
                     break;
                 }
                 default:

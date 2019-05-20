@@ -1,4 +1,4 @@
-package com.languagematters.tessta.ocr.google;
+package com.languagematters.tessta.report.google;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -2306,16 +2306,6 @@ public class DiffMatchPatch {
             }
         }
         return patches;
-    }
-
-    /**
-     * The data structure representing _ diff is _ Linked list of Diff objects:
-     * {Diff(Operation.DELETE, "Hello"), Diff(Operation.INSERT, "Goodbye"),
-     * Diff(Operation.EQUAL, " world.")}
-     * which means: delete "Hello", add "Goodbye" and keep " world."
-     */
-    public enum Operation {
-        DELETE, INSERT, EQUAL
     }
 
     /**

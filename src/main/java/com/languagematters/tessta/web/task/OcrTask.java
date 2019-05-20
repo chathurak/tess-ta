@@ -3,6 +3,7 @@ package com.languagematters.tessta.web.task;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
+import com.languagematters.tessta.report.model.CustomDiff;
 import com.languagematters.tessta.report.service.ConfusionMapServices;
 import com.languagematters.tessta.report.service.DiffServices;
 import lombok.Data;
@@ -58,7 +59,7 @@ public class OcrTask {
             ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
 
             // Comparison
-            List<DiffServices.CustomDiff> deltas = DiffServices.getDefaultDiff(taskFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
+            List<CustomDiff> deltas = DiffServices.getDefaultDiff(taskFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
             // TODO : Save diff report
 
             // Confusion Matrix

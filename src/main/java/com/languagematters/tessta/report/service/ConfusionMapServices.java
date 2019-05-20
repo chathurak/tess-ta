@@ -1,40 +1,42 @@
 package com.languagematters.tessta.report.service;
 
 import com.languagematters.tessta.grammar.util.TextUtils;
-import com.languagematters.tessta.ocr.google.DiffMatchPatch;
+import com.languagematters.tessta.report.google.Operation;
 import com.languagematters.tessta.report.model.ConfusionMap;
+import com.languagematters.tessta.report.model.CustomDiff;
+import com.languagematters.tessta.report.model.CustomOperation;
 
 import java.util.List;
 
 public class ConfusionMapServices {
 
-    public static ConfusionMap getConfusionMap(List<DiffServices.CustomDiff> deltas) {
+    public static ConfusionMap getConfusionMap(List<CustomDiff> deltas) {
         ConfusionMap confusionMap = new ConfusionMap();
 
         for (int i = 0; i < deltas.size(); i++) {
-            DiffServices.CustomDiff currentDiff = deltas.get(i);
+            CustomDiff currentDiff = deltas.get(i);
 
-            if (currentDiff.googleDiffOperation == DiffMatchPatch.Operation.EQUAL) {    // Add equally matched
-                for (String letter : TextUtils.splitLetters(currentDiff.text)) {
+            if (currentDiff.getOperation() == Operation.EQUAL) {    // Add equally matched
+                for (String letter : TextUtils.splitLetters(currentDiff.getText())) {
                     if (!confusionMap.containsOuterKey(letter)) {
                         confusionMap.addOuterKey(letter);
                     }
 
                     confusionMap.incrementCount(letter, letter);
-                    confusionMap.addWord(letter, letter, currentDiff.text);
+                    confusionMap.addWord(letter, letter, currentDiff.getText());
 
                     break;
                 }
             } else {    // Add unmatched
                 try {   // Handle one character change
-                    DiffServices.CustomDiff preDiff = deltas.get(i - 1);
-                    DiffServices.CustomDiff nextDiff = deltas.get(i + 1);
-                    DiffServices.CustomDiff afterNextDiff = deltas.get(i + 2);
-                    if (preDiff.customOperation == DiffServices.CustomOperation.CUSTOM_EQUAL
-                            && afterNextDiff.customOperation == DiffServices.CustomOperation.CUSTOM_EQUAL
-                            && nextDiff.customOperation != DiffServices.CustomOperation.CUSTOM_EQUAL) {
-                        List<String> currentLetters = TextUtils.splitLetters(currentDiff.text);
-                        List<String> nextLetters = TextUtils.splitLetters(nextDiff.text);
+                    CustomDiff preDiff = deltas.get(i - 1);
+                    CustomDiff nextDiff = deltas.get(i + 1);
+                    CustomDiff afterNextDiff = deltas.get(i + 2);
+                    if (preDiff.getCustomOperation() == CustomOperation.CUSTOM_EQUAL
+                            && afterNextDiff.getCustomOperation() == CustomOperation.CUSTOM_EQUAL
+                            && nextDiff.getCustomOperation() != CustomOperation.CUSTOM_EQUAL) {
+                        List<String> currentLetters = TextUtils.splitLetters(currentDiff.getText());
+                        List<String> nextLetters = TextUtils.splitLetters(nextDiff.getText());
 
                         if (currentLetters.size() == nextLetters.size()) {
                             for (int j = 0; j < currentLetters.size(); j++) {
@@ -45,7 +47,7 @@ public class ConfusionMapServices {
                                 }
 
                                 confusionMap.incrementCount(currentLetter, nextLetter);
-                                confusionMap.addWord(currentLetter, nextLetter, currentDiff.text);
+                                confusionMap.addWord(currentLetter, nextLetter, currentDiff.getText());
                             }
                         }
                     }

@@ -1,9 +1,8 @@
-package com.languagematters.tessta.ocr.google;
+package com.languagematters.tessta.report.google;
 
-import com.languagematters.tessta.ocr.google.DiffMatchPatch.Diff;
-import com.languagematters.tessta.ocr.google.DiffMatchPatch.LinesToCharsResult;
-import com.languagematters.tessta.ocr.google.DiffMatchPatch.Operation;
-import com.languagematters.tessta.ocr.google.DiffMatchPatch.Patch;
+import com.languagematters.tessta.report.google.DiffMatchPatch.Diff;
+import com.languagematters.tessta.report.google.DiffMatchPatch.LinesToCharsResult;
+import com.languagematters.tessta.report.google.DiffMatchPatch.Patch;
 import junit.framework.TestCase;
 
 import java.util.*;
