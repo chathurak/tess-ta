@@ -5,51 +5,59 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LibraryInfoServices {
-    public static String LIBRARY_COLLECTION_NAME = "library";
+public class InfoServices {
+
+    @Value("${app.mongo.library-collection-name}")
+    private String libraryCollectionName;
 
     private final MongoDatabase mongoDatabase;
 
     @Autowired
-    public LibraryInfoServices(final MongoDatabase mongoDatabase) {
+    public InfoServices(final MongoDatabase mongoDatabase) {
         this.mongoDatabase = mongoDatabase;
     }
 
-    // Create new file in db
-    // =====================
-    // Sample JSON for input file
-    // {
-    //     "_id": "filename",
-    //     "drive_id": "drive_url_id"
-    // }
+    /**
+     * Sample JSON for input file
+     * {
+     *      "_id": "filename",
+     *      "drive_id": "drive_url_id"
+     * }
+     *
+     * @param jsonFileInfo
+     */
     public void addNewFile(String jsonFileInfo) {
         // Get collection
-        MongoCollection<Document> collection = mongoDatabase.getCollection(LIBRARY_COLLECTION_NAME);
+        MongoCollection<Document> collection = mongoDatabase.getCollection(libraryCollectionName);
 
         // Save doc
         Document doc = Document.parse(jsonFileInfo);
         collection.insertOne(doc);
     }
 
-    // Create new task in db
-    // =====================
-    // Sample JSON for task
-    // {
-    //     "task_id" : "taskid",
-    //     "datetime" : "datetime",
-    //     "files" : {
-    //         "inputfile" : "drive_id",
-    //         "outfile" : "drice_id",
-    //         ...
-    //     }
-    //     ...
-    // }
+    /**
+     * Sample JSON for task
+     * {
+     *      "task_id" : "taskid",
+     *      "datetime" : "datetime",
+     *      "files" : {
+     *          "inputfile" : "drive_id",
+     *          "outfile" : "drice_id",
+     *          ...
+     *      }
+     *      ...
+     * }
+     *
+     * @param filename
+     * @param jsonTaskInfo
+     */
     public void addNewTask(String filename, String jsonTaskInfo) {
         // Get collection
-        MongoCollection<Document> collection = mongoDatabase.getCollection(LIBRARY_COLLECTION_NAME);
+        MongoCollection<Document> collection = mongoDatabase.getCollection(libraryCollectionName);
 
         // Create filter
         BasicDBObject filter = new BasicDBObject();

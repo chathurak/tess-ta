@@ -1,29 +1,27 @@
-package com.languagematters.tessta.report.model;
+package com.languagematters.tessta.report.model.report;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import com.languagematters.tessta.grammar.util.DBUtils;
+import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.service.GoogleAPIServices;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-public class ConfusionReport {
+public class ConfusionSummaryReport {
 
     private static Sheets sheetsService;
     private static Drive driveService;
 
-    private ConfusionMap confusionMap;
+    ConfusionMap confusionMap;
 
-    private List<List<Object>> rows;
+    List<List<Object>> rows;
 
-    private ArrayList<String> characters;
-    private ArrayList<String> subCharacters;
-
-    public ConfusionReport(ConfusionMap confusionMap) throws IOException, GeneralSecurityException {
+    public ConfusionSummaryReport(ConfusionMap confusionMap) throws IOException, GeneralSecurityException {
         sheetsService = GoogleAPIServices.getSheetsInstance();
         driveService = GoogleAPIServices.getDriveInstance();
 
@@ -34,42 +32,52 @@ public class ConfusionReport {
         HashSet<String> exBlock = DBUtils.loadValues("select * from exblock", "character");
         LinkedHashSet<String> exBlockLinked = new LinkedHashSet<>(exBlock);
 
-        // Get characters and subCharacters
-        characters = new ArrayList<>();
-        subCharacters = new ArrayList<>();
-        HashMap<String, Boolean> subCharacterAdded = new HashMap<>();
+        // Create heading
+        rows.add(Arrays.asList("Accuracy percentage", "Error percentage", "Correct count", "Error count", "Total count", "Character", "Error(s)"));
+
+        int totalCorrectCount = 0;
+        int totalErrorCount = 0;
+
         for (String character : exBlockLinked) {
             if (confusionMap.containsOuterKey(character)) {
-                characters.add(character);
-                for (String subCharacter : exBlockLinked) {
-                    if (confusionMap.containsInnerKey(character, subCharacter) && !subCharacterAdded.getOrDefault(character, Boolean.FALSE)) {
-                        subCharacters.add(subCharacter);
-                        subCharacterAdded.put(subCharacter, Boolean.TRUE);
+                List<Object> row = new ArrayList<>();
+                int errorCount = 0;
+                int correctCount = 0;
+                List<String> errorWordList = new ArrayList<>();
+
+                for (Map.Entry<String, Integer> entry : confusionMap.getCountInnerEntrySet(character)) {
+                    if (character.equals(entry.getKey())) {
+                        correctCount += entry.getValue();
+                    } else {
+                        errorCount += entry.getValue();
+                        errorWordList.addAll(confusionMap.getWordList(character, entry.getKey()));
                     }
                 }
+
+                row.add(String.format("%.2f%%", 100.0 * correctCount / (correctCount + errorCount)));
+                row.add(String.format("%.2f%%", 100.0 * errorCount / (correctCount + errorCount)));
+                row.add(correctCount);
+                row.add(errorCount);
+                row.add(correctCount + errorCount);
+                row.add(character);
+                row.addAll(errorWordList);
+
+                totalCorrectCount += correctCount;
+                totalErrorCount += errorCount;
+
+                rows.add(row);
             }
         }
 
-        // Create heading
-        List<Object> heading = new ArrayList<>();
-        heading.add(" ");
-        heading.addAll(subCharacters);
-        rows.add(heading);
+        // Add summary row
+        List<Object> row = new ArrayList<>();
+        row.add(String.format("%.2f%%", 100.0 * totalCorrectCount / (totalCorrectCount + totalErrorCount)));
+        row.add(String.format("%.2f%%", 100.0 * totalErrorCount / (totalCorrectCount + totalErrorCount)));
+        row.add(totalCorrectCount);
+        row.add(totalErrorCount);
+        row.add(totalCorrectCount + totalErrorCount);
 
-        for (String character : characters) {
-            List<Object> row = new ArrayList<>();
-            row.add(character);
-
-            for (String subCharacter : subCharacters) {
-                if (confusionMap.containsInnerKey(character, subCharacter)) {
-                    row.add(confusionMap.getCountValue(character, subCharacter));
-                } else {
-                    row.add("");
-                }
-            }
-
-            rows.add(row);
-        }
+        rows.add(row);
     }
 
     public void writeReport(String parentDirId, String outputFileName) throws IOException {
@@ -84,24 +92,19 @@ public class ConfusionReport {
                 .execute();
 
         // Update formatting
-        List<GridRange> fullRange = Collections.singletonList(new GridRange()
+        List<GridRange> summaryRange = Collections.singletonList(new GridRange()
                 .setSheetId(0)
-                .setStartRowIndex(0)
+                .setStartRowIndex(rows.size() - 1)
+                .setEndRowIndex(rows.size())
                 .setStartColumnIndex(0)
+                .setEndColumnIndex(5)
         );
-        List<GridRange> xHeaderRange = Collections.singletonList(new GridRange()
-                .setSheetId(0)
-                .setStartRowIndex(0)
-                .setEndRowIndex(1)
-                .setStartColumnIndex(1)
-                .setEndColumnIndex(subCharacters.size())
-        );
-        List<GridRange> yHeaderRange = Collections.singletonList(new GridRange()
+        List<GridRange> charRange = Collections.singletonList(new GridRange()
                 .setSheetId(0)
                 .setStartRowIndex(1)
-                .setEndRowIndex(characters.size() + 1)
-                .setStartColumnIndex(0)
-                .setEndColumnIndex(1)
+                .setEndRowIndex(rows.size() - 2)
+                .setStartColumnIndex(5)
+                .setEndColumnIndex(6)
         );
 
         List<Request> requests = Arrays.asList(
@@ -112,25 +115,15 @@ public class ConfusionReport {
                                                 .setSheetId(0)
                                                 .setDimension("COLUMNS")
                                                 .setStartIndex(0)
+                                                .setEndIndex(6)
                                 )
-                                .setProperties(new DimensionProperties().setPixelSize(30))
-                                .setFields("pixelSize")
-                ),
-                new Request().setUpdateDimensionProperties(
-                        new UpdateDimensionPropertiesRequest()
-                                .setRange(
-                                        new DimensionRange()
-                                                .setSheetId(0)
-                                                .setDimension("ROWS")
-                                                .setStartIndex(0)
-                                )
-                                .setProperties(new DimensionProperties().setPixelSize(30))
+                                .setProperties(new DimensionProperties().setPixelSize(100))
                                 .setFields("pixelSize")
                 ),
                 new Request().setAddConditionalFormatRule(
                         new AddConditionalFormatRuleRequest()
                                 .setRule(new ConditionalFormatRule()
-                                        .setRanges(xHeaderRange)
+                                        .setRanges(summaryRange)
                                         .setBooleanRule(new BooleanRule()
                                                 .setCondition(new BooleanCondition()
                                                         .setType("CUSTOM_FORMULA")
@@ -151,7 +144,7 @@ public class ConfusionReport {
                 new Request().setAddConditionalFormatRule(
                         new AddConditionalFormatRuleRequest()
                                 .setRule(new ConditionalFormatRule()
-                                        .setRanges(yHeaderRange)
+                                        .setRanges(charRange)
                                         .setBooleanRule(new BooleanRule()
                                                 .setCondition(new BooleanCondition()
                                                         .setType("CUSTOM_FORMULA")
