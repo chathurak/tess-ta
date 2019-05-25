@@ -1,11 +1,10 @@
-import Grid               from '@material-ui/core/Grid'
-import Paper              from '@material-ui/core/Paper'
-import {withStyles}       from '@material-ui/core/styles'
-import {DateTimePicker}   from 'material-ui-pickers'
-import PropTypes          from 'prop-types'
-import React              from 'react'
-import AutoCompleteSingle from './components/autocomplete/AutoCompleteSingle'
-import {styles}           from './styles'
+import Paper                  from '@material-ui/core/Paper'
+import {withStyles}           from '@material-ui/core/styles'
+import {InlineDateTimePicker} from 'material-ui-pickers'
+import PropTypes              from 'prop-types'
+import React                  from 'react'
+import AutoCompleteSingle     from './components/autocomplete/AutoCompleteSingle'
+import {styles}               from './styles'
 
 const suggestions = [
     {label: 'Afghanistan'},
@@ -68,23 +67,53 @@ class TaskPicker extends React.Component {
             {value: 'vanilla', label: 'Vanilla'}
         ]
 
+        const mask = [
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            '/',
+            /\d/,
+            /\d/,
+            '/',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ':',
+            /\d/,
+            /\d/,
+        ]
+
         return (
             <div>
                 <Paper className={classes.root} elevation={1}>
-                    <Grid className={classes.section1} container direction="row" justify="flex-start"
-                          alignItems="center">
-                        <DateTimePicker className={classes.datetimepicker} value={selectedDate}
-                                        onChange={this.handleDateChange} label="Start"/>
-                        <DateTimePicker className={classes.datetimepicker} value={selectedDate}
-                                        onChange={this.handleDateChange} label="End"/>
-                    </Grid>
-                    <Grid className={classes.section2} container direction="row" justify="flex-start"
-                          alignItems="center">
-                        <AutoCompleteSingle className={classes.select} options={suggestions}
-                                            placeholder="Select file ..."/>
-                        <AutoCompleteSingle className={classes.select} options={suggestions}
-                                            placeholder="Select task ..."/>
-                    </Grid>
+                    <InlineDateTimePicker
+                        className={classes.datetimepicker}
+                        value={selectedDate}
+                        onChange={this.handleDateChange}
+                        onError={console.log}
+                        keyboard
+                        ampm={false}
+                        format="yyyy/MM/dd HH:mm"
+                        mask={mask}
+                        label="Start"/>
+                    <InlineDateTimePicker
+                        className={classes.datetimepicker}
+                        value={selectedDate}
+                        onChange={this.handleDateChange}
+                        onError={console.log}
+                        keyboard
+                        ampm={false}
+                        format="yyyy/MM/dd HH:mm"
+                        mask={mask}
+                        disableFuture
+                        label="End"/>
+                    <AutoCompleteSingle className={classes.select} options={suggestions}
+                                        placeholder="Select file ..."/>
+                    <AutoCompleteSingle className={classes.select} options={suggestions}
+                                        placeholder="Select task ..."/>
                 </Paper>
             </div>
         )

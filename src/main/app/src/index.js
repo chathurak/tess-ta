@@ -8,7 +8,7 @@ import App                        from './App'
 import {store}                    from './helpers'
 import './index.sass'
 import * as serviceWorker         from './serviceWorker'
-import theme                      from './theme'
+import {theme}                    from './styles/theme'
 
 ReactDOM.render(
     <Provider store={store}>
