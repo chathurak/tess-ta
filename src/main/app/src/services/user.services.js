@@ -62,58 +62,19 @@ const getCurrentUser = () => {
 }
 
 const getAll = () => {
-    // const requestOptions = {
-    //     method : 'GET',
-    //     headers: authHeader()
-    // }
-    //
-    // return fetch(`/user`, requestOptions).then(handleResponse)
+    // TODO
 }
 
 const getById = (id) => {
-    // return axios.request({
-    //     method : 'get',
-    //     url    : '/api/user/',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // })
-    // .then(handleResponse)
+    // TODO
 }
 
 const update = () => {
-    // const requestOptions = {
-    //     method : 'PUT',
-    //     headers: {...authHeader(), 'Content-Type': 'application/json'},
-    //     body   : JSON.stringify(user)
-    // }
-    //
-    // return fetch(`/users/${user.id}`, requestOptions).then(handleResponse)
+    // TODO
 }
 
-const _delete = () => {
-    // const requestOptions = {
-    //     method : 'DELETE',
-    //     headers: authHeader()
-    // }
-    //
-    // return fetch(`/users/${id}`, requestOptions).then(handleResponse)
-}
-
-const handleResponse = response => {
-    const data = response.data
-    if (!response.ok) {
-        // Auto logout if 401 response returned from api
-        if (response.status === 401) {
-            signOut()
-            window.location.reload(true)
-        }
-
-        const error = (data && data.message) || response.statusText
-        return Promise.reject(error)
-    }
-
-    return response
+const _delete = (id) => {
+    // TODO
 }
 
 export const userServices = {

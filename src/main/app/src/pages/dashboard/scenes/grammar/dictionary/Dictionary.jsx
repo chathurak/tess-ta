@@ -3,7 +3,7 @@ import * as React    from 'react'
 import {styles}      from './styles'
 import ListItem      from '@material-ui/core/ListItem';
 import ListItemText  from '@material-ui/core/ListItemText';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import { FixedSizeList} from 'react-window';
 import Paper         from '@material-ui/core/Paper';
 import AddIcon       from '@material-ui/icons/Add';
 import Icon          from '@material-ui/core/Icon';

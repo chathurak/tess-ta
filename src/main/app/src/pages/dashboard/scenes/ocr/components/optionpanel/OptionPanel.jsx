@@ -6,8 +6,6 @@ import {styles}     from './styles'
 class OptionPanel extends React.Component {
 
     render() {
-        const {classes} = this.props
-
         return (
             <div className={this.props.className}>
                 <TaskPicker/>

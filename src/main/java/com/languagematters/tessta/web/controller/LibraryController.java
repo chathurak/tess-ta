@@ -25,7 +25,7 @@ public class LibraryController {
         this.taskServices = taskServices;
     }
 
-    @GetMapping("/userfiles")
+    @GetMapping("/documents")
     @PreAuthorize("hasRole('USER')")
     public List<UserFile> getUserFiles(@CurrentUser UserPrincipal currentUser) {
         return userFileServices.getUserFiles(currentUser.getId());

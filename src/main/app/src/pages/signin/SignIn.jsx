@@ -28,7 +28,6 @@ class SignIn extends React.Component {
         this.state = {
             email    : '',
             password : '',
-            submitted: false
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -52,9 +51,8 @@ class SignIn extends React.Component {
     }
 
     render() {
-        // TODO : Use loggingIn and submitted
-        const {classes, loggingIn}         = this.props
-        const {email, password, submitted} = this.state
+        const {classes}         = this.props
+        const {email, password} = this.state
 
         return (
             <main className={classes.root}>

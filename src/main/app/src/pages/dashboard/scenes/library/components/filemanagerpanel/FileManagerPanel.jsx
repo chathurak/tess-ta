@@ -59,13 +59,13 @@ class FileManagerPanel extends React.Component {
     };
 
     handleDelete = (event) => {
-        var selectedIndex = this.state.expanded;
+        // var selectedIndex = this.state.expanded;
 
         // TODO: Implement delete function
     };
 
     componentDidMount() {
-        fileServices.getUserFiles()
+        fileServices.getDocuments()
             .then((files) => {
                 console.log(files);
 

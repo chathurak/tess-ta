@@ -4,8 +4,6 @@ export const layout = {
     root          : {
         display      : 'flex',
         flexDirection: 'row',
-
-        backgroundColor: 'white',
     },
     workspacePanel: {
         display      : 'inline-flex',

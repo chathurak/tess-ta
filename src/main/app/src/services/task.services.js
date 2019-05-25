@@ -1,31 +1,31 @@
 import axios          from 'axios/index'
 import {ACCESS_TOKEN} from '../constants/auth.constants'
 
-const getDocuments = () => {
+const getTasks = (userFileId) => {
     return axios.request({
         method : 'get',
-        url    : '/api/library/documents',
+        url    : `/api/library/tasks?userFileId=${userFileId}`,
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
         }
     }).then((res) => {
-        let documentList = res.data.map(document => ({
-            id       : document.id,
-            userId   : document.userId,
-            name     : document.name,
-            createdAt: document.createdAt,
-            updatedAt: document.updatedAt
+        let taskList = res.data.map(task => ({
+            id        : task.id,
+            userFileId: task.userFileId,
+            tessdataId: task.tessdataId,
+            createdAt : task.createdAt,
+            updatedAt : task.updatedAt
         }))
 
         return new Promise((resolve, reject) => {
-            resolve(documentList)
+            resolve(taskList)
         })
     }).catch((error) => {
         console.log(error)
     })
 }
 
-export const fileServices = {
-    getDocuments
+export const taskServices = {
+    getTasks
 }

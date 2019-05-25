@@ -62,8 +62,8 @@ class SignUp extends React.Component {
     }
 
     render() {
-        const {classes, registering} = this.props
-        const {user, submitted}      = this.state
+        const {classes} = this.props
+        const {user}    = this.state
 
         return (
             <main className={classes.root}>

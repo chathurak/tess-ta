@@ -1,10 +1,11 @@
-import {withStyles}           from '@material-ui/core/styles'
-import {InlineDateTimePicker} from 'material-ui-pickers'
-import PropTypes              from 'prop-types'
-import React                  from 'react'
-import {fileServices}         from '../../../../services'
-import AutoCompleteAsync      from './components/autocomplete/AutoCompleteAsync'
-import {styles}               from './styles'
+import {withStyles}                 from '@material-ui/core/styles'
+import {KeyboardDateTimePicker}       from '@material-ui/pickers'
+import PropTypes                    from 'prop-types'
+import React                        from 'react'
+import {connect}                    from 'react-redux'
+import {fileServices, taskServices} from '../../../../services'
+import AutoCompleteAsync            from './components/autocomplete/AutoCompleteAsync'
+import {styles}                     from './styles'
 
 class TaskPicker extends React.Component {
 
@@ -17,35 +18,29 @@ class TaskPicker extends React.Component {
         this.setState({selectedDate: date})
     }
 
-    render() {
-        const {classes}      = this.props
-        const {selectedDate} = this.state
-        const mask           = [
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            '/',
-            /\d/,
-            /\d/,
-            '/',
-            /\d/,
-            /\d/,
-            ' ',
-            /\d/,
-            /\d/,
-            ':',
-            /\d/,
-            /\d/,
-        ]
+    handleDocumentChange = x => {
+        console.log(x)
+    }
 
-        const promiseUserFiles = () => {
-            let options = fileServices.getUserFiles()
-                .then(userFiles => {
-                    return userFiles.map(userFile => ({
-                        value: userFile.id,
-                        label: userFile.name
+    handleTaskChange = (x, y) => {
+        console.log(x)
+        console.log(y)
+    }
+
+    render() {
+        const {classes, selectedDocument} = this.props
+        const {selectedDate}              = this.state
+
+        const promiseDocuments = () => {
+            let options = fileServices.getDocuments()
+                .then(documents => {
+                    return documents.map(document => ({
+                        value: document.id,
+                        label: document.name
                     }))
+                })
+                .catch(err => {
+                    console.log(err)
                 })
 
             return new Promise(resolve => {
@@ -56,12 +51,15 @@ class TaskPicker extends React.Component {
         }
 
         const promiseUserTasks = () => {
-            let options = fileServices.getUserFiles()
-                .then(userFiles => {
-                    return userFiles.map(userFile => ({
-                        value: userFile.id,
-                        label: userFile.name
+            let options = taskServices.getTasks()
+                .then(tasks => {
+                    return tasks.map(task => ({
+                        value: task.id,
+                        label: task.name
                     }))
+                })
+                .catch(err => {
+                    console.log(err)
                 })
 
             return new Promise(resolve => {
@@ -74,40 +72,41 @@ class TaskPicker extends React.Component {
         return (
             <div>
                 <div className={classes.root}>
-                    <InlineDateTimePicker
+                    <KeyboardDateTimePicker
                         className={classes.datetimepicker}
                         value={selectedDate}
                         onChange={this.handleDateChange}
                         onError={console.log}
-                        keyboard
+                        variant="inline"
                         ampm={false}
                         format="yyyy/MM/dd HH:mm"
-                        mask={mask}
                         label="Start"
                     />
-                    <InlineDateTimePicker
+                    <KeyboardDateTimePicker
                         className={classes.datetimepicker}
                         value={selectedDate}
                         onChange={this.handleDateChange}
                         onError={console.log}
-                        keyboard
+                        variant="inline"
                         ampm={false}
                         format="yyyy/MM/dd HH:mm"
-                        mask={mask}
                         disableFuture
                         label="End"
                     />
                     <AutoCompleteAsync
                         className={classes.select}
-                        placeholder="Select file ..."
-                        label="User-file"
-                        loadOptions={promiseUserFiles}
+                        placeholder="Select document ..."
+                        label="Document"
+                        loadOptions={promiseDocuments}
+                        onChange={this.handleDocumentChange}
+                        isMulti
                     />
                     <AutoCompleteAsync
                         className={classes.select}
                         placeholder="Select task ..."
-                        label="File-task"
+                        label="Task"
                         loadOptions={promiseUserTasks}
+                        onChange={this.handleTaskChange}
                     />
                 </div>
             </div>
@@ -121,4 +120,13 @@ TaskPicker.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(TaskPicker)
+const mapStateToProps = (state) => {
+    const {selectedDocument, selectedTask} = state.taskPickerReducer
+    return {
+        selectedDocument,
+        selectedTask
+    }
+}
+
+const styledComponent = withStyles(styles, {withTheme: true})(TaskPicker)
+export default connect(mapStateToProps)(styledComponent)
