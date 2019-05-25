@@ -4,15 +4,16 @@ import com.languagematters.tessta.library.model.Task;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.library.services.UserFileServices;
+import com.languagematters.tessta.web.security.CurrentUser;
+import com.languagematters.tessta.web.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/library")
 public class LibraryController {
 
     private final UserFileServices userFileServices;
@@ -24,14 +25,16 @@ public class LibraryController {
         this.taskServices = taskServices;
     }
 
-    @RequestMapping(value = "/api/library/userfiles", method = RequestMethod.GET)
-    public List<UserFile> getUserFiles() {
-        return userFileServices.getUserFiles();
+    @GetMapping("/userfiles")
+    @PreAuthorize("hasRole('USER')")
+    public List<UserFile> getUserFiles(@CurrentUser UserPrincipal currentUser) {
+        return userFileServices.getUserFiles(currentUser.getId());
     }
 
-    @RequestMapping(value = "/api/library/tasks", method = RequestMethod.GET)
-    public List<Task> getTasks(@RequestParam(value = "userfilename") String userFileName) {
-        return taskServices.getTasks(userFileName);
+    @GetMapping("/tasks")
+    @PreAuthorize("hasRole('USER')")
+    public List<Task> getTasks(@RequestParam(value = "userFileId") int userFileId) {
+        return taskServices.getTasks(userFileId);
     }
 
 }

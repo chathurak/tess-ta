@@ -1,7 +1,8 @@
 package com.languagematters.tessta.library.services;
 
 import com.languagematters.tessta.library.model.UserFile;
-import org.springframework.beans.factory.annotation.Value;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -11,38 +12,30 @@ import java.util.List;
 @Service
 public class UserFileServices {
 
-    @Value("${app.mysql.uri}")
-    private String mysqlUri;
+    private final Connection connection;
 
-    @Value("${app.mysql.user}")
-    private String mysqlUser;
+    @Autowired
+    public UserFileServices(final Connection connection) {
+        this.connection = connection;
+    }
 
-    @Value("${app.mysql.password}")
-    private String mysqlPassword;
-
-    public List<UserFile> getUserFiles() {
-        int userId = 1; // TODO: Get userId from session
-        List<UserFile> userFiles = new ArrayList<UserFile>();
+    public List<UserFile> getUserFiles(int userId) {
+        List<UserFile> userFiles = new ArrayList<>();
 
         try {
-            Connection conn = DriverManager.getConnection(mysqlUri, mysqlUser, mysqlPassword);
+            String sql = "SELECT * FROM user_file where user_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
 
-            // TODO :
-            if (conn != null) {
-                String sql = "SELECT * FROM user_file";
-
-                Statement statement = conn.createStatement();
-                ResultSet result = statement.executeQuery(sql);
-
-                while (result.next()) {
-//                    UserFile userFile = new UserFile();
-//                    userFile.setName(result.getString("name"));
-//                    userFile.setPath(result.getString("path"));
-//                    userFile.setIsText(result.getInt("is_text") == 1);
-//                    userFile.setCreatedAt(result.getDate("created_at"));
-//                    userFile.setUserId(result.getInt("user_id"));
-//                    userFiles.add(userFile);
-                }
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                UserFile userFile = new UserFile();
+                userFile.setId(result.getInt("id"));
+                userFile.setUserId(result.getInt("user_id"));
+                userFile.setName(result.getString("name"));
+                userFile.setCreatedAt(result.getDate("created_at"));
+                userFile.setUpdatedAt(result.getDate("updated_at"));
+                userFiles.add(userFile);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -51,39 +44,33 @@ public class UserFileServices {
         return userFiles;
     }
 
-    public void createUserFile(UserFile userFile) {
-        int userId = 1; // TODO: Get userId from session
-
+    public int createUserFile(@NotNull UserFile userFile) {
         try {
-            Connection conn = DriverManager.getConnection(mysqlUri, mysqlUser, mysqlPassword);
+            String sql = "INSERT INTO user_file (user_id, name, created_at, updated_at) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, userFile.getUserId());
+            statement.setString(2, userFile.getName());
+            statement.setDate(3, new java.sql.Date(userFile.getCreatedAt().getTime()));
+            statement.setDate(4, new java.sql.Date(userFile.getUpdatedAt().getTime()));
 
-            // TODO :
-            if (conn != null) {
-                String sql = "INSERT INTO user_file (name, path, is_text, created_at, user_id) VALUES (?, ?, ?, ?, ?)";
-
-                PreparedStatement statement = conn.prepareStatement(sql);
-
-//                statement.setString(1, userFile.getName());
-//                statement.setString(2, userFile.getPath());
-//                statement.setInt(3, (userFile.getIsText() ? 1 : 0));
-//                statement.setDate(4, new java.sql.Date(userFile.getCreatedAt().getTime()));
-//                statement.setInt(5, userFile.getUserId());
-
-                int rowsInserted = statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
+            ResultSet result = statement.getGeneratedKeys();
+            if (result.next()) {
+                return result.getInt(1);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-
+        return -1;
     }
 
     public void deleteUserFile(String userFileName) {
-        // TODO: Implement delete from the db
+        // TODO
     }
 
     public void rename(String userFileName, String newName) {
-        // TODO: Implement rename
+        // TODO
     }
 }
 

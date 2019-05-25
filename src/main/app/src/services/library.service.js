@@ -18,10 +18,10 @@ function getUserFiles() {
     })
 }
 
-function getTasks(userFileName) {
+function getTasks(userFileId) {
     return axios.request({
         method : 'get',
-        url    : '/api/library/tasks?userfilename=' + userFileName,
+        url    : '/api/library/tasks?userFileId=' + userFileId,
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)

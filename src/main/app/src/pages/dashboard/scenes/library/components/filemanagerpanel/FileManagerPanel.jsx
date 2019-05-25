@@ -51,7 +51,7 @@ class FileManagerPanel extends React.Component {
 
         if (expanded) {
             this.setState({ isLoading: true })
-            LibraryService.getTasks(this.state.files[panel].name)
+            LibraryService.getTasks(this.state.files[panel].id)
             .then(res => {
                 console.log(res.data);
     

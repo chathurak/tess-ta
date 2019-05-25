@@ -13,5 +13,5 @@ public class Task {
     private int tessdataId;
 
     private Date createdAt;
-    private int updatedBy;
+    private Date updatedAt;
 }

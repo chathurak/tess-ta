@@ -2,9 +2,10 @@ package com.languagematters.tessta.web.controller;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
+import com.languagematters.tessta.library.model.UserFile;
+import com.languagematters.tessta.library.services.UserFileServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
-import com.languagematters.tessta.web.service.AsynchronousServices;
 import com.languagematters.tessta.web.service.StorageServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,39 +14,40 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/file")
 public class FileController {
 
     private final StorageServices storageServices;
-    private final AsynchronousServices asynchronousServices;
+    private final UserFileServices userFileServices;
 
     @Autowired
-    public FileController(final StorageServices storageServices, final AsynchronousServices asynchronousServices) {
+    public FileController(final StorageServices storageServices, final UserFileServices userFileServices) {
         this.storageServices = storageServices;
-        this.asynchronousServices = asynchronousServices;
+        this.userFileServices = userFileServices;
     }
 
     @PostMapping("/process")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file,
-                                          @CurrentUser UserPrincipal currentUser) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        String fileId = Hashing.sha512().newHasher().putString(file.getOriginalFilename(), Charsets.UTF_8).hash().toString();
-        String taskId = LocalDateTime.now().format(formatter);
+    public ResponseEntity<String> process(@CurrentUser UserPrincipal currentUser,
+                                          @RequestParam("filepond") MultipartFile file) {
+        Date timestamp = new Date();
 
         try {
-            storageServices.store(file, String.format("%s/%s/%s/", currentUser.getUsername(), fileId, taskId));
+            UserFile userFile = new UserFile();
+            userFile.setUserId(currentUser.getId());
+            userFile.setName(file.getOriginalFilename());
+            userFile.setCreatedAt(timestamp);
+            userFile.setUpdatedAt(timestamp);
+            int fileId = userFileServices.createUserFile(userFile);
 
-            // TODO : Delete this processing part
-            asynchronousServices.executeOcrTask(fileId, taskId, currentUser.getUsername(), file.getOriginalFilename());
+            storageServices.store(file, String.format("%s/%d/", currentUser.getUsername(), fileId));
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(fileId);
+                    .body(String.valueOf(fileId));
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
