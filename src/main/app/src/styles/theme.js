@@ -1,7 +1,7 @@
 import {createMuiTheme}                from '@material-ui/core'
 import {lightBlue}                     from '@material-ui/core/colors/index'
-import {layout as common}              from './_common'
-import {layout as fileWorkspaceLayout} from './layouts/_workspace-option.layout'
+import {layout as common}              from './common'
+import {layout as fileWorkspaceLayout} from './layouts/workspace-option.layout'
 
 export const theme = createMuiTheme({
     palette   : {

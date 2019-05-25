@@ -31,20 +31,20 @@ class OptionPanel extends React.Component {
         const {classes} = this.props
 
         return (
-            <div      className     = {this.props.className}>
-            <FilePond className     = {classes.filePond}
-                      ref           = {ref => (this.pond = ref)}
-                      files         = {this.state.files}
-                      allowMultiple = {true}
-                      maxFiles      = {3}
-                      server        = {filepondConfig}
-                      oninit        = {() => this.handleInit()}
-                      onupdatefiles = {fileItems => {
+            <div className={this.props.className}>
+                <FilePond className={classes.filePond}
+                          ref={ref => (this.pond = ref)}
+                          files={this.state.files}
+                          allowMultiple={true}
+                          maxFiles={3}
+                          server={filepondConfig}
+                          oninit={() => this.handleInit()}
+                          onupdatefiles={fileItems => {
                               // Set currently active file objects to this.state
                               this.setState({
                                   files: fileItems.map(fileItem => fileItem.file)
                               })
-                        }}
+                          }}
                 />
             </div>
         )

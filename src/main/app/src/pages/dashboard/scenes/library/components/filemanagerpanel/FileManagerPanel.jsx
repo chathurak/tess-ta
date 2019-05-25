@@ -14,7 +14,7 @@ import TableCell                from '@material-ui/core/TableCell';
 import TableHead                from '@material-ui/core/TableHead';
 import TableRow                 from '@material-ui/core/TableRow';
 import Input                    from '@material-ui/core/Input';
-import { LibraryService }       from '../../../../../../services/library.service'
+import { fileServices }       from '../../../../../../services'
 import LinearProgress           from '@material-ui/core/LinearProgress';
 
 
@@ -43,12 +43,12 @@ class FileManagerPanel extends React.Component {
 
         if (expanded) {
             this.setState({ isLoading: true });
-            LibraryService.getTasks(this.state.files[panel].id)
-                .then((res) => {
-                    console.log(res.data);
+            fileServices.getTasks(this.state.files[panel].id)
+                .then((tasks) => {
+                    console.log(tasks);
 
                     this.setState({
-                        taskInfo : res.data,
+                        taskInfo : tasks,
                         isLoading: false
                     });
                 })
@@ -65,12 +65,12 @@ class FileManagerPanel extends React.Component {
     };
 
     componentDidMount() {
-        LibraryService.getUserFiles()
-            .then((res) => {
-                console.log(res.data);
+        fileServices.getUserFiles()
+            .then((files) => {
+                console.log(files);
 
                 this.setState({
-                    files    : res.data,
+                    files    : files,
                     isLoading: false
                 });
             })

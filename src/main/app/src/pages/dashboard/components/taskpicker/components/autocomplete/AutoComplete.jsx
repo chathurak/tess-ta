@@ -24,7 +24,7 @@ const components = {
     ValueContainer,
 }
 
-class AutoCompleteSingle extends React.Component {
+class AutoComplete extends React.Component {
 
     state = {
         single: null,
@@ -38,7 +38,8 @@ class AutoCompleteSingle extends React.Component {
     }
 
     render() {
-        const {classes, theme} = this.props
+        const {classes, theme}                = this.props
+        const {isMulti, options, placeholder} = this.props
 
         const selectStyles = {
             input: base => ({
@@ -56,22 +57,30 @@ class AutoCompleteSingle extends React.Component {
                     <Select
                         classes={classes}
                         styles={selectStyles}
-                        options={this.props.options}
+                        textFieldProps={{
+                            label          : this.props.label,
+                            InputLabelProps: {
+                                shrink: true,
+                            },
+                        }}
+                        options={options}
                         components={components}
-                        value={this.state.single}
-                        onChange={this.handleChange('single')}
-                        placeholder={this.props.placeholder}
-                        isClearable
+                        value={isMulti ? this.state.multi : this.state.single}
+                        onChange={this.handleChange(isMulti ? 'multi' : 'single')}
+                        placeholder={placeholder}
+                        isClearable={!isMulti}
+                        isMulti={isMulti}
                     />
                 </NoSsr>
             </div>
         )
     }
+
 }
 
-AutoCompleteSingle.propTypes = {
+AutoComplete.propTypes = {
     classes: PropTypes.object.isRequired,
     theme  : PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(AutoCompleteSingle)
+export default withStyles(styles, {withTheme: true})(AutoComplete)

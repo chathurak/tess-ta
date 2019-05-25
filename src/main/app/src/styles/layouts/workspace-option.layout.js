@@ -1,4 +1,4 @@
-import {layout as common} from '../_common'
+import {layout as common} from '../common'
 
 export const layout = {
     root          : {

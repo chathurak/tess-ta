@@ -6,15 +6,15 @@ import {styles}         from './styles'
 
 class Library extends React.Component {
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props
 
         return (
             <div className={classes.root}>
-                <FileManagerPanel className={classes.workspacePanel} />
-                <OptionPanel className={classes.optionPanel} />
+                <FileManagerPanel className={classes.workspacePanel}/>
+                <OptionPanel className={classes.optionPanel}/>
             </div>
-        );
+        )
     }
 }
 
-export default withStyles(styles, { withTheme: true })(Library);
+export default withStyles(styles, {withTheme: true})(Library)

@@ -1,50 +1,10 @@
-import Paper                  from '@material-ui/core/Paper'
 import {withStyles}           from '@material-ui/core/styles'
 import {InlineDateTimePicker} from 'material-ui-pickers'
 import PropTypes              from 'prop-types'
 import React                  from 'react'
-import AutoCompleteSingle     from './components/autocomplete/AutoCompleteSingle'
+import {fileServices}         from '../../../../services'
+import AutoCompleteAsync      from './components/autocomplete/AutoCompleteAsync'
 import {styles}               from './styles'
-
-const suggestions = [
-    {label: 'Afghanistan'},
-    {label: 'Aland Islands'},
-    {label: 'Albania'},
-    {label: 'Algeria'},
-    {label: 'American Samoa'},
-    {label: 'Andorra'},
-    {label: 'Angola'},
-    {label: 'Anguilla'},
-    {label: 'Antarctica'},
-    {label: 'Antigua and Barbuda'},
-    {label: 'Argentina'},
-    {label: 'Armenia'},
-    {label: 'Aruba'},
-    {label: 'Australia'},
-    {label: 'Austria'},
-    {label: 'Azerbaijan'},
-    {label: 'Bahamas'},
-    {label: 'Bahrain'},
-    {label: 'Bangladesh'},
-    {label: 'Barbados'},
-    {label: 'Belarus'},
-    {label: 'Belgium'},
-    {label: 'Belize'},
-    {label: 'Benin'},
-    {label: 'Bermuda'},
-    {label: 'Bhutan'},
-    {label: 'Bolivia, Plurinational State of'},
-    {label: 'Bonaire, Sint Eustatius and Saba'},
-    {label: 'Bosnia and Herzegovina'},
-    {label: 'Botswana'},
-    {label: 'Bouvet Island'},
-    {label: 'Brazil'},
-    {label: 'British Indian Ocean Territory'},
-    {label: 'Brunei Darussalam'},
-].map(suggestion => ({
-    value: suggestion.label,
-    label: suggestion.label,
-}))
 
 class TaskPicker extends React.Component {
 
@@ -60,14 +20,7 @@ class TaskPicker extends React.Component {
     render() {
         const {classes}      = this.props
         const {selectedDate} = this.state
-
-        const options = [
-            {value: 'chocolate', label: 'Chocolate'},
-            {value: 'strawberry', label: 'Strawberry'},
-            {value: 'vanilla', label: 'Vanilla'}
-        ]
-
-        const mask = [
+        const mask           = [
             /\d/,
             /\d/,
             /\d/,
@@ -86,9 +39,41 @@ class TaskPicker extends React.Component {
             /\d/,
         ]
 
+        const promiseUserFiles = () => {
+            let options = fileServices.getUserFiles()
+                .then(userFiles => {
+                    return userFiles.map(userFile => ({
+                        value: userFile.id,
+                        label: userFile.name
+                    }))
+                })
+
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(options)
+                }, 1000)
+            })
+        }
+
+        const promiseUserTasks = () => {
+            let options = fileServices.getUserFiles()
+                .then(userFiles => {
+                    return userFiles.map(userFile => ({
+                        value: userFile.id,
+                        label: userFile.name
+                    }))
+                })
+
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(options)
+                }, 1000)
+            })
+        }
+
         return (
             <div>
-                <Paper className={classes.root} elevation={1}>
+                <div className={classes.root}>
                     <InlineDateTimePicker
                         className={classes.datetimepicker}
                         value={selectedDate}
@@ -98,7 +83,8 @@ class TaskPicker extends React.Component {
                         ampm={false}
                         format="yyyy/MM/dd HH:mm"
                         mask={mask}
-                        label="Start"/>
+                        label="Start"
+                    />
                     <InlineDateTimePicker
                         className={classes.datetimepicker}
                         value={selectedDate}
@@ -109,12 +95,21 @@ class TaskPicker extends React.Component {
                         format="yyyy/MM/dd HH:mm"
                         mask={mask}
                         disableFuture
-                        label="End"/>
-                    <AutoCompleteSingle className={classes.select} options={suggestions}
-                                        placeholder="Select file ..."/>
-                    <AutoCompleteSingle className={classes.select} options={suggestions}
-                                        placeholder="Select task ..."/>
-                </Paper>
+                        label="End"
+                    />
+                    <AutoCompleteAsync
+                        className={classes.select}
+                        placeholder="Select file ..."
+                        label="User-file"
+                        loadOptions={promiseUserFiles}
+                    />
+                    <AutoCompleteAsync
+                        className={classes.select}
+                        placeholder="Select task ..."
+                        label="File-task"
+                        loadOptions={promiseUserTasks}
+                    />
+                </div>
             </div>
         )
     }

@@ -2,7 +2,7 @@ import NoSsr            from '@material-ui/core/NoSsr'
 import {withStyles}     from '@material-ui/core/styles'
 import PropTypes        from 'prop-types'
 import React            from 'react'
-import Select           from 'react-select'
+import AsyncSelect      from 'react-select/lib/Async'
 import Control          from './components/Control'
 import Menu             from './components/Menu'
 import MultiValue       from './components/MultiValue'
@@ -24,7 +24,7 @@ const components = {
     ValueContainer,
 }
 
-class AutoCompleteMulti extends React.Component {
+class AutoCompleteAsync extends React.Component {
 
     state = {
         single: null,
@@ -38,7 +38,8 @@ class AutoCompleteMulti extends React.Component {
     }
 
     render() {
-        const {classes, theme} = this.props
+        const {classes, theme}                             = this.props
+        const {isMulti, options, placeholder, loadOptions} = this.props
 
         const selectStyles = {
             input: base => ({
@@ -51,33 +52,40 @@ class AutoCompleteMulti extends React.Component {
         }
 
         return (
-            <div className={classes.root}>
+            <div className={this.props.className}>
                 <NoSsr>
-                    <Select
+                    <AsyncSelect
                         classes={classes}
                         styles={selectStyles}
                         textFieldProps={{
-                            label          : 'Label',
+                            label          : this.props.label,
                             InputLabelProps: {
                                 shrink: true,
                             },
                         }}
-                        options={this.props.options}
+                        options={options}
                         components={components}
-                        value={this.state.multi}
-                        onChange={this.handleChange('multi')}
-                        placeholder="Select..."
-                        isMulti
+                        value={isMulti ? this.state.multi : this.state.single}
+                        onChange={this.handleChange(isMulti ? 'multi' : 'single')}
+                        placeholder={placeholder}
+                        isClearable={!isMulti}
+                        isMulti={isMulti}
+
+                        // Async stuff
+                        cacheOptions
+                        defaultOptions
+                        loadOptions={loadOptions}
                     />
                 </NoSsr>
             </div>
         )
     }
+
 }
 
-AutoCompleteMulti.propTypes = {
+AutoCompleteAsync.propTypes = {
     classes: PropTypes.object.isRequired,
     theme  : PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(AutoCompleteMulti)
+export default withStyles(styles, {withTheme: true})(AutoCompleteAsync)
