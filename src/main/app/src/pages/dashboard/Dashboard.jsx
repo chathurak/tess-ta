@@ -8,6 +8,7 @@ import Sidebar      from './components/sidebar/Sidebar'
 import Home         from './scenes/home/Home'
 import Library      from './scenes/library/Library'
 import Ocr          from './scenes/ocr/Ocr'
+import Grammar      from './scenes/grammar/Grammar'
 import {styles}     from './styles'
 
 class Dashboard extends React.Component {
@@ -25,6 +26,7 @@ class Dashboard extends React.Component {
                     <Route exact path='/home' component={Home}/>
                     <Route exact path='/library' component={Library}/>
                     <Route exact path='/ocr' component={Ocr}/>
+                    <Route exact path='/grammar' component={Grammar}/>
                 </main>
             </div>
         )
