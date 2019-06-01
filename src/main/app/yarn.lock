@@ -4211,10 +4211,10 @@ filepond-plugin-image-preview@^4.1.1:
   resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.1.1.tgz#7294332e9e9ee9592b0ccd96da4eb90b8ca683ec"
   integrity sha512-cQZPWJ0iltLTmJ5iKCEBX6DShk9GDjpUhKjByaw7QuzAa3RnoU0E7K/W0Zod1+ZLch+tbNZ6ySBEjm9RrNy+6Q==
 
-filepond@^4.4.6:
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.4.6.tgz#92c7367cc713a4e5270a58791c4727dda70c6360"
-  integrity sha512-XqCCi+UvHbbWYnj3wtsFBpHYUe2l3kHcSdYpYzz7iuie4UQ2af/rykiqbesNTGi3CYke2glKygwLeNrlTsU/tA==
+filepond@^4.4.8:
+  version "4.4.8"
+  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.4.8.tgz#92af7fe3973ddf47328761926ef87e06d6688e12"
+  integrity sha512-wIgFuB5aHcGwMpl4DTCrTLGRTBSokzlX0qZdPbP0X4i/uo4jUg1HwrsW0LPQ+CZ+wO4YbuS74e/HiptcK1n8Mw==
 
 fileset@^2.0.3:
   version "2.0.3"
