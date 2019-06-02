@@ -31,10 +31,14 @@ class AutoComplete extends React.Component {
         multi : null,
     }
 
-    handleChange = name => value => {
-        this.setState({
-            [name]: value,
-        })
+    handleChange = (name, outerFun) => {
+        return value => {
+            this.setState({
+                [name]: value,
+            })
+
+            outerFun(value)
+        }
     }
 
     render() {
@@ -66,7 +70,7 @@ class AutoComplete extends React.Component {
                         options={options}
                         components={components}
                         value={isMulti ? this.state.multi : this.state.single}
-                        onChange={this.handleChange(isMulti ? 'multi' : 'single')}
+                        onChange={this.handleChange((isMulti ? 'multi' : 'single'), this.props.onChange)}
                         placeholder={placeholder}
                         isClearable={!isMulti}
                         isMulti={isMulti}

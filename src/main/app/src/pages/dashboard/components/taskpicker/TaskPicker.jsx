@@ -1,10 +1,11 @@
 import {withStyles}                 from '@material-ui/core/styles'
-import {KeyboardDateTimePicker}       from '@material-ui/pickers'
+import {KeyboardDateTimePicker}     from '@material-ui/pickers'
 import PropTypes                    from 'prop-types'
 import React                        from 'react'
 import {connect}                    from 'react-redux'
 import {fileServices, taskServices} from '../../../../services'
 import AutoCompleteAsync            from './components/autocomplete/AutoCompleteAsync'
+import {actions}                    from './duck'
 import {styles}                     from './styles'
 
 class TaskPicker extends React.Component {
@@ -19,55 +20,57 @@ class TaskPicker extends React.Component {
     }
 
     handleDocumentChange = x => {
+        const {dispatch} = this.props
+        dispatch(actions.selectDocument(x))
+    }
+
+    handleTaskChange = (x) => {
         console.log(x)
     }
 
-    handleTaskChange = (x, y) => {
-        console.log(x)
-        console.log(y)
+    promiseDocuments = () => {
+        let options = fileServices.getDocuments()
+            .then(documents => {
+                return documents.map(document => ({
+                    value: document.id,
+                    label: document.name
+                }))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(options)
+            }, 1000)
+        })
+    }
+
+    promiseUserTasks = () => {
+        const {selectedDocument} = this.props
+
+        let options = typeof selectedDocument === 'undefined' ? [] : taskServices.getTasks(selectedDocument.value)
+            .then(tasks => {
+                return tasks.map(task => ({
+                    value: task.id,
+                    label: task.name
+                }))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(options)
+            }, 1000)
+        })
     }
 
     render() {
         const {classes, selectedDocument} = this.props
         const {selectedDate}              = this.state
-
-        const promiseDocuments = () => {
-            let options = fileServices.getDocuments()
-                .then(documents => {
-                    return documents.map(document => ({
-                        value: document.id,
-                        label: document.name
-                    }))
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(options)
-                }, 1000)
-            })
-        }
-
-        const promiseUserTasks = () => {
-            let options = taskServices.getTasks()
-                .then(tasks => {
-                    return tasks.map(task => ({
-                        value: task.id,
-                        label: task.name
-                    }))
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve(options)
-                }, 1000)
-            })
-        }
 
         return (
             <div>
@@ -97,16 +100,15 @@ class TaskPicker extends React.Component {
                         className={classes.select}
                         placeholder="Select document ..."
                         label="Document"
-                        loadOptions={promiseDocuments}
+                        loadOptions={this.promiseDocuments}
                         onChange={this.handleDocumentChange}
-                        isMulti
                     />
                     <AutoCompleteAsync
+                        key={typeof selectedDocument === 'undefined' ? 'x' : selectedDocument.value}
                         className={classes.select}
                         placeholder="Select task ..."
                         label="Task"
-                        // loadOptions={promiseUserTasks}
-                        loadOptions={promiseDocuments}
+                        loadOptions={this.promiseUserTasks}
                         onChange={this.handleTaskChange}
                     />
                 </div>

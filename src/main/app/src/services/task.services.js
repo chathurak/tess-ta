@@ -1,10 +1,10 @@
 import axios          from 'axios/index'
 import {ACCESS_TOKEN} from '../constants/auth.constants'
 
-const getTasks = (userFileId) => {
+const getTasks = (documentId) => {
     return axios.request({
         method : 'get',
-        url    : `/api/library/tasks?userFileId=${userFileId}`,
+        url    : `/api/library/tasks?documentId=${documentId}`,
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)

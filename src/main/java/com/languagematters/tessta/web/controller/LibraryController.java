@@ -33,8 +33,8 @@ public class LibraryController {
 
     @GetMapping("/tasks")
     @PreAuthorize("hasRole('USER')")
-    public List<Task> getTasks(@RequestParam(value = "userFileId") int userFileId) {
-        return taskServices.getTasks(userFileId);
+    public List<Task> getTasks(@RequestParam(value = "documentId") int documentId) {
+        return taskServices.getTasks(documentId);
     }
 
 }
