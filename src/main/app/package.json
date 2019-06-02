@@ -9,7 +9,7 @@
     "axios": "^0.18.0",
     "date-fns": "^2.0.0-alpha.27",
     "filepond": "^4.4.8",
-    "filepond-plugin-image-preview": "^4.1.1",
+    "filepond-plugin-image-preview": "^4.2.1",
     "history": "^4.9.0",
     "material-ui-pickers": "^2.2.4",
     "node-sass": "^4.12.0",

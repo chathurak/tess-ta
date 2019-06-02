@@ -4206,10 +4206,10 @@ file-loader@3.0.1:
     loader-utils "^1.0.2"
     schema-utils "^1.0.0"
 
-filepond-plugin-image-preview@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.1.1.tgz#7294332e9e9ee9592b0ccd96da4eb90b8ca683ec"
-  integrity sha512-cQZPWJ0iltLTmJ5iKCEBX6DShk9GDjpUhKjByaw7QuzAa3RnoU0E7K/W0Zod1+ZLch+tbNZ6ySBEjm9RrNy+6Q==
+filepond-plugin-image-preview@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.2.1.tgz#549df8a3fcb9743244ffeb17813b96ec5c547a6f"
+  integrity sha512-byZM7ZS7RjYUUz6PP1T0eRZjjPW0VTNJKvQn+vtP0TRTbJvWAh3V41vy4TW5cc4n9ltgiTj6rbOu0enej2+w7Q==
 
 filepond@^4.4.8:
   version "4.4.8"
