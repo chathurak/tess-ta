@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
-import com.languagematters.tessta.report.model.CustomDiff;
 import com.languagematters.tessta.report.model.DiffList;
 import com.languagematters.tessta.report.service.ConfusionMapServices;
 import com.languagematters.tessta.report.service.DiffServices;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.List;
 
 @Component
 @Scope("prototype")
