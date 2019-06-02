@@ -1,9 +1,11 @@
 package com.languagematters.tessta.web.task;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.CustomDiff;
+import com.languagematters.tessta.report.model.DiffList;
 import com.languagematters.tessta.report.service.ConfusionMapServices;
 import com.languagematters.tessta.report.service.DiffServices;
 import lombok.Data;
@@ -13,7 +15,6 @@ import lombok.Setter;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +30,8 @@ public class OcrTask {
 
     private final ImageServices imageServices;
     private final OcrServices ocrServices;
+
+    private final ObjectMapper objectMapper;
 
     @Value("${app.tempstore}")
     private String tempStorePath;
@@ -46,6 +49,8 @@ public class OcrTask {
     public OcrTask(final ImageServices imageServices, final OcrServices ocrServices) {
         this.imageServices = imageServices;
         this.ocrServices = ocrServices;
+
+        this.objectMapper = new ObjectMapper();
     }
 
     public void process() {
@@ -63,13 +68,12 @@ public class OcrTask {
             ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
 
             // Comparison
-            List<CustomDiff> deltas = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
-            // TODO : Save diff report
+            DiffList diffList = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
+            objectMapper.writeValue(new File(String.format("%s/diff_list.json", taskDir.getAbsolutePath())), diffList);
 
             // Confusion Matrix
-            ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(deltas);
-            // TODO : Save confusion report
-            // TODO : Save confusion summay report
+            ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
+            objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
 
             // Log
             // TODO : Generate Json and save as ./log.json

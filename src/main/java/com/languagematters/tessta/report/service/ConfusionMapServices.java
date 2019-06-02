@@ -5,12 +5,14 @@ import com.languagematters.tessta.report.google.Operation;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.CustomDiff;
 import com.languagematters.tessta.report.model.CustomOperation;
+import com.languagematters.tessta.report.model.DiffList;
 
 import java.util.List;
 
 public class ConfusionMapServices {
 
-    public static ConfusionMap getConfusionMap(List<CustomDiff> deltas) {
+    public static ConfusionMap getConfusionMap(DiffList diffList) {
+        List<CustomDiff> deltas = diffList.getCustomDiffs();
         ConfusionMap confusionMap = new ConfusionMap();
 
         for (int i = 0; i < deltas.size(); i++) {

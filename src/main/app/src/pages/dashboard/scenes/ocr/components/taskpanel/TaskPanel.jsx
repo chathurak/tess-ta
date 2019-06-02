@@ -43,7 +43,7 @@ class TaskPanel extends React.Component {
             <div className={this.props.className + ' ' + classes.root}>
                 <Grid container spacing={8}>
                     <Grid item xs={12}>
-                        <p className={classes.paper}>{selectedDocument ? selectedDocument.label : ''}</p>
+                        <h3 className={classes.paper}>{selectedDocument ? selectedDocument.label : ''}</h3>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl component="fieldset" className={classes.formControl}>

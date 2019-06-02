@@ -1,10 +1,15 @@
 package com.languagematters.tessta.report.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Getter
+@Setter
 public class ConfusionMap {
     // TODO :  Make this more efficient by first reading the whole text and count the unique characters
     // Multidimensional array of integers => Two hash maps

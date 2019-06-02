@@ -1,6 +1,7 @@
 package com.languagematters.tessta.report.model;
 
 public enum CustomOperation {
+
     CUSTOM_EQUAL,
     CUSTOM_INSERT,
     CUSTOM_DELETE,
@@ -16,4 +17,5 @@ public enum CustomOperation {
 
     INSERT_LINES,
     DELETE_LINES
+
 }

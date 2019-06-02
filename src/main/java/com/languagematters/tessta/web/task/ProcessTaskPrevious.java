@@ -6,6 +6,7 @@ import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.CustomDiff;
+import com.languagematters.tessta.report.model.DiffList;
 import com.languagematters.tessta.report.model.report.ConfusionReport;
 import com.languagematters.tessta.report.model.report.ConfusionSummaryReport;
 import com.languagematters.tessta.report.model.report.DiffReport;
@@ -88,11 +89,11 @@ public class ProcessTaskPrevious implements Runnable {
             ocrServices.ocr(getExecutor(), tempDir.getAbsolutePath() + "/out.tif", tempDir.getAbsolutePath() + "/output");
 
             // Comparison
-            List<CustomDiff> deltas = DiffServices.getDefaultDiff(tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/output.txt");
-            new DiffReport(deltas).writeReport(parentDir.getId(), "diff");
+            DiffList diffList = DiffServices.getDefaultDiff(tempFile.getAbsolutePath(), tempDir.getAbsolutePath() + "/output.txt");
+            new DiffReport(diffList.getCustomDiffs()).writeReport(parentDir.getId(), "diff");
 
             // Confusion Matrix
-            ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(deltas);
+            ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
             new ConfusionReport(confusionMap).writeReport(parentDir.getId(), "confusion");
             new ConfusionSummaryReport(confusionMap).writeReport(parentDir.getId(), "confusion_summary");
 

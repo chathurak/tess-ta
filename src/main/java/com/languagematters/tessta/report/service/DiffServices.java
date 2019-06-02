@@ -3,6 +3,7 @@ package com.languagematters.tessta.report.service;
 import com.languagematters.tessta.report.google.DiffMatchPatch;
 import com.languagematters.tessta.report.model.CustomDiff;
 import com.languagematters.tessta.report.model.CustomOperation;
+import com.languagematters.tessta.report.model.DiffList;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -16,7 +17,7 @@ import static com.languagematters.tessta.report.google.Operation.*;
 
 public class DiffServices {
 
-    public static List<CustomDiff> getDefaultDiff(String inputTxtPath, String outputTxtPath) throws IOException {
+    public static DiffList getDefaultDiff(String inputTxtPath, String outputTxtPath) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(inputTxtPath));
         String s1 = new String(encoded, Charset.defaultCharset());
 
@@ -24,7 +25,7 @@ public class DiffServices {
         String s2 = new String(encoded2, Charset.defaultCharset());
 
         DiffMatchPatch difference = new DiffMatchPatch();
-        List<CustomDiff> deltas = new ArrayList<>();
+        List<CustomDiff> customDiffs = new ArrayList<>();
 
         for (DiffMatchPatch.Diff d : difference.diff_main(s2, s1)) {
             CustomDiff diff = new CustomDiff();
@@ -48,12 +49,15 @@ public class DiffServices {
                     break;
             }
 
-            deltas.add(diff);
+            customDiffs.add(diff);
         }
 
-        DiffServices.formatDiff(deltas);
+        DiffServices.formatDiff(customDiffs);
 
-        return deltas;
+        DiffList diffList = new DiffList();
+        diffList.setCustomDiffs(customDiffs);
+
+        return diffList;
     }
 
     private static void formatDiff(List<CustomDiff> deltas) {
