@@ -26,6 +26,6 @@ const getDocuments = () => {
     })
 }
 
-export const fileServices = {
+export const documentServices = {
     getDocuments
 }

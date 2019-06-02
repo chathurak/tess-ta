@@ -6,16 +6,16 @@ import MuiExpansionPanel        from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography               from '@material-ui/core/Typography';
-import Grid                     from '@material-ui/core/Grid';
-import Button                   from '@material-ui/core/Button';
-import Table                    from '@material-ui/core/Table';
-import TableBody                from '@material-ui/core/TableBody';
-import TableCell                from '@material-ui/core/TableCell';
-import TableHead                from '@material-ui/core/TableHead';
-import TableRow                 from '@material-ui/core/TableRow';
-import Input                    from '@material-ui/core/Input';
-import { fileServices }       from '../../../../../../services'
-import LinearProgress           from '@material-ui/core/LinearProgress';
+import Grid                 from '@material-ui/core/Grid';
+import Button               from '@material-ui/core/Button';
+import Table                from '@material-ui/core/Table';
+import TableBody            from '@material-ui/core/TableBody';
+import TableCell            from '@material-ui/core/TableCell';
+import TableHead            from '@material-ui/core/TableHead';
+import TableRow             from '@material-ui/core/TableRow';
+import Input                from '@material-ui/core/Input';
+import { documentServices } from '../../../../../../services'
+import LinearProgress       from '@material-ui/core/LinearProgress';
 
 
 const ExpansionPanel                = withStyles(styles.expansionPanel)(MuiExpansionPanel);
@@ -43,7 +43,7 @@ class FileManagerPanel extends React.Component {
 
         if (expanded) {
             this.setState({ isLoading: true });
-            fileServices.getTasks(this.state.files[panel].id)
+            documentServices.getTasks(this.state.files[panel].id)
                 .then((tasks) => {
                     console.log(tasks);
 
@@ -65,7 +65,7 @@ class FileManagerPanel extends React.Component {
     };
 
     componentDidMount() {
-        fileServices.getDocuments()
+        documentServices.getDocuments()
             .then((files) => {
                 console.log(files);
 

@@ -1,13 +1,18 @@
 export const styles = (theme) => ({
-    root          : {
-        padding: theme.spacing(2)
+    documentPickerRoot: {
+        padding      : theme.spacing(2),
+        paddingBottom: 0
     },
-    datetimepicker: {
+    taskPickerRoot    : {
+        padding   : theme.spacing(2),
+        paddingTop: 0
+    },
+    datetimepicker    : {
         width: '180px',
 
         margin: theme.spacing(1.5),
     },
-    select        : {
+    select            : {
         width: '300px',
 
         padding: theme.spacing(1.5),

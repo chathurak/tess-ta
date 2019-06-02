@@ -7,7 +7,7 @@ export const styles = theme => ({
     input           : {
         display: 'flex',
         padding: 0,
-        height: 'auto',
+        height : 'auto',
     },
     valueContainer  : {
         display   : 'flex',
@@ -34,7 +34,7 @@ export const styles = theme => ({
     placeholder     : {
         position: 'absolute',
         left    : 2,
-        bottom: 6,
+        bottom  : 6,
         fontSize: theme.typography.fontSize,
     },
     paper           : {

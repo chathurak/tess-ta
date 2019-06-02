@@ -1,14 +1,14 @@
-import {withStyles} from '@material-ui/core'
-import * as React   from 'react'
-import TaskPicker   from '../../../../components/taskpicker/TaskPicker'
-import {styles}     from './styles'
+import {withStyles}   from '@material-ui/core'
+import * as React     from 'react'
+import DocumentPicker from '../../../../components/taskpicker/DocumentPicker'
+import {styles}       from './styles'
 
 class OptionPanel extends React.Component {
 
     render() {
         return (
             <div className={this.props.className}>
-                <TaskPicker/>
+                <DocumentPicker/>
             </div>
         )
     }
