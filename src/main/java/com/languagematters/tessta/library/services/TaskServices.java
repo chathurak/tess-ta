@@ -22,8 +22,8 @@ public class TaskServices {
         List<Task> tasks = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM task INNER JOIN user_file ON task.user_file_id = user_file.id " +
-                    "INNER JOIN tessdata ON task.tessdata_id = tessdata.id WHERE user_file.name = ?";
+            String sql = "SELECT * FROM task INNER JOIN document ON task.document_id = document.id " +
+                    "INNER JOIN tessdata ON task.tessdata_id = tessdata.id WHERE document.name = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userFileId);
 
@@ -31,7 +31,7 @@ public class TaskServices {
             while (result.next()) {
                 Task task = new Task();
                 task.setId(result.getInt("id"));
-                task.setUserFileId(result.getInt("user_file_id"));
+                task.setDocumentId(result.getInt("document_id"));
                 task.setTessdataId(result.getInt("tessdata_id"));
                 task.setCreatedAt(result.getDate("created_at"));
                 task.setUpdatedAt(result.getDate("updated_at"));
@@ -46,11 +46,12 @@ public class TaskServices {
 
     public int createTask(Task task) {
         try {
-            String sql = "INSERT INTO task (user_file_id, tessdata_id, created_at) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO task (document_id, tessdata_id, created_at, updated_at) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, task.getUserFileId());
+            statement.setInt(1, task.getDocumentId());
             statement.setInt(2, task.getTessdataId());
             statement.setDate(3, new java.sql.Date(task.getCreatedAt().getTime()));
+            statement.setDate(4, new java.sql.Date(task.getUpdatedAt().getTime()));
 
             int rowsInserted = statement.executeUpdate();
             ResultSet result = statement.getGeneratedKeys();

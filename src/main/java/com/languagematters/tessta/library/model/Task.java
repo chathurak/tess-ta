@@ -9,7 +9,7 @@ import java.util.Date;
 @Setter
 public class Task {
     private int id;
-    private int userFileId;
+    private int documentId;
     private int tessdataId;
 
     private Date createdAt;

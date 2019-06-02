@@ -13,12 +13,14 @@ import lombok.Setter;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 @Component
@@ -32,7 +34,7 @@ public class OcrTask {
     private String tempStorePath;
 
     @Setter
-    private String fileId;
+    private int documentId;
     @Setter
     private String taskId;
     @Setter
@@ -48,18 +50,20 @@ public class OcrTask {
 
     public void process() {
         try {
-            // Temp
-            File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, fileId, taskId));
-            File taskFile = new File(String.format("%s/%s/%s/%s/%s", tempStorePath, username, fileId, taskId, originalFileName));
+            File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, taskId));
+            File originalFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, originalFileName));
+
+            // Create task directory
+            Files.createDirectories(taskDir.toPath());
 
             // Text to image
-            imageServices.text2Image(getExecutor(), taskFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
+            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
 
             // OCR
             ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
 
             // Comparison
-            List<CustomDiff> deltas = DiffServices.getDefaultDiff(taskFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
+            List<CustomDiff> deltas = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
             // TODO : Save diff report
 
             // Confusion Matrix

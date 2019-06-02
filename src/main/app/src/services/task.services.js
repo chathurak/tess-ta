@@ -4,7 +4,7 @@ import {ACCESS_TOKEN} from '../constants/auth.constants'
 const getTasks = (documentId) => {
     return axios.request({
         method : 'get',
-        url    : `/api/library/tasks?documentId=${documentId}`,
+        url    : `/api/task?documentId=${documentId}`,
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
@@ -26,6 +26,19 @@ const getTasks = (documentId) => {
     })
 }
 
+const scheduleTask = (documentId) => {
+    return axios.request({
+        method : 'post',
+        url    : '/api/task/schedule',
+        data   : JSON.stringify({documentId}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+        }
+    })
+}
+
 export const taskServices = {
-    getTasks
+    getTasks,
+    scheduleTask
 }

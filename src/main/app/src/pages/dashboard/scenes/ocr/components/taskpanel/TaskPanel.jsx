@@ -8,6 +8,8 @@ import FormLabel        from '@material-ui/core/FormLabel'
 import Grid             from '@material-ui/core/Grid'
 import Icon             from '@material-ui/core/Icon'
 import * as React       from 'react'
+import {connect}        from 'react-redux'
+import {actions}        from './duck'
 import {styles}         from './styles'
 
 class TaskPanel extends React.Component {
@@ -27,15 +29,21 @@ class TaskPanel extends React.Component {
         }
     }
 
+    scheduleTask = () => {
+        const {dispatch, selectedDocument} = this.props
+
+        dispatch(actions.scheduleTask(selectedDocument.value))
+    }
+
     render() {
-        const {classes}                     = this.props
+        const {classes, selectedDocument}   = this.props
         const {diffReport, confusionReport} = this.state
 
         return (
             <div className={this.props.className + ' ' + classes.root}>
                 <Grid container spacing={8}>
                     <Grid item xs={12}>
-                        <p className={classes.paper}>[UserFile name]</p>
+                        <p className={classes.paper}>{selectedDocument ? selectedDocument.label : ''}</p>
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl component="fieldset" className={classes.formControl}>
@@ -65,7 +73,8 @@ class TaskPanel extends React.Component {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" className={classes.runButton}>
+                        <Button onClick={this.scheduleTask} variant="contained" color="primary"
+                                className={classes.runButton}>
                             RUN
                             <Icon className={classes.buttonIcon}>send</Icon>
                         </Button>
@@ -77,4 +86,12 @@ class TaskPanel extends React.Component {
 
 }
 
-export default withStyles(styles, {withTheme: true})(TaskPanel)
+const mapStateToProps = (state) => {
+    const {selectedDocument} = state.taskPickerReducer
+    return {
+        selectedDocument,
+    }
+}
+
+const styledComponent = withStyles(styles, {withTheme: true})(TaskPanel)
+export default connect(mapStateToProps)(styledComponent)

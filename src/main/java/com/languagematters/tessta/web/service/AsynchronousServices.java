@@ -18,9 +18,9 @@ public class AsynchronousServices {
         this.taskExecutor = taskExecutor;
     }
 
-    public void executeOcrTask(String fileId, String taskId, String username, String originalFileName) {
+    public void executeOcrTask(int documentId, String taskId, String username, String originalFileName) {
         OcrTask ocrTask = (OcrTask) context.getBean("ocrTask");
-        ocrTask.setFileId(fileId);
+        ocrTask.setDocumentId(documentId);
         ocrTask.setTaskId(taskId);
         ocrTask.setUsername(username);
         ocrTask.setOriginalFileName(originalFileName);

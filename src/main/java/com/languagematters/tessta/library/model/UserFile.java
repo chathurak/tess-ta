@@ -11,6 +11,7 @@ public class UserFile {
     private int id;
     private int userId;
     private String name;
+    private String originalFileName;
     private Date createdAt;
     private Date updatedAt;
 }

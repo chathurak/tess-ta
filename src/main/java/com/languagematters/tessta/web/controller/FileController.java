@@ -1,9 +1,7 @@
 package com.languagematters.tessta.web.controller;
 
-import com.google.common.base.Charsets;
-import com.google.common.hash.Hashing;
 import com.languagematters.tessta.library.model.UserFile;
-import com.languagematters.tessta.library.services.UserFileServices;
+import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import com.languagematters.tessta.web.service.StorageServices;
@@ -21,12 +19,12 @@ import java.util.Date;
 public class FileController {
 
     private final StorageServices storageServices;
-    private final UserFileServices userFileServices;
+    private final DocumentServices documentServices;
 
     @Autowired
-    public FileController(final StorageServices storageServices, final UserFileServices userFileServices) {
+    public FileController(final StorageServices storageServices, final DocumentServices documentServices) {
         this.storageServices = storageServices;
-        this.userFileServices = userFileServices;
+        this.documentServices = documentServices;
     }
 
     @PostMapping("/process")
@@ -39,9 +37,10 @@ public class FileController {
             UserFile userFile = new UserFile();
             userFile.setUserId(currentUser.getId());
             userFile.setName(file.getOriginalFilename());
+            userFile.setOriginalFileName(file.getOriginalFilename());
             userFile.setCreatedAt(timestamp);
             userFile.setUpdatedAt(timestamp);
-            int fileId = userFileServices.createUserFile(userFile);
+            int fileId = documentServices.createDocument(userFile);
 
             storageServices.store(file, String.format("%s/%d/", currentUser.getUsername(), fileId));
 

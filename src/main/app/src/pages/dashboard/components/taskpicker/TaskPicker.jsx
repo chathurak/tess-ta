@@ -16,7 +16,7 @@ class TaskPicker extends React.Component {
     promiseUserTasks = () => {
         const {selectedDocument} = this.props
 
-        let options = typeof selectedDocument === 'undefined' ? [] : taskServices.getTasks(selectedDocument.value)
+        let options = selectedDocument ? taskServices.getTasks(selectedDocument.value)
             .then(tasks => {
                 return tasks.map(task => ({
                     value: task.id,
@@ -25,7 +25,7 @@ class TaskPicker extends React.Component {
             })
             .catch(err => {
                 console.log(err)
-            })
+            }) : []
 
         return new Promise(resolve => {
             setTimeout(() => {
@@ -42,7 +42,7 @@ class TaskPicker extends React.Component {
                 <DocumentPicker/>
                 <div className={classes.taskPickerRoot}>
                     <AutoCompleteAsync
-                        key={typeof selectedDocument === 'undefined' ? 'x' : selectedDocument.value}
+                        key={selectedDocument ? selectedDocument.value : 'x'}
                         className={classes.select}
                         placeholder="Select task ..."
                         label="Task"

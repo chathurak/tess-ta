@@ -4,7 +4,7 @@ import {ACCESS_TOKEN} from '../constants/auth.constants'
 const getDocuments = () => {
     return axios.request({
         method : 'get',
-        url    : '/api/library/documents',
+        url    : '/api/document',
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)

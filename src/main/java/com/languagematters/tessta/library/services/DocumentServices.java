@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserFileServices {
+public class DocumentServices {
 
     private final Connection connection;
 
     @Autowired
-    public UserFileServices(final Connection connection) {
+    public DocumentServices(final Connection connection) {
         this.connection = connection;
     }
 
-    public List<UserFile> getUserFiles(int userId) {
+    public List<UserFile> getDocuments(int userId) {
         List<UserFile> userFiles = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM user_file where user_id = ?";
+            String sql = "SELECT * FROM document where user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
 
@@ -44,14 +44,39 @@ public class UserFileServices {
         return userFiles;
     }
 
-    public int createUserFile(@NotNull UserFile userFile) {
+    public UserFile getDocument(int documentId) {
+        UserFile userFile = new UserFile();
+
         try {
-            String sql = "INSERT INTO user_file (user_id, name, created_at, updated_at) VALUES (?, ?, ?, ?)";
+            String sql = "SELECT * FROM document WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, documentId);
+
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                userFile.setId(result.getInt("id"));
+                userFile.setUserId(result.getInt("user_id"));
+                userFile.setName(result.getString("name"));
+                userFile.setOriginalFileName(result.getString("original_file_name"));
+                userFile.setCreatedAt(result.getDate("created_at"));
+                userFile.setUpdatedAt(result.getDate("updated_at"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return userFile;
+    }
+
+    public int createDocument(@NotNull UserFile userFile) {
+        try {
+            String sql = "INSERT INTO document (user_id, name, original_file_name, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, userFile.getUserId());
             statement.setString(2, userFile.getName());
-            statement.setDate(3, new java.sql.Date(userFile.getCreatedAt().getTime()));
-            statement.setDate(4, new java.sql.Date(userFile.getUpdatedAt().getTime()));
+            statement.setString(3, userFile.getOriginalFileName());
+            statement.setDate(4, new java.sql.Date(userFile.getCreatedAt().getTime()));
+            statement.setDate(5, new java.sql.Date(userFile.getUpdatedAt().getTime()));
 
             int rowsInserted = statement.executeUpdate();
             ResultSet result = statement.getGeneratedKeys();
@@ -65,11 +90,11 @@ public class UserFileServices {
         return -1;
     }
 
-    public void deleteUserFile(String userFileName) {
+    public void deleteDocument(String userFileName) {
         // TODO
     }
 
-    public void rename(String userFileName, String newName) {
+    public void renameDocument(String userFileName, String newName) {
         // TODO
     }
 }
