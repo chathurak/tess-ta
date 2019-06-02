@@ -1,7 +1,7 @@
 export const styles = (theme) => ({
     filePond: {
-        width: theme.app.layout.fileWorkspaceLayout.optionPanel.width - (theme.spacing.unit * 2),
+        width: `calc(${theme.app.layout.fileWorkspaceLayout.optionPanel.width}px - ${theme.spacing(4)})`,
 
-        margin: theme.spacing.unit,
+        margin: theme.spacing(2),
     },
 })

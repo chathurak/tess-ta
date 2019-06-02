@@ -96,7 +96,7 @@ class FileManagerPanel extends React.Component {
                                     onChange = {this.handleChange(i)}
                                 >
                                     <ExpansionPanelSummary>
-                                        <Grid container spacing = {24}>
+                                        <Grid container spacing = {10}>
                                             <Grid item xs>
                                                 <Typography
                                                     style = {{ fontWeight: 500 }}

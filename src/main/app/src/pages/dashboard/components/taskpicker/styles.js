@@ -1,15 +1,15 @@
 export const styles = (theme) => ({
     root          : {
-        padding: theme.spacing.unit * 2
+        padding: theme.spacing(2)
     },
     datetimepicker: {
         width: '180px',
 
-        margin: theme.spacing.unit * 1.5,
+        margin: theme.spacing(1.5),
     },
     select        : {
         width: '300px',
 
-        padding: theme.spacing.unit * 1.5,
+        padding: theme.spacing(1.5),
     }
 })

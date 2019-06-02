@@ -2,6 +2,7 @@ import {withStyles}     from '@material-ui/core'
 import Avatar           from '@material-ui/core/Avatar'
 import Button           from '@material-ui/core/Button'
 import Checkbox         from '@material-ui/core/Checkbox'
+import Container        from '@material-ui/core/Container'
 import CssBaseline      from '@material-ui/core/CssBaseline'
 import FormControl      from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -66,7 +67,7 @@ class SignUp extends React.Component {
         const {user}    = this.state
 
         return (
-            <main className={classes.root}>
+            <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -77,12 +78,12 @@ class SignUp extends React.Component {
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="firstName">First name</InputLabel>
                             <Input id="firstName" name="firstName" value={user.firstName} onChange={this.handleChange}
-                                   autoComplete="email" autoFocus/>
+                                   autoComplete="fname" autoFocus/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="lastName">Last name</InputLabel>
                             <Input id="lastName" name="lastName" value={user.lastName} onChange={this.handleChange}
-                                   autoComplete="email"/>
+                                   autoComplete="lname"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="username">Username</InputLabel>
@@ -102,7 +103,7 @@ class SignUp extends React.Component {
                         </FormControl>
                         <FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                            Sign in
+                            Sign up
                         </Button>
                     </form>
                     <p>
@@ -110,7 +111,7 @@ class SignUp extends React.Component {
                         <Link to="/signin">Sign In</Link>
                     </p>
                 </Paper>
-            </main>
+            </Container>
         )
     }
 

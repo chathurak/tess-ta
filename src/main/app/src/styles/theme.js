@@ -11,9 +11,10 @@ export const theme = createMuiTheme({
         },
     },
     typography: {
-        useNextVariants: true,
-        fontSize       : 13,
+        // useNextVariants: true,
+        fontSize: 13,
     },
+    spacing   : factor => `${0.5 * factor}rem`,
     app       : {
         common,
 

@@ -42,39 +42,39 @@ class Sidebar extends React.Component {
                         <ListItemIcon>
                             <HomeIcon/>
                         </ListItemIcon>
-                        <ListItemText inset primary="Home"/>
+                        <ListItemText primary="Home"/>
                     </ListItem>
                     <ListItem button component={Link} to="/library">
                         <ListItemIcon>
                             <LibraryBooksIcon/>
                         </ListItemIcon>
-                        <ListItemText inset primary="Library"/>
+                        <ListItemText primary="Library"/>
                     </ListItem>
                     <ListItem button component={Link} to="/queue">
                         <ListItemIcon>
                             <QueueIcon/>
                         </ListItemIcon>
-                        <ListItemText inset primary="Queue"/>
+                        <ListItemText primary="Queue"/>
                     </ListItem>
                     <Divider/>
                     <ListItem button component={Link} to="/ocr">
                         <ListItemIcon>
                             <FindInPageIcon/>
                         </ListItemIcon>
-                        <ListItemText inset primary="OCR"/>
+                        <ListItemText primary="OCR"/>
                     </ListItem>
                     <ListItem button component={Link} to="/grammar">
                         <ListItemIcon>
                             <SpellcheckIcon/>
                         </ListItemIcon>
-                        <ListItemText inset primary="Grammar"/>
+                        <ListItemText primary="Grammar"/>
                     </ListItem>
                     <Divider/>
                     <ListItem button component={Link} to="/settings">
                         <ListItemIcon>
                             <SettingsIcon/>
                         </ListItemIcon>
-                        <ListItemText inset primary="Settings"/>
+                        <ListItemText primary="Settings"/>
                     </ListItem>
                 </List>
             </div>

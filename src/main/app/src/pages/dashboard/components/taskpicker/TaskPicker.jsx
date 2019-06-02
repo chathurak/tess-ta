@@ -105,7 +105,8 @@ class TaskPicker extends React.Component {
                         className={classes.select}
                         placeholder="Select task ..."
                         label="Task"
-                        loadOptions={promiseUserTasks}
+                        // loadOptions={promiseUserTasks}
+                        loadOptions={promiseDocuments}
                         onChange={this.handleTaskChange}
                     />
                 </div>

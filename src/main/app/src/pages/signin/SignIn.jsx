@@ -2,6 +2,7 @@ import {withStyles}     from '@material-ui/core'
 import Avatar           from '@material-ui/core/Avatar'
 import Button           from '@material-ui/core/Button'
 import Checkbox         from '@material-ui/core/Checkbox'
+import Container        from '@material-ui/core/Container'
 import CssBaseline      from '@material-ui/core/CssBaseline'
 import FormControl      from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -26,8 +27,8 @@ class SignIn extends React.Component {
         this.props.dispatch(actions.signOut())
 
         this.state = {
-            email    : '',
-            password : '',
+            email   : '',
+            password: '',
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -55,7 +56,7 @@ class SignIn extends React.Component {
         const {email, password} = this.state
 
         return (
-            <main className={classes.root}>
+            <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -84,7 +85,7 @@ class SignIn extends React.Component {
                         <Link to="/signup">Sign Up</Link>
                     </p>
                 </Paper>
-            </main>
+            </Container>
         )
     }
 
