@@ -25,6 +25,7 @@ public class UserPrincipal implements UserDetails {
     @Getter
     private String lastName;
 
+    @Getter
     private String username;
 
     @Getter
@@ -33,6 +34,12 @@ public class UserPrincipal implements UserDetails {
 
     @JsonIgnore
     private String password;
+
+    @Getter
+    private String accessToken;
+
+    @Getter
+    private String imageUrl;
 
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -46,6 +53,8 @@ public class UserPrincipal implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getAccessToken(),
+                user.getImageUrl(),
                 authorities
         );
     }

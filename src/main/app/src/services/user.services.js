@@ -69,7 +69,23 @@ const getById = (id) => {
     // TODO
 }
 
-const update = () => {
+const updateAccessToken = (accessToken, imageUrl) => {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject('No access token set.')
+    }
+
+    return axios.request({
+        method : 'post',
+        url    : '/api/auth/token',
+        data   : JSON.stringify({accessToken, imageUrl}),
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+        }
+    })
+}
+
+const update = (id) => {
     // TODO
 }
 
@@ -84,5 +100,6 @@ export const userServices = {
     getAll,
     getById,
     update,
+    updateAccessToken,
     delete: _delete
 }

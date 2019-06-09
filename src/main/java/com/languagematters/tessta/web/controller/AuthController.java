@@ -8,16 +8,21 @@ import com.languagematters.tessta.jpa.repository.UserRepository;
 import com.languagematters.tessta.web.exception.AppException;
 import com.languagematters.tessta.web.payload.request.SignInRequest;
 import com.languagematters.tessta.web.payload.request.SignUpRequest;
+import com.languagematters.tessta.web.payload.request.UpdateTokenRequest;
 import com.languagematters.tessta.web.payload.response.ApiResponse;
 import com.languagematters.tessta.web.payload.response.JwtAuthenticationResponse;
+import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.JwtTokenProvider;
+import com.languagematters.tessta.web.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -100,6 +105,21 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
+
+    @PostMapping("/token")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updateToken(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody UpdateTokenRequest updateTokenRequest) {
+        User user = userRepository.findById(currentUser.getId()).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with id : " + currentUser.getId())
+        );
+
+        user.setAccessToken(updateTokenRequest.getAccessToken());
+        user.setImageUrl(updateTokenRequest.getImageUrl());
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(String.format("User %s updated successfully", currentUser.getUsername()));
     }
 
 }

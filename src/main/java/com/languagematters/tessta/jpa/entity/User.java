@@ -52,6 +52,11 @@ public class User extends Auditable {
     @Size(max = 100)
     private String password;
 
+    @Column(columnDefinition = "TEXT")
+    private String accessToken;
+
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_has_role",
