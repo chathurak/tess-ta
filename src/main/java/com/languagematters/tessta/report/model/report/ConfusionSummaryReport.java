@@ -50,7 +50,7 @@ public class ConfusionSummaryReport {
                         correctCount += entry.getValue();
                     } else {
                         errorCount += entry.getValue();
-                        errorWordList.addAll(confusionMap.getWordList(character, entry.getKey()));
+                        errorWordList.add(entry.getKey());
                     }
                 }
 
