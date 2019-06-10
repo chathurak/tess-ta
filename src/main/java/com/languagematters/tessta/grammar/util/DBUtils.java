@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class DBUtils {
 
-    private static final String DB_URL = "jdbc:mysql://ocr-db/tesseract_server?autoReconnect=true&useSSL=false"; // TODO: Load HOST as a property
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/tesseract_ta"; // TODO: Load HOST as a property
 
     private static final String USER = "root";
     private static final String PASS = "";
@@ -54,7 +54,7 @@ public class DBUtils {
 
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Connecting to database...");
 
             conn = DriverManager.getConnection(DB_URL, USER, PASS);

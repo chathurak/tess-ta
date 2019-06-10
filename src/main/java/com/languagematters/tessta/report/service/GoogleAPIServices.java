@@ -5,7 +5,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 
 import java.io.IOException;
@@ -31,14 +30,6 @@ public class GoogleAPIServices {
         return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-    }
-
-    public static File getRoot() throws IOException, GeneralSecurityException {
-        return GoogleAPIServices.getDriveInstance().files().list()
-                .setQ("name='TessTA'")
-                .setSpaces("drive")
-                .setFields("nextPageToken, files(id, name)")
-                .execute().getFiles().get(0);
     }
 
 }

@@ -60,12 +60,13 @@ public class TaskController {
 
         // TODO : Format response
         try {
-            asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, currentUser.getUsername(), userFile.getOriginalFileName());
+            asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, currentUser.getUsername(), currentUser.getAccessToken(), userFile.getOriginalFileName());
 
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body("XXXX");
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body("YYYY");

@@ -26,7 +26,7 @@ public class GoogleAuthorizeUtil {
             DriveScopes.DRIVE,
             SheetsScopes.SPREADSHEETS
     );
-    private static final String CREDENTIALS_FILE_PATH = "/TessTA-credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
      * Creates an authorized Credential object.
@@ -45,7 +45,7 @@ public class GoogleAuthorizeUtil {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(3000).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 

@@ -25,7 +25,6 @@ public class UserPrincipal implements UserDetails {
     @Getter
     private String lastName;
 
-    @Getter
     private String username;
 
     @Getter

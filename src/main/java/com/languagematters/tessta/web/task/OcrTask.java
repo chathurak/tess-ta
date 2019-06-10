@@ -1,12 +1,18 @@
 package com.languagematters.tessta.web.task;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.http.FileContent;
+import com.google.api.services.drive.Drive;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.DiffList;
+import com.languagematters.tessta.report.model.report.ConfusionReport;
+import com.languagematters.tessta.report.model.report.ConfusionSummaryReport;
+import com.languagematters.tessta.report.model.report.DiffReport;
 import com.languagematters.tessta.report.service.ConfusionMapServices;
 import com.languagematters.tessta.report.service.DiffServices;
+import com.languagematters.tessta.report.service.GoogleAPIServices;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +27,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 @Component
 @Scope("prototype")
@@ -31,6 +40,8 @@ public class OcrTask {
 
     private final ObjectMapper objectMapper;
 
+    private Drive drive;
+
     @Value("${app.tempstore}")
     private String tempStorePath;
 
@@ -40,6 +51,8 @@ public class OcrTask {
     private String taskId;
     @Setter
     private String username;
+    @Setter
+    private String accessToken;
     @Setter
     private String originalFileName;
 
@@ -53,6 +66,17 @@ public class OcrTask {
 
     public void process() {
         try {
+            this.drive = GoogleAPIServices.getDriveInstance();
+
+            // Create output gdrive directory
+            com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
+            parentDirMetadata.setName(taskId);
+            parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
+            com.google.api.services.drive.model.File parentDir = drive.files()
+                    .create(parentDirMetadata)
+                    .setFields("id")
+                    .execute();
+
             File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, taskId));
             File originalFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, originalFileName));
 
@@ -73,10 +97,38 @@ public class OcrTask {
             ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
             objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
 
+            // Save reports
+            new DiffReport(diffList.getCustomDiffs()).writeReport(parentDir.getId(), "diff");
+            new ConfusionReport(confusionMap).writeReport(parentDir.getId(), "confusion");
+            new ConfusionSummaryReport(confusionMap).writeReport(parentDir.getId(), "confusion_summary");
+
             // Log
             // TODO : Generate Json and save as ./log.json
 
-            System.out.println("Process completed : " + taskId);
+            // Upload files
+            ArrayList<Upload> uploadFileList = new ArrayList<>();
+            uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
+            uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
+            uploadFileList.add(new Upload("out.tif", "image/tiff", taskDir.getAbsolutePath() + "/out.tif"));
+            uploadFileList.add(new Upload("output.txt", "text/plain", taskDir.getAbsolutePath() + "/output.txt"));
+//            uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
+
+            for (Upload upload : uploadFileList) {
+                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
+                fileMetadata.setName(upload.getName());
+                fileMetadata.setParents(Collections.singletonList(parentDir.getId()));
+                File filePath = new File(upload.getPath());
+                FileContent mediaContent = new FileContent(upload.getContent(), filePath);
+                try {
+                    drive.files().create(fileMetadata, mediaContent)
+                            .setFields("id")
+                            .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.printf("Process completed : %s", taskId);
         } catch (Exception e) {
             e.printStackTrace();
         }
