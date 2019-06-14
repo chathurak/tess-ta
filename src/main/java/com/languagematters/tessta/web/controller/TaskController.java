@@ -2,12 +2,13 @@ package com.languagematters.tessta.web.controller;
 
 import com.languagematters.tessta.library.model.Task;
 import com.languagematters.tessta.library.model.UserFile;
-import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.library.services.DocumentServices;
-import com.languagematters.tessta.web.payload.request.ScheduleTaskRequest;
+import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import com.languagematters.tessta.web.service.AsynchronousServices;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,5 +73,13 @@ public class TaskController {
                     .body("YYYY");
         }
     }
+
+}
+
+@Getter
+@Setter
+class ScheduleTaskRequest {
+
+    private int documentId;
 
 }

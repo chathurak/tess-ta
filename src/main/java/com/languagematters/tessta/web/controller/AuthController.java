@@ -6,14 +6,13 @@ import com.languagematters.tessta.jpa.entity.User;
 import com.languagematters.tessta.jpa.repository.RoleRepository;
 import com.languagematters.tessta.jpa.repository.UserRepository;
 import com.languagematters.tessta.web.exception.AppException;
-import com.languagematters.tessta.web.payload.request.SignInRequest;
-import com.languagematters.tessta.web.payload.request.SignUpRequest;
-import com.languagematters.tessta.web.payload.request.UpdateTokenRequest;
-import com.languagematters.tessta.web.payload.response.ApiResponse;
-import com.languagematters.tessta.web.payload.response.JwtAuthenticationResponse;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.JwtTokenProvider;
 import com.languagematters.tessta.web.security.UserPrincipal;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.net.URI;
 import java.util.Collections;
 
@@ -121,5 +123,81 @@ public class AuthController {
 
         return ResponseEntity.ok(String.format("User %s updated successfully", currentUser.getUsername()));
     }
+
+}
+
+@Getter
+@Setter
+@RequiredArgsConstructor
+class ApiResponse {
+
+    @NonNull
+    private Boolean success;
+
+    @NonNull
+    private String message;
+
+}
+
+@Getter
+@Setter
+@RequiredArgsConstructor
+class JwtAuthenticationResponse {
+
+    private String tokenType = "Bearer";
+
+    @NonNull
+    private String accessToken;
+
+}
+
+@Getter
+@Setter
+class UpdateTokenRequest {
+
+    @NotBlank
+    private String accessToken;
+
+    @NotBlank
+    private String imageUrl;
+
+}
+
+@Getter
+@Setter
+class SignUpRequest {
+
+    @NotBlank
+    @Size(max = 40)
+    private String firstName;
+
+    @NotBlank
+    @Size(max = 40)
+    private String lastName;
+
+    @NotBlank
+    @Size(min = 5, max = 40)
+    private String username;
+
+    @NotBlank
+    @Size(max = 40)
+    @Email
+    private String email;
+
+    @NotBlank
+    @Size(max = 100)
+    private String password;
+
+}
+
+@Getter
+@Setter
+class SignInRequest {
+
+    @NotBlank
+    private String usernameOrEmail;
+
+    @NotBlank
+    private String password;
 
 }

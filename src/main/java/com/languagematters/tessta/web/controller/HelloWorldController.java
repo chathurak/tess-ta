@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HelloWorldController {
 
     @RequestMapping("/helloworld")
-    public @ResponseBody String greeting() {
+    public @ResponseBody
+    String greeting() {
         return "Hello World";
     }
 
