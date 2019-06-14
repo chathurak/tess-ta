@@ -16,18 +16,18 @@ public class GoogleAPIServices {
     private static final String APPLICATION_NAME = "TesseractTA";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    public static Drive getDriveInstance() throws IOException, GeneralSecurityException {
+    public static Drive getDriveInstance(String accessToken) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
-        return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(accessToken))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
 
-    public static Sheets getSheetsInstance() throws IOException, GeneralSecurityException {
+    public static Sheets getSheetsInstance(String accessToken) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
-        return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(accessToken))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }

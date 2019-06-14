@@ -3,6 +3,7 @@ package com.languagematters.tessta.web.task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.sheets.v4.Sheets;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
@@ -27,7 +28,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -39,8 +39,6 @@ public class OcrTask {
     private final OcrServices ocrServices;
 
     private final ObjectMapper objectMapper;
-
-    private Drive drive;
 
     @Value("${app.tempstore}")
     private String tempStorePath;
@@ -66,7 +64,8 @@ public class OcrTask {
 
     public void process() {
         try {
-            this.drive = GoogleAPIServices.getDriveInstance();
+            Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
+            Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
 
             // Create output gdrive directory
             com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
@@ -98,9 +97,9 @@ public class OcrTask {
             objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
 
             // Save reports
-            new DiffReport(diffList.getCustomDiffs()).writeReport(parentDir.getId(), "diff");
-            new ConfusionReport(confusionMap).writeReport(parentDir.getId(), "confusion");
-            new ConfusionSummaryReport(confusionMap).writeReport(parentDir.getId(), "confusion_summary");
+            new DiffReport(diffList.getCustomDiffs()).writeReport(drive, sheets, parentDir.getId(), "diff");
+            new ConfusionReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion");
+            new ConfusionSummaryReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
 
             // Log
             // TODO : Generate Json and save as ./log.json
@@ -128,7 +127,7 @@ public class OcrTask {
                 }
             }
 
-            System.out.printf("Process completed : %s", taskId);
+            System.out.printf("Process completed : %s\n", taskId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,7 +175,7 @@ public class OcrTask {
                     if (line.equalsIgnoreCase("quit")) {
                         break;
                     }
-                    System.out.println("Exec output : " + line);
+                    System.out.printf("Exec output : %s\n", line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -6,7 +6,6 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import com.languagematters.tessta.grammar.util.DBUtils;
 import com.languagematters.tessta.report.model.ConfusionMap;
-import com.languagematters.tessta.report.service.GoogleAPIServices;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -14,17 +13,11 @@ import java.util.*;
 
 public class ConfusionSummaryReport {
 
-    private static Sheets sheetsService;
-    private static Drive driveService;
-
     ConfusionMap confusionMap;
 
     List<List<Object>> rows;
 
     public ConfusionSummaryReport(ConfusionMap confusionMap) throws IOException, GeneralSecurityException {
-        sheetsService = GoogleAPIServices.getSheetsInstance();
-        driveService = GoogleAPIServices.getDriveInstance();
-
         this.confusionMap = confusionMap;
 
         rows = new ArrayList<>();
@@ -80,13 +73,13 @@ public class ConfusionSummaryReport {
         rows.add(row);
     }
 
-    public void writeReport(String parentDirId, String outputFileName) throws IOException {
+    public void writeReport(Drive drive, Sheets sheets, String parentDirId, String outputFileName) throws IOException {
         // Create spreadsheet
         File spreadsheetMetadata = new File();
         spreadsheetMetadata.setName(outputFileName);
         spreadsheetMetadata.setMimeType("application/vnd.google-apps.spreadsheet");
         spreadsheetMetadata.setParents(Collections.singletonList(parentDirId));
-        File spreadsheetFile = driveService.files()
+        File spreadsheetFile = drive.files()
                 .create(spreadsheetMetadata)
                 .setFields("id")
                 .execute();
@@ -165,7 +158,7 @@ public class ConfusionSummaryReport {
         );
 
         BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest().setRequests(requests);
-        BatchUpdateSpreadsheetResponse batchUpdateSpreadsheetResponse = sheetsService.spreadsheets()
+        BatchUpdateSpreadsheetResponse batchUpdateSpreadsheetResponse = sheets.spreadsheets()
                 .batchUpdate(spreadsheetFile.getId(), batchUpdateSpreadsheetRequest)
                 .execute();
 
@@ -176,6 +169,6 @@ public class ConfusionSummaryReport {
         BatchUpdateValuesRequest batchUpdateValuesRequest = new BatchUpdateValuesRequest()
                 .setValueInputOption("RAW")
                 .setData(data);
-        BatchUpdateValuesResponse batchUpdateValuesResponse = sheetsService.spreadsheets().values().batchUpdate(spreadsheetFile.getId(), batchUpdateValuesRequest).execute();
+        BatchUpdateValuesResponse batchUpdateValuesResponse = sheets.spreadsheets().values().batchUpdate(spreadsheetFile.getId(), batchUpdateValuesRequest).execute();
     }
 }

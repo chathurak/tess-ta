@@ -32,5 +32,3 @@ HELP.md
 tessdata/*
 !tessdata/.gitkeep
 tessta-storage
-tokens
-credentials.json

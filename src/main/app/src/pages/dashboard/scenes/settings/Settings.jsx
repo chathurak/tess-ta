@@ -9,6 +9,7 @@ class Settings extends React.Component {
 
     handleGoogleResponseSuccess = (e) => {
         userServices.updateAccessToken(e.accessToken, e.profileObj.imageUrl)
+        console.log(e);
     }
 
     handleGoogleResponseFailure = (e) => {
@@ -19,7 +20,7 @@ class Settings extends React.Component {
         return (
             <div>
                 <GoogleLogin
-                    clientId="1001062260512-qaflr02ho464t9s16v6n3a3hj42egq88.apps.googleusercontent.com"
+                    clientId="1001062260512-brj9h14gdnlp0p0m76soivrqcfo8tmc5.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={this.handleGoogleResponseSuccess}
                     onFailure={this.handleGoogleResponseFailure}

@@ -5,11 +5,9 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import com.languagematters.tessta.report.model.CustomDiff;
-import com.languagematters.tessta.report.service.GoogleAPIServices;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,19 +15,9 @@ import java.util.List;
 
 public class DiffReport {
 
-    private static Sheets sheetsService;
-    private static Drive driveService;
-
-    private List<CustomDiff> deltas;
-
     private List<List<Object>> rows;
 
-    public DiffReport(@NotNull List<CustomDiff> deltas) throws IOException, GeneralSecurityException {
-        sheetsService = GoogleAPIServices.getSheetsInstance();
-        driveService = GoogleAPIServices.getDriveInstance();
-
-        this.deltas = deltas;
-
+    public DiffReport(@NotNull List<CustomDiff> deltas) {
         rows = new ArrayList<>();
         rows.add(Arrays.asList("Input text", "OCR output", "Type"));
 
@@ -71,13 +59,13 @@ public class DiffReport {
         }
     }
 
-    public void writeReport(String parentDirId, String outputFileName) throws IOException {
+    public void writeReport(Drive drive, Sheets sheets, String parentDirId, String outputFileName) throws IOException {
         // Create spreadsheet
         File spreadsheetMetadata = new File();
         spreadsheetMetadata.setName(outputFileName);
         spreadsheetMetadata.setMimeType("application/vnd.google-apps.spreadsheet");
         spreadsheetMetadata.setParents(Collections.singletonList(parentDirId));
-        File spreadsheetFile = driveService.files()
+        File spreadsheetFile = drive.files()
                 .create(spreadsheetMetadata)
                 .setFields("id")
                 .execute();
@@ -181,7 +169,7 @@ public class DiffReport {
         );
 
         BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest().setRequests(requests);
-        BatchUpdateSpreadsheetResponse batchUpdateSpreadsheetResponse = sheetsService.spreadsheets()
+        BatchUpdateSpreadsheetResponse batchUpdateSpreadsheetResponse = sheets.spreadsheets()
                 .batchUpdate(spreadsheetFile.getId(), batchUpdateSpreadsheetRequest)
                 .execute();
 
@@ -192,6 +180,6 @@ public class DiffReport {
         BatchUpdateValuesRequest batchUpdateValuesRequest = new BatchUpdateValuesRequest()
                 .setValueInputOption("RAW")
                 .setData(data);
-        BatchUpdateValuesResponse batchUpdateValuesResponse = sheetsService.spreadsheets().values().batchUpdate(spreadsheetFile.getId(), batchUpdateValuesRequest).execute();
+        BatchUpdateValuesResponse batchUpdateValuesResponse = sheets.spreadsheets().values().batchUpdate(spreadsheetFile.getId(), batchUpdateValuesRequest).execute();
     }
 }
