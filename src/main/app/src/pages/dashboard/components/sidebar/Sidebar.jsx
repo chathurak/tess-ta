@@ -70,6 +70,13 @@ class Sidebar extends React.Component {
                         <ListItemText primary="Grammar"/>
                     </ListItem>
                     <Divider/>
+                    <ListItem button component={Link} to="/reports">
+                        <ListItemIcon>
+                            <SpellcheckIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Reports"/>
+                    </ListItem>
+                    <Divider/>
                     <ListItem button component={Link} to="/settings">
                         <ListItemIcon>
                             <SettingsIcon/>

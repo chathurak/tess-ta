@@ -9,6 +9,7 @@ import Home         from './scenes/home/Home'
 import Library      from './scenes/library/Library'
 import Ocr          from './scenes/ocr/Ocr'
 import Grammar      from './scenes/grammar/Grammar'
+import Reports     from './scenes/reports/Reports'
 import Settings     from './scenes/settings/Settings'
 import {styles}     from './styles'
 
@@ -28,6 +29,7 @@ class Dashboard extends React.Component {
                     <Route exact path='/library' component={Library}/>
                     <Route exact path='/ocr' component={Ocr}/>
                     <Route exact path='/grammar' component={Grammar}/>
+                    <Route exact path='/reports' component={Reports}/>
                     <Route exact path='/settings' component={Settings}/>
                 </main>
             </div>
