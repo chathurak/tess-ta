@@ -72,7 +72,7 @@ class Sidebar extends React.Component {
                     <Divider/>
                     <ListItem button component={Link} to="/reports">
                         <ListItemIcon>
-                            <SpellcheckIcon/>
+                            <LibraryBooksIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Reports"/>
                     </ListItem>
