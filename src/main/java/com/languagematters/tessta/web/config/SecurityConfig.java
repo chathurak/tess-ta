@@ -74,6 +74,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/",
+                        "/signin",
+                        "/signup",
+                        "/home",
+                        "/library",
+                        "/queue",
+                        "/ocr",
+                        "/grammar",
+                        "/report",
+                        "/settings"
+                ).permitAll()
+                .antMatchers(
                         "/favicon.ico",
                         "/**/*.png",
                         "/**/*.gif",
@@ -81,7 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.jpg",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js"
+                        "/**/*.js",
+                        "/**/*.json"
                 ).permitAll()
                 .antMatchers(
                         "/v2/api-docs",
@@ -91,15 +103,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers(
                         "/api/auth/**"
-                ).permitAll()
-                .antMatchers(
-                        "/api/user/checkUsernameAvailability",
-                        "/api/user/checkEmailAvailability"
-                ).permitAll()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/api/polls/**",
-                        "/api/users/**"
                 ).permitAll()
                 .anyRequest()
                 .authenticated();

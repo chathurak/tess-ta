@@ -1,14 +1,10 @@
 package com.languagematters.tessta.web.config;
 
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//
-//import javax.sql.DataSource;
-//
-//@Configuration
-//public class SpringJdbcConfig {
-//
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SpringJdbcConfig {
+
 //    @Bean
 //    public DataSource mysqlDataSource() {
 //        DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -19,5 +15,5 @@ package com.languagematters.tessta.web.config;
 //
 //        return dataSource;
 //    }
-//
-//}
+
+}
