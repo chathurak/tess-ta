@@ -20,11 +20,12 @@ class Settings extends React.Component {
         return (
             <div>
                 <GoogleLogin
-                    clientId="1001062260512-brj9h14gdnlp0p0m76soivrqcfo8tmc5.apps.googleusercontent.com"
+                    clientId="1001062260512-8c904cslgvia9bg510pc94kd6npepvc7.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={this.handleGoogleResponseSuccess}
                     onFailure={this.handleGoogleResponseFailure}
                     cookiePolicy={'single_host_origin'}
+                    scope="https://www.googleapis.com/auth/drive.file"
                 />
             </div>
         )
