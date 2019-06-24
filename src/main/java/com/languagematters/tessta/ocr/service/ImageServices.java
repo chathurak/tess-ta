@@ -17,16 +17,7 @@ public class ImageServices {
 
     public void text2Image(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = null;
-
-        if (OsServices.isMac()) {
-            cmdLine = new CommandLine("docker");
-            cmdLine.addArgument("exec");
-            cmdLine.addArgument("t4cmp");
-            cmdLine.addArgument("text2image");
-        } else {
-            cmdLine = new CommandLine("text2image");
-        }
-
+        cmdLine = new CommandLine("text2image");
         cmdLine.addArgument("--text");
         cmdLine.addArgument(inputPath);
         cmdLine.addArgument("--outputbase");
