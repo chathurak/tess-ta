@@ -1,7 +1,8 @@
 # Start services
 service redis-server start
+service mongod start
 
-sleep 15
+sleep 20
 
 # Start TA
 java -jar target/tess-ta-0.0.1-SNAPSHOT.jar > ${LOG_FILE} 2> ${LOG_FILE} &

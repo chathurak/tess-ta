@@ -10,6 +10,9 @@ ENV LOG_FILE ${OCR_DIR}/log.txt
 # Create directories
 RUN mkdir ${OCR_DIR}
 
+# Create log
+RUN touch ${OCR_DIR}
+
 # SINHALA_OCR: Install Dependencies
 RUN apt-get update && apt-get install -y --fix-missing \
     curl \
