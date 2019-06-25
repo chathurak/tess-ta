@@ -29,7 +29,8 @@ RUN apt-get update && apt-get install -y --fix-missing \
 	htop \
 	tree \
 	locales \
-	mysql-client
+	mysql-client \
+	mongodb
 
 # Clone tess-ta repo
 RUN git clone https://github.com/sinhala-ocr/tess-ta.git ${TESS_TA_DIR}
