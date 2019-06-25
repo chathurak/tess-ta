@@ -1,28 +1,37 @@
-version: '2'
+version: '3'
 services:
-  ocr:
-    build: . 
-    container_name: ocr-daemon
-    hostname: ocr-daemon
-    ports:
-     - "4001:4001"
-     - "4002:4002"
+  ocr-tesseract:
+    image: tesseractshadow/tesseract4cmp
+    container_name: ocr-tesseract-daemon
     volumes:
-     - ./storage:/ocr/storage
-    depends_on:
-     - ocr-db
-  ocr-db:
-    image: mysql
-    container_name: ocr-db-daemon
-    hostname: ocr-db-daemon
+      - ~/ocr/tessdata:/ocr/tess-ta/target/tessdata
+      - ~/ocr/storage:/ocr/tess-ta/target/storage
+  ocr-mysql:
+    image: mysql:8
+    container_name: ocr-mysql-daemon
+    hostname: ocr-mysql-daemon
     command: mysqld --user=root --verbose
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: "tesseract_server"
-      MYSQL_PASSWORD: ""
+      MYSQL_DATABASE: "tesseract_ta"
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     expose:
       - "3306"
-      
+  ocr:
+    build: .
+    container_name: ocr-daemon
+    hostname: ocr-daemon
+    ports:
+      - "4000:4000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ~/ocr/tessdata:/ocr/tess-ta/target/tessdata
+      - ~/ocr/storage:/ocr/tess-ta/target/storage
+      - ~/ocr/config:/ocr/tess-ta/target/config
+    depends_on:
+      - ocr-tesseract
+      - ocr-mysql
