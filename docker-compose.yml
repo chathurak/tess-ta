@@ -1,7 +1,7 @@
 version: '3'
 services:
   ocr-tesseract:
-    image: tesseractshadow/tesseract4cmp
+    build: ./tesseract
     container_name: ocr-tesseract-daemon
     volumes:
       - ~/ocr/tessdata:/ocr/tess-ta/target/tessdata
@@ -21,10 +21,10 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     expose:
       - "3306"
-  ocr:
+  ocr-tessta:
     build: .
-    container_name: ocr-daemon
-    hostname: ocr-daemon
+    container_name: ocr-tessta-daemon
+    hostname: ocr-tessta-daemon
     ports:
       - "80:4000"
     volumes:

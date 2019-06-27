@@ -30,7 +30,10 @@ RUN apt-get update && apt-get install -y --fix-missing \
 	tree \
 	locales \
 	mysql-client \
-	mongodb
+	mongodb \
+	docker \
+	docker.io \
+	docker-compose
 
 # Clone tess-ta repo
 RUN git clone https://github.com/sinhala-ocr/tess-ta.git ${TESS_TA_DIR}
@@ -44,6 +47,12 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+
+# Add tesseract command
+RUN bash -c 'echo -e "#!/bin/bash\ndocker exec -it ocr-tesseract-daemon tesseract" > /usr/bin/tesseract && chmod +x /usr/bin/tesseract'
+
+# Add text2iamge command
+RUN bash -c 'echo -e "#!/bin/bash\ndocker exec -it ocr-tesseract-daemon text2iamge" > /usr/bin/text2iamge && chmod +x /usr/bin/text2iamge'
 
 # Export ports
 EXPOSE 4000
