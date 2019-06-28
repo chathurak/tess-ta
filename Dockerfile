@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:19.04 AS dependencies
 
 # Environment varialbes
 ENV OCR_DIR /ocr
@@ -7,13 +7,7 @@ ENV TESSDATA_DIR ${TESS_TA_DIR}/tessdata
 ENV STORAGE_DIR ${TESS_TA_DIR}/storage
 ENV LOG_FILE ${OCR_DIR}/log.txt
 
-# Create directories
-RUN mkdir ${OCR_DIR}
-
-# Create log
-RUN touch ${OCR_DIR}
-
-# SINHALA_OCR: Install Dependencies
+# Install Dependencies
 RUN apt-get update && apt-get install -y --fix-missing \
     curl \
     wget \
@@ -35,12 +29,26 @@ RUN apt-get update && apt-get install -y --fix-missing \
 	docker.io \
 	docker-compose
 
+WORKDIR ${OCR_DIR}/build
+
+COPY pom.xml .
+
+# Download Maven dependancies
+RUN mvn dependency:go-offline
+
+FROM dependencies AS intermediate
+
+# Create log
+RUN touch ${LOG_FILE}
+
 # Clone tess-ta repo
 RUN git clone https://github.com/sinhala-ocr/tess-ta.git ${TESS_TA_DIR}
 
+# Change working directory
+WORKDIR ${TESS_TA_DIR}
+
 # Build tess-ta
-RUN cd ${TESS_TA_DIR} && \
-    mvn clean verify package -Prelease -DskipTests
+RUN mvn clean verify package -Prelease -DskipTests
 
 # Setup fonts
 RUN locale-gen en_US.UTF-8
@@ -56,8 +64,5 @@ RUN bash -c 'echo -e "#!/bin/bash\ndocker exec -it ocr-tesseract-daemon text2iam
 
 # Export ports
 EXPOSE 4000
-
-# Working directory
-WORKDIR ${TESS_TA_DIR}
 
 CMD sh start-services.sh
