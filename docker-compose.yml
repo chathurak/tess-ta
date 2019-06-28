@@ -1,14 +1,14 @@
 version: '3'
 services:
   ocr-tesseract:
-    build: ./tesseract
+    build: ocr-tesseract
     container_name: ocr-tesseract-daemon
     volumes:
-      - ~/ocr/tessdata:/ocr/tess-ta/target/tessdata
-      - ~/ocr/storage:/ocr/tess-ta/target/storage
+      - ~/ocr/tessdata:/ocr/tess-ta/tessdata
+      - ~/ocr/storage:/ocr/tess-ta/storage
       - /Users/ivantha/Git/tess-ta:/Users/ivantha/Git/tess-ta
   ocr-mysql:
-    image: mysql:8
+    image: mysql:8.0.16
     container_name: ocr-mysql-daemon
     hostname: ocr-mysql-daemon
     command: mysqld --user=root --verbose
@@ -30,8 +30,8 @@ services:
       - "80:4000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - ~/ocr/tessdata:/ocr/tess-ta/target/tessdata
-      - ~/ocr/storage:/ocr/tess-ta/target/storage
+      - ~/ocr/tessdata:/ocr/tess-ta/tessdata
+      - ~/ocr/storage:/ocr/tess-ta/storage
       - ~/ocr/config:/ocr/tess-ta/target/config
     depends_on:
       - ocr-tesseract

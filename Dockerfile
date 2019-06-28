@@ -57,10 +57,10 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Add tesseract command
-RUN bash -c 'echo -e "#!/bin/bash\ndocker exec -it ocr-tesseract-daemon tesseract" > /usr/bin/tesseract && chmod +x /usr/bin/tesseract'
+RUN bash -c 'echo -e "#!/bin/bash\ndocker exec ocr-tesseract-daemon tesseract" > /usr/bin/tesseract && chmod +x /usr/bin/tesseract'
 
 # Add text2iamge command
-RUN bash -c 'echo -e "#!/bin/bash\ndocker exec -it ocr-tesseract-daemon text2iamge" > /usr/bin/text2iamge && chmod +x /usr/bin/text2iamge'
+RUN bash -c 'echo -e "#!/bin/bash\ndocker exec ocr-tesseract-daemon text2iamge" > /usr/bin/text2iamge && chmod +x /usr/bin/text2iamge'
 
 # Export ports
 EXPOSE 4000
