@@ -18,21 +18,25 @@ public class TaskServices {
         this.connection = connection;
     }
 
-    public List<Task> getTasks(int userFileId) {
+    public List<Task> getTasks(int documentId) {
         List<Task> tasks = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM task INNER JOIN document ON task.document_id = document.id " +
-                    "INNER JOIN tessdata ON task.tessdata_id = tessdata.id WHERE document.name = ?";
+            String sql = "SELECT * FROM task " +
+                    "INNER JOIN document ON task.document_id = document.id " +
+                    "INNER JOIN tessdata ON task.tessdata_id = tessdata.id " +
+                    "WHERE document.id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, userFileId);
+            statement.setInt(1, documentId);
 
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 Task task = new Task();
                 task.setId(result.getInt("id"));
+                task.setName(result.getString("task.name"));
                 task.setDocumentId(result.getInt("document_id"));
                 task.setTessdataId(result.getInt("tessdata_id"));
+                task.setTessdataName(result.getString("tessdata.name"));
                 task.setCreatedAt(result.getDate("created_at"));
                 task.setUpdatedAt(result.getDate("updated_at"));
                 tasks.add(task);

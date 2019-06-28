@@ -15,6 +15,7 @@ import TableHead            from '@material-ui/core/TableHead';
 import TableRow             from '@material-ui/core/TableRow';
 import Input                from '@material-ui/core/Input';
 import { documentServices } from '../../../../../../services'
+import { taskServices } from '../../../../../../services'
 import LinearProgress       from '@material-ui/core/LinearProgress';
 
 
@@ -42,14 +43,12 @@ class FileManagerPanel extends React.Component {
         });
 
         if (expanded) {
-            this.setState({ isLoading: true });
-            documentServices.getTasks(this.state.files[panel].id)
+            taskServices.getTasks(this.state.files[panel].id)
                 .then((tasks) => {
                     console.log(tasks);
 
                     this.setState({
                         taskInfo : tasks,
-                        isLoading: false
                     });
                 })
                 .catch((error) => {
@@ -150,28 +149,33 @@ class FileManagerPanel extends React.Component {
                                                     <TableHead>
                                                         <TableRow>
                                                             <TableCell>
-                                                                ID
+                                                                Task Name
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                Tessdata Name
                                                             </TableCell>
                                                             <TableCell align = "right">
-                                                                Created On
+                                                                Created At
                                                             </TableCell>
                                                             <TableCell align = "right">
-                                                                Tessdata
-                                                            </TableCell>
-                                                            <TableCell align = "right">
-                                                                Accuracy
+                                                                Modified At
                                                             </TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {this.state.taskInfo.map(
+                                                        {this.state.taskInfo != null && this.state.taskInfo.map(
                                                             (task, i) => (
                                                                 <TableRow
                                                                     key = {i}
                                                                 >
                                                                     <TableCell>
                                                                         {
-                                                                            task.key
+                                                                            task.name
+                                                                        }
+                                                                    </TableCell>
+                                                                    <TableCell>
+                                                                        {
+                                                                            task.tessdataName
                                                                         }
                                                                     </TableCell>
                                                                     <TableCell align = "right">
@@ -181,14 +185,8 @@ class FileManagerPanel extends React.Component {
                                                                     </TableCell>
                                                                     <TableCell align = "right">
                                                                         {
-                                                                            task.tessdataName
+                                                                            task.updatedAt
                                                                         }
-                                                                    </TableCell>
-                                                                    <TableCell align = "right">
-                                                                        {
-                                                                            task.accuracy
-                                                                        }
-                                                                        %
                                                                     </TableCell>
                                                                 </TableRow>
                                                             )

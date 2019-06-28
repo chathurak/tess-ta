@@ -11,11 +11,13 @@ const getTasks = (documentId) => {
         }
     }).then((res) => {
         let taskList = res.data.map(task => ({
-            id        : task.id,
-            userFileId: task.userFileId,
-            tessdataId: task.tessdataId,
-            createdAt : task.createdAt,
-            updatedAt : task.updatedAt
+            id          : task.id,
+            name        : task.name,
+            userFileId  : task.userFileId,
+            tessdataId  : task.tessdataId,
+            tessdataName: task.tessdataName,
+            createdAt   : task.createdAt,
+            updatedAt   : task.updatedAt
         }))
 
         return new Promise((resolve, reject) => {

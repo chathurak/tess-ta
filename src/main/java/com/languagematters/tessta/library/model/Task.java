@@ -9,8 +9,10 @@ import java.util.Date;
 @Setter
 public class Task {
     private int id;
+    private String name;
     private int documentId;
     private int tessdataId;
+    private String tessdataName;
 
     private Date createdAt;
     private Date updatedAt;
