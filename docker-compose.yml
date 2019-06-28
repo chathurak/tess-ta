@@ -6,6 +6,7 @@ services:
     volumes:
       - ~/ocr/tessdata:/ocr/tess-ta/target/tessdata
       - ~/ocr/storage:/ocr/tess-ta/target/storage
+      - /Users/ivantha/Git/tess-ta:/Users/ivantha/Git/tess-ta
   ocr-mysql:
     image: mysql:8
     container_name: ocr-mysql-daemon
