@@ -1,12 +1,12 @@
 const styles = {
-    expansionPanel       : {
-        root    : {
-            border              : '1px solid rgba(0,0,0,.125)',
-            boxShadow           : 'none',
+    expansionPanel: {
+        root: {
+            border: '1px solid rgba(0,0,0,.125)',
+            boxShadow: 'none',
             '&:not(:last-child)': {
                 borderBottom: 0,
             },
-            '&:before'          : {
+            '&:before': {
                 display: 'none',
             },
         },
@@ -15,16 +15,16 @@ const styles = {
         },
     },
     expansionPanelSummary: {
-        root    : {
+        root: {
             backgroundColor: 'rgba(0,0,0,.03)',
-            borderBottom   : '1px solid rgba(0,0,0,.125)',
-            marginBottom   : -1,
-            minHeight      : 56,
-            '&$expanded'   : {
+            borderBottom: '1px solid rgba(0,0,0,.125)',
+            marginBottom: -1,
+            minHeight: 56,
+            '&$expanded': {
                 minHeight: 56,
             },
         },
-        content : {
+        content: {
             '&$expanded': {
                 margin: '12px 0',
             },
@@ -36,19 +36,20 @@ const styles = {
             padding: 20,
         },
     },
-    button               : {
-        margin: 5
+    button: {
+        margin: 0,
+        marginLeft: 5,
     },
-    table                : {
-        root : {
-            width    : '100%',
+    table: {
+        root: {
+            width: '100%',
             marginTop: 30,
             overflowX: 'auto',
         },
         table: {
             minWidth: 700,
         },
-    }
+    },
 }
 
 export default styles

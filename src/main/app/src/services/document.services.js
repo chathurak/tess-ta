@@ -26,6 +26,16 @@ const getDocuments = () => {
     })
 }
 
+const renameDocument = (documentId, newName) => {
+    // TODO: Implement rename feature
+}
+
+const deleteDocument = (documentId) => {
+    // TODO: Implement delete feature
+}
+
 export const documentServices = {
-    getDocuments
+    getDocuments,
+    renameDocument,
+    deleteDocument
 }

@@ -6,17 +6,17 @@ import MuiExpansionPanel        from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography               from '@material-ui/core/Typography';
-import Grid                 from '@material-ui/core/Grid';
-import Button               from '@material-ui/core/Button';
-import Table                from '@material-ui/core/Table';
-import TableBody            from '@material-ui/core/TableBody';
-import TableCell            from '@material-ui/core/TableCell';
-import TableHead            from '@material-ui/core/TableHead';
-import TableRow             from '@material-ui/core/TableRow';
-import Input                from '@material-ui/core/Input';
-import { documentServices } from '../../../../../../services'
-import { taskServices } from '../../../../../../services'
-import LinearProgress       from '@material-ui/core/LinearProgress';
+import Grid                     from '@material-ui/core/Grid';
+import Button                   from '@material-ui/core/Button';
+import Table                    from '@material-ui/core/Table';
+import TableBody                from '@material-ui/core/TableBody';
+import TableCell                from '@material-ui/core/TableCell';
+import TableHead                from '@material-ui/core/TableHead';
+import TableRow                 from '@material-ui/core/TableRow';
+import { documentServices }     from '../../../../../../services'
+import { taskServices }         from '../../../../../../services'
+import LinearProgress           from '@material-ui/core/LinearProgress';
+import DialogInput              from '../../../../../../components/dialoginput/DialogInput';
 
 
 const ExpansionPanel                = withStyles(styles.expansionPanel)(MuiExpansionPanel);
@@ -31,22 +31,23 @@ class FileManagerPanel extends React.Component {
 
         this.state = {
             expanded : "1",
+            selectedDocumentId : null,
             files    : [],
             taskInfo : [],
-            isLoading: true
+            isLoading: true,
         };
     }
 
     handleChange = (panel) => (event, expanded) => {
         this.setState({
-            expanded: expanded ? panel: false
+            expanded: expanded ? panel : false,
         });
 
         if (expanded) {
+            this.setState({ selectedDocumentId: this.state.files[panel].id })
+
             taskServices.getTasks(this.state.files[panel].id)
                 .then((tasks) => {
-                    console.log(tasks);
-
                     this.setState({
                         taskInfo : tasks,
                     });
@@ -58,19 +59,19 @@ class FileManagerPanel extends React.Component {
     };
 
     handleDelete = (event) => {
-        // var selectedIndex = this.state.expanded;
-
-        // TODO: Implement delete function
+        documentServices.deleteDocument(this.state.selectedDocumentId);
     };
+
+    handleRename = (newValue) => {
+        documentServices.renameDocument(this.state.selectedDocumentId, newValue);
+    }
 
     componentDidMount() {
         documentServices.getDocuments()
             .then((files) => {
-                console.log(files);
-
                 this.setState({
                     files    : files,
-                    isLoading: false
+                    isLoading: false,
                 });
             })
             .catch((error) => {
@@ -123,23 +124,6 @@ class FileManagerPanel extends React.Component {
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <span  style = {{ width: "100%" }}>
-                                        <Input value = {this.state.name} />
-                                            <Button
-                                                variant   = "contained"
-                                                color     = "primary"
-                                                className = {classes.button}
-                                            >
-                                                RENAME
-                                            </Button>
-                                            <Button
-                                                variant   = "contained"
-                                                color     = "secondary"
-                                                className = {classes.button}
-                                                onClick   = {this.handleDelete}
-                                            >
-                                                DELETE
-                                            </Button>
-
                                             {/* Table of details */}
                                             {i === this.state.expanded && (
                                                 <Table
@@ -194,6 +178,26 @@ class FileManagerPanel extends React.Component {
                                                     </TableBody>
                                                 </Table>
                                             )}
+
+                                            <br/>
+                                            <div className='rowC' style={{display: 'flex', flexDirection: 'row'}}>
+                                                <DialogInput
+                                                    label="Rename"
+                                                    title="Rename document"
+                                                    message="Enter a new document name"
+                                                    value={file.name}
+                                                    onOk={this.handleRename}
+                                                />
+
+                                                <Button
+                                                    variant   = "outlined"
+                                                    color     = "secondary"
+                                                    className = {classes.button}
+                                                    onClick   = {this.handleDelete}
+                                                >
+                                                    DELETE
+                                                </Button>
+                                            </div>
                                         </span>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>
