@@ -11,11 +11,12 @@ const getDocuments = () => {
         }
     }).then((res) => {
         let documentList = res.data.map(document => ({
-            id       : document.id,
-            userId   : document.userId,
-            name     : document.name,
-            createdAt: document.createdAt,
-            updatedAt: document.updatedAt
+            id              : document.id,
+            userId          : document.userId,
+            name            : document.name,
+            originalFileName: document.originalFileName,
+            createdAt       : document.createdAt,
+            updatedAt       : document.updatedAt
         }))
 
         return new Promise((resolve, reject) => {

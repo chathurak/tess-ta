@@ -50,6 +50,10 @@ const styles = {
             minWidth: 700,
         },
     },
+    buttonBox: {
+        display: 'flex',
+        flexDirection: 'row'
+    }
 }
 
 export default styles

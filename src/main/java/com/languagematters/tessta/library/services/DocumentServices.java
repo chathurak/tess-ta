@@ -33,6 +33,7 @@ public class DocumentServices {
                 userFile.setId(result.getInt("id"));
                 userFile.setUserId(result.getInt("user_id"));
                 userFile.setName(result.getString("name"));
+                userFile.setOriginalFileName(result.getString("original_file_name"));
                 userFile.setCreatedAt(result.getDate("created_at"));
                 userFile.setUpdatedAt(result.getDate("updated_at"));
                 userFiles.add(userFile);

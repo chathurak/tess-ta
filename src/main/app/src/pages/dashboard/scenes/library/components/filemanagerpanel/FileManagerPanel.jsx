@@ -106,9 +106,7 @@ class FileManagerPanel extends React.Component {
                                             </Grid>
                                             <Grid item xs>
                                                 <Typography>
-                                                    {file.isText
-                                                        ? "TEXT"
-                                                        : "TIFF"}
+                                                    {file.originalFileName != null && file.originalFileName.split('.').pop().toUpperCase()}
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs>
@@ -180,7 +178,7 @@ class FileManagerPanel extends React.Component {
                                             )}
 
                                             <br/>
-                                            <div className='rowC' style={{display: 'flex', flexDirection: 'row'}}>
+                                            <div style={styles.buttonBox}>
                                                 <DialogInput
                                                     label="Rename"
                                                     title="Rename document"
