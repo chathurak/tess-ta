@@ -64,47 +64,55 @@ public class OcrTask {
 
     public void process() {
         try {
-            Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
-            Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
+//            Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
+//            Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
 
             // Create output gdrive directory
-            com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
-            parentDirMetadata.setName(taskId);
-            parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
-            com.google.api.services.drive.model.File parentDir = drive.files()
-                    .create(parentDirMetadata)
-                    .setFields("id")
-                    .execute();
+//            com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
+//            parentDirMetadata.setName(taskId);
+//            parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
+//            com.google.api.services.drive.model.File parentDir = drive.files()
+//                    .create(parentDirMetadata)
+//                    .setFields("id")
+//                    .execute();
 
             File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, taskId));
             File originalFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, originalFileName));
 
             // Create task directory
+            System.out.println("Create task directory");
             Files.createDirectories(taskDir.toPath());
+            System.out.println(taskDir.toPath());
 
             // Text to image
-            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
+            System.out.println("Text to image");
+            imageServices.text2ImageDocker(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
 
             // OCR
-            ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
+            System.out.println("OCR");
+            ocrServices.ocrDocker(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
 
             // Comparison
+            System.out.println("Comparison");
             DiffList diffList = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
             objectMapper.writeValue(new File(String.format("%s/diff_list.json", taskDir.getAbsolutePath())), diffList);
 
             // Confusion Matrix
+            System.out.println("Confusion Matrix");
             ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
             objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
 
             // Save reports
-            new DiffReport(diffList.getCustomDiffs()).writeReport(drive, sheets, parentDir.getId(), "diff");
-            new ConfusionReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion");
-            new ConfusionSummaryReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
+            System.out.println("Save reports");
+//            new DiffReport(diffList.getCustomDiffs()).writeReport(drive, sheets, parentDir.getId(), "diff");
+//            new ConfusionReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion");
+//            new ConfusionSummaryReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
 
             // Log
             // TODO : Generate Json and save as ./log.json
 
             // Upload files
+            System.out.println("Upload files");
             ArrayList<Upload> uploadFileList = new ArrayList<>();
             uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
             uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
@@ -112,20 +120,20 @@ public class OcrTask {
             uploadFileList.add(new Upload("output.txt", "text/plain", taskDir.getAbsolutePath() + "/output.txt"));
 //            uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
 
-            for (Upload upload : uploadFileList) {
-                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
-                fileMetadata.setName(upload.getName());
-                fileMetadata.setParents(Collections.singletonList(parentDir.getId()));
-                File filePath = new File(upload.getPath());
-                FileContent mediaContent = new FileContent(upload.getContent(), filePath);
-                try {
-                    drive.files().create(fileMetadata, mediaContent)
-                            .setFields("id")
-                            .execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+//            for (Upload upload : uploadFileList) {
+//                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
+//                fileMetadata.setName(upload.getName());
+//                fileMetadata.setParents(Collections.singletonList(parentDir.getId()));
+//                File filePath = new File(upload.getPath());
+//                FileContent mediaContent = new FileContent(upload.getContent(), filePath);
+//                try {
+//                    drive.files().create(fileMetadata, mediaContent)
+//                            .setFields("id")
+//                            .execute();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
             System.out.printf("Process completed : %s\n", taskId);
         } catch (Exception e) {
@@ -176,6 +184,7 @@ public class OcrTask {
                         break;
                     }
                     System.out.printf("Exec output : %s\n", line);
+                    System.out.println("Exec output : " + line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

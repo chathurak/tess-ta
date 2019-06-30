@@ -30,9 +30,8 @@ services:
       - "80:4000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - ~/ocr/tessdata:/ocr/tess-ta/tessdata
-      - ~/ocr/storage:/ocr/tess-ta/storage
-      - ~/ocr/config:/ocr/tess-ta/target/config
+      - ~/tess-ta/tessdata:/ocr/tess-ta/tessdata
+      - ~/tess-ta/storage:/ocr/tess-ta/storage
     depends_on:
       - ocr-tesseract
       - ocr-mysql

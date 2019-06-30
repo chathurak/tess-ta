@@ -1,6 +1,6 @@
 # Start services
-service redis-server start
-service mongod start
+# TODO : service redis-server start
+# TODO : service mongod start
 
 sleep 20
 

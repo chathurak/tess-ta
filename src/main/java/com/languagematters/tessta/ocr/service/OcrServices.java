@@ -33,4 +33,26 @@ public class OcrServices {
         executor.execute(cmdLine, customEnvironment);
     }
 
+    public void ocrDocker(Executor executor, String inputPath, String outputPath) throws Exception {
+        CommandLine cmdLine = new CommandLine("docker");
+        cmdLine.addArgument("exec");
+        cmdLine.addArgument("ocr-tesseract-daemon");
+        cmdLine.addArgument("tesseract");
+        cmdLine.addArgument("--tessdata-dir");
+        cmdLine.addArgument(tessdataPath);
+        cmdLine.addArgument(inputPath);
+        cmdLine.addArgument(outputPath);
+        cmdLine.addArgument("-l");
+        cmdLine.addArgument("sin");
+        cmdLine.addArgument("segdemo");
+        cmdLine.addArgument("inter");
+
+        // Custom environment
+        Map<String, String> customEnvironment = EnvironmentUtils.getProcEnvironment();
+        customEnvironment.put("PANGOCAIRO_BACKEND", "fc");
+
+        // Execute
+        executor.execute(cmdLine, customEnvironment);
+    }
+
 }
