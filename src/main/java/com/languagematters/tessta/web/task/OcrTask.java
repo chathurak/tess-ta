@@ -184,7 +184,6 @@ public class OcrTask {
                         break;
                     }
                     System.out.printf("Exec output : %s\n", line);
-                    System.out.println("Exec output : " + line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
