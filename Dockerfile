@@ -17,14 +17,13 @@ RUN apt-get update && apt-get install -y --fix-missing \
     openjdk-12-jre \
 	openjdk-12-jdk \
 	maven \
-    redis-server \
+#    redis-server \
 	vim \
 	psmisc \
 	htop \
 	tree \
 	locales \
-	mysql-client \
-	mongodb \
+#	mysql-client \
 	docker \
 	docker.io \
 	docker-compose

@@ -64,17 +64,18 @@ public class OcrTask {
 
     public void process() {
         try {
-//            Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
-//            Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
+            Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
+            Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
 
             // Create output gdrive directory
-//            com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
-//            parentDirMetadata.setName(taskId);
-//            parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
-//            com.google.api.services.drive.model.File parentDir = drive.files()
-//                    .create(parentDirMetadata)
-//                    .setFields("id")
-//                    .execute();
+            System.out.println("Create output gdrive directory");
+            com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
+            parentDirMetadata.setName(taskId);
+            parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
+            com.google.api.services.drive.model.File parentDir = drive.files()
+                    .create(parentDirMetadata)
+                    .setFields("id")
+                    .execute();
 
             File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, taskId));
             File originalFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, originalFileName));
@@ -104,9 +105,9 @@ public class OcrTask {
 
             // Save reports
             System.out.println("Save reports");
-//            new DiffReport(diffList.getCustomDiffs()).writeReport(drive, sheets, parentDir.getId(), "diff");
-//            new ConfusionReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion");
-//            new ConfusionSummaryReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
+            new DiffReport(diffList.getCustomDiffs()).writeReport(drive, sheets, parentDir.getId(), "diff");
+            new ConfusionReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion");
+            new ConfusionSummaryReport(confusionMap).writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
 
             // Log
             // TODO : Generate Json and save as ./log.json
@@ -118,22 +119,22 @@ public class OcrTask {
             uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
             uploadFileList.add(new Upload("out.tif", "image/tiff", taskDir.getAbsolutePath() + "/out.tif"));
             uploadFileList.add(new Upload("output.txt", "text/plain", taskDir.getAbsolutePath() + "/output.txt"));
-//            uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
+            uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
 
-//            for (Upload upload : uploadFileList) {
-//                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
-//                fileMetadata.setName(upload.getName());
-//                fileMetadata.setParents(Collections.singletonList(parentDir.getId()));
-//                File filePath = new File(upload.getPath());
-//                FileContent mediaContent = new FileContent(upload.getContent(), filePath);
-//                try {
-//                    drive.files().create(fileMetadata, mediaContent)
-//                            .setFields("id")
-//                            .execute();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            for (Upload upload : uploadFileList) {
+                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
+                fileMetadata.setName(upload.getName());
+                fileMetadata.setParents(Collections.singletonList(parentDir.getId()));
+                File filePath = new File(upload.getPath());
+                FileContent mediaContent = new FileContent(upload.getContent(), filePath);
+                try {
+                    drive.files().create(fileMetadata, mediaContent)
+                            .setFields("id")
+                            .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
             System.out.printf("Process completed : %s\n", taskId);
         } catch (Exception e) {

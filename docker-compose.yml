@@ -1,36 +1,76 @@
 version: '3'
 services:
-  ocr-tesseract:
+  tesseract:
     build: ocr-tesseract
-    container_name: ocr-tesseract-daemon
+    container_name: tesseract-daemon
     volumes:
-      - /ocr/tess-ta/tessdata:/ocr/tess-ta/tessdata
-      - /ocr/tess-ta/storage:/ocr/tess-ta/storage
-  ocr-mysql:
-    image: mysql:8.0.16
-    container_name: ocr-mysql-daemon
-    hostname: ocr-mysql-daemon
-    command: mysqld --user=root --verbose
+      - "/ocr/tess-ta/tessdata:/ocr/tess-ta/tessdata"
+      - "/ocr/tess-ta/storage:/ocr/tess-ta/storage"
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-daemon
+    hostname: mysql-daemon
+    # command: mysqld --user=root --verbose
+    command: ['--default-authentication-plugin=mysql_native_password']
     volumes:
-      - ./database:/docker-entrypoint-initdb.d
+      - "./database:/docker-entrypoint-initdb.d"
     ports:
-      - "3306:3306"
+      - "3306"
     environment:
       MYSQL_DATABASE: "tesseract_ta"
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "leonie-mysql@ocr"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: "ivantha"
+      MYSQL_PASSWORD: "cat"
     expose:
       - "3306"
-  ocr-tessta:
-    build: .
-    container_name: ocr-tessta-daemon
-    hostname: ocr-tessta-daemon
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.8
+    container_name: phpmyadmin-daemon
+    hostname: phpmyadmin-daemon
+    environment:
+      MYSQL_ROOT_PASSWORD: "leonie-mysql@ocr"
+      PMA_HOST: "mysql"
     ports:
+      - "4001:80"
+    restart: always
+    depends_on:
+      - mysql
+  mongo:
+    image: mongo:4.1
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "leonie-mongo@ocr"
+      MONGO_INITDB_DATABASE: "tess-library"
+  mongo-express:
+    image: mongo-express:0.49
+    ports:
+      - "4002:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "leonie-mongo@ocr"
+    restart: always
+    depends_on:
+      - mongo
+  redis:
+    image: redis:5.0
+    container_name: redis-daemon
+    command: "redis-server --requirepass leonie-redis@ocr"
+    expose:
+      - "6379"
+  tessta:
+    build: .
+    container_name: tessta-daemon
+    hostname: tessta-daemon
+    ports:
+      - "4000"
       - "80:4000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - /ocr/tess-ta/tessdata:/ocr/tess-ta/tessdata
-      - /ocr/tess-ta/storage:/ocr/tess-ta/storage
+      - "/ocr/tess-ta/tessdata:/ocr/tess-ta/tessdata"
+      - "/ocr/tess-ta/storage:/ocr/tess-ta/storage"
     depends_on:
-      - ocr-tesseract
-      - ocr-mysql
+      - tesseract
+      - mysql
+      - mongo
+      - redis

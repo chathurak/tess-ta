@@ -1,7 +1,3 @@
-# Start services
-# TODO : service redis-server start
-# TODO : service mongod start
-
 sleep 20
 
 # Start TA
