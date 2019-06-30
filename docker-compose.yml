@@ -4,8 +4,8 @@ services:
     build: ocr-tesseract
     container_name: ocr-tesseract-daemon
     volumes:
-      - ~/ocr/tessdata:/ocr/tess-ta/tessdata
-      - ~/ocr/storage:/ocr/tess-ta/storage
+      - ~/tess-ta/tessdata:/ocr/tess-ta/tessdata
+      - ~/tess-ta/storage:/ocr/tess-ta/storage
       - /Users/ivantha/Git/tess-ta:/Users/ivantha/Git/tess-ta
   ocr-mysql:
     image: mysql:8.0.16
