@@ -29,6 +29,4 @@ HELP.md
 .vscode/
 
 # Project #
-tessdata/*
-!tessdata/.gitkeep
 tessta-storage
