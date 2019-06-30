@@ -36,10 +36,6 @@ const styles = {
             padding: 20,
         },
     },
-    button: {
-        margin: 0,
-        marginLeft: 5,
-    },
     table: {
         root: {
             width: '100%',
@@ -53,6 +49,9 @@ const styles = {
     buttonBox: {
         display: 'flex',
         flexDirection: 'row'
+    },
+    button: {
+        marginLeft: 5,
     }
 }
 

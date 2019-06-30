@@ -6,9 +6,7 @@ import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +27,9 @@ public class DocumentController {
         return documentServices.getDocuments(currentUser.getId());
     }
 
+    @DeleteMapping
+    @PreAuthorize("hasRole('USER')")
+    public int deleteDocument(@CurrentUser UserPrincipal currentUser, @RequestParam("documentId") int documentId) {
+        return documentServices.deleteDocument(documentId);
+    }
 }

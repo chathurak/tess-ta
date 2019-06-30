@@ -7,16 +7,16 @@ import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography               from '@material-ui/core/Typography';
 import Grid                     from '@material-ui/core/Grid';
-import Button                   from '@material-ui/core/Button';
 import Table                    from '@material-ui/core/Table';
 import TableBody                from '@material-ui/core/TableBody';
 import TableCell                from '@material-ui/core/TableCell';
 import TableHead                from '@material-ui/core/TableHead';
 import TableRow                 from '@material-ui/core/TableRow';
+import LinearProgress           from '@material-ui/core/LinearProgress';
 import { documentServices }     from '../../../../../../services'
 import { taskServices }         from '../../../../../../services'
-import LinearProgress           from '@material-ui/core/LinearProgress';
 import DialogInput              from '../../../../../../components/dialoginput/DialogInput';
+import DialogConfirm            from '../../../../../../components/dialogconfirm/DialogConfirm';
 
 
 const ExpansionPanel                = withStyles(styles.expansionPanel)(MuiExpansionPanel);
@@ -59,7 +59,13 @@ class FileManagerPanel extends React.Component {
     };
 
     handleDelete = (event) => {
-        documentServices.deleteDocument(this.state.selectedDocumentId);
+        documentServices.deleteDocument(this.state.selectedDocumentId)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     handleRename = (newValue) => {
@@ -186,15 +192,14 @@ class FileManagerPanel extends React.Component {
                                                     value={file.name}
                                                     onOk={this.handleRename}
                                                 />
-
-                                                <Button
-                                                    variant   = "outlined"
-                                                    color     = "secondary"
-                                                    className = {classes.button}
-                                                    onClick   = {this.handleDelete}
-                                                >
-                                                    DELETE
-                                                </Button>
+                                                <DialogConfirm
+                                                    style={styles.button}
+                                                    label="Delete"
+                                                    title="Delete document and its ALL tasks?"
+                                                    message="Are you sure you want to delete the document and its created tasks?"
+                                                    onOk={this.handleDelete}
+                                                />
+                                                
                                             </div>
                                         </span>
                                     </ExpansionPanelDetails>

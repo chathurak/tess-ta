@@ -91,8 +91,19 @@ public class DocumentServices {
         return -1;
     }
 
-    public void deleteDocument(String userFileName) {
-        // TODO
+    public int deleteDocument(int documentId) {
+        try {
+            String sql = "DELETE FROM document WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, documentId);
+
+            int rowsApplied = statement.executeUpdate();
+            return rowsApplied;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return -1;
     }
 
     public void renameDocument(String userFileName, String newName) {

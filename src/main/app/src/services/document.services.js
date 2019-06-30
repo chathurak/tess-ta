@@ -32,7 +32,20 @@ const renameDocument = (documentId, newName) => {
 }
 
 const deleteDocument = (documentId) => {
-    // TODO: Implement delete feature
+    return axios.request({
+        method : 'delete',
+        url    : `/api/document?documentId=${documentId}`,
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+        }
+    }).then((res) => {
+        return new Promise((resolve, reject) => {
+            resolve(res)
+        })
+    }).catch((error) => {
+        console.log(error)
+    })
 }
 
 export const documentServices = {
