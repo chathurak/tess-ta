@@ -10,6 +10,7 @@ import ListSubheader    from '@material-ui/core/ListSubheader/index'
 import FindInPageIcon   from '@material-ui/icons/FindInPage'
 import HomeIcon         from '@material-ui/icons/Home'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
+import ListAltIcon      from '@material-ui/icons/ListAlt'
 import QueueIcon        from '@material-ui/icons/Queue'
 import SettingsIcon     from '@material-ui/icons/Settings'
 import SpellcheckIcon   from '@material-ui/icons/Spellcheck'
@@ -72,7 +73,7 @@ class Sidebar extends React.Component {
                     <Divider/>
                     <ListItem button component={Link} to="/reports">
                         <ListItemIcon>
-                            <LibraryBooksIcon/>
+                            <ListAltIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Reports"/>
                     </ListItem>
