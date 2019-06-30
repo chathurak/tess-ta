@@ -32,4 +32,12 @@ public class DocumentController {
     public int deleteDocument(@CurrentUser UserPrincipal currentUser, @RequestParam("documentId") int documentId) {
         return documentServices.deleteDocument(documentId);
     }
+
+    @PutMapping
+    @PreAuthorize("hasRole('USER')")
+    public int deleteDocument(@CurrentUser UserPrincipal currentUser,
+                              @RequestParam("documentId") int documentId,
+                              @RequestParam("newName") String newName) {
+        return documentServices.renameDocument(documentId, newName);
+    }
 }

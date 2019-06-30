@@ -61,7 +61,7 @@ class FileManagerPanel extends React.Component {
     handleDelete = (event) => {
         documentServices.deleteDocument(this.state.selectedDocumentId)
             .then((res) => {
-                console.log(res)
+                this.componentDidMount();
             })
             .catch((error) => {
                 console.log(error);
@@ -69,7 +69,13 @@ class FileManagerPanel extends React.Component {
     };
 
     handleRename = (newValue) => {
-        documentServices.renameDocument(this.state.selectedDocumentId, newValue);
+        documentServices.renameDocument(this.state.selectedDocumentId, newValue)
+            .then((res) => {
+                this.componentDidMount();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     componentDidMount() {

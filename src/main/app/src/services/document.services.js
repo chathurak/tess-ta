@@ -28,7 +28,20 @@ const getDocuments = () => {
 }
 
 const renameDocument = (documentId, newName) => {
-    // TODO: Implement rename feature
+    return axios.request({
+        method : 'put',
+        url    : `/api/document?documentId=${documentId}&newName=${newName}`,
+        headers: {
+            'Content-Type' : 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
+        }
+    }).then((res) => {
+        return new Promise((resolve, reject) => {
+            resolve(res)
+        })
+    }).catch((error) => {
+        console.log(error)
+    })
 }
 
 const deleteDocument = (documentId) => {

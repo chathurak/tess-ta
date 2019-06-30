@@ -106,8 +106,22 @@ public class DocumentServices {
         return -1;
     }
 
-    public void renameDocument(String userFileName, String newName) {
-        // TODO
+    public int renameDocument(int documentId, String newName) {
+        try {
+            String sql = "UPDATE document " +
+                    "SET name = ? " +
+                    "WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, newName);
+            statement.setInt(2, documentId);
+
+            int rowsApplied = statement.executeUpdate();
+            return rowsApplied;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return -1;
     }
 }
 
