@@ -38,12 +38,14 @@ services:
       - mysql
   mongo:
     image: mongo:4.1
+    container_name: mongo-daemon
     environment:
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "leonie-mongo@ocr"
       MONGO_INITDB_DATABASE: "tess-library"
   mongo-express:
     image: mongo-express:0.49
+    container_name: mongo-express-daemon
     ports:
       - "4002:8081"
     environment:
