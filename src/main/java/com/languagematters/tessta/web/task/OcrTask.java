@@ -87,11 +87,11 @@ public class OcrTask {
 
             // Text to image
             System.out.println("Text to image");
-            imageServices.text2ImageDocker(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
+            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
 
             // OCR
             System.out.println("OCR");
-            ocrServices.ocrDocker(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
+            ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
 
             // Comparison
             System.out.println("Comparison");
