@@ -36,7 +36,7 @@ public class OcrServices {
     public void ocrDocker(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = new CommandLine("docker");
         cmdLine.addArgument("exec");
-        cmdLine.addArgument("ocr-tesseract-daemon");
+        cmdLine.addArgument("tesseract-daemon");
         cmdLine.addArgument("tesseract");
         cmdLine.addArgument("--tessdata-dir");
         cmdLine.addArgument(tessdataPath);

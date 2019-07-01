@@ -37,7 +37,7 @@ public class ImageServices {
     public void text2ImageDocker(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = new CommandLine("docker");
         cmdLine.addArgument("exec");
-        cmdLine.addArgument("ocr-tesseract-daemon");
+        cmdLine.addArgument("tesseract-daemon");
         cmdLine.addArgument("text2image");
         cmdLine.addArgument("--text");
         cmdLine.addArgument(inputPath);
