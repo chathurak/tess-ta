@@ -1,60 +1,58 @@
-package com.languagematters.tessta.report.model.report;
+package com.languagematters.tessta.report.report;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
-import com.languagematters.tessta.grammar.util.DBUtils;
-import com.languagematters.tessta.report.model.ConfusionMap;
+import com.languagematters.tessta.report.model.CustomDiff;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class ConfusionReport {
+public class DiffReport {
 
     private List<List<Object>> rows;
 
-    private ArrayList<String> characters;
-    private ArrayList<String> subCharacters;
-
-    public ConfusionReport(ConfusionMap confusionMap) {
+    public DiffReport(@NotNull List<CustomDiff> deltas) {
         rows = new ArrayList<>();
+        rows.add(Arrays.asList("Input text", "OCR output", "Type"));
 
-        HashSet<String> exBlock = DBUtils.loadValues("select * from exblock", "character");
-        LinkedHashSet<String> exBlockLinked = new LinkedHashSet<>(exBlock);
-
-        // Get characters and subCharacters
-        characters = new ArrayList<>();
-        subCharacters = new ArrayList<>();
-        HashMap<String, Boolean> subCharacterAdded = new HashMap<>();
-        for (String character : exBlockLinked) {
-            if (confusionMap.containsOuterKey(character)) {
-                characters.add(character);
-                for (String subCharacter : exBlockLinked) {
-                    if (confusionMap.containsInnerKey(character, subCharacter) && !subCharacterAdded.getOrDefault(character, Boolean.FALSE)) {
-                        subCharacters.add(subCharacter);
-                        subCharacterAdded.put(subCharacter, Boolean.TRUE);
-                    }
-                }
-            }
-        }
-
-        // Create heading
-        List<Object> heading = new ArrayList<>();
-        heading.add(" ");
-        heading.addAll(subCharacters);
-        rows.add(heading);
-
-        for (String character : characters) {
+        int i = 1;
+        for (CustomDiff d : deltas) {
             List<Object> row = new ArrayList<>();
-            row.add(character);
 
-            for (String subCharacter : subCharacters) {
-                if (confusionMap.containsInnerKey(character, subCharacter)) {
-                    row.add(confusionMap.getCountValue(character, subCharacter));
-                } else {
-                    row.add("");
+            String modifiedText = d.getText()
+                    .replace("\n", "<n>")
+                    .replace("\t", "<t>")
+                    .replace("\r", "<r>")
+                    .replace("\b", "<b>")
+                    .replace(" ", "<s>");
+
+            switch (d.getOperation()) {
+                case EQUAL: {
+                    row.add(modifiedText);
+                    row.add(modifiedText);
+                    row.add(d.getDescription());
+                    break;
                 }
+                case INSERT: {
+                    row.add(modifiedText);
+                    row.add("");
+                    row.add(d.getDescription());
+                    break;
+                }
+                case DELETE: {
+                    row.add("");
+                    row.add(modifiedText);
+                    row.add(d.getDescription());
+                    break;
+                }
+                default:
+                    break;
             }
 
             rows.add(row);
@@ -77,20 +75,7 @@ public class ConfusionReport {
                 .setSheetId(0)
                 .setStartRowIndex(0)
                 .setStartColumnIndex(0)
-        );
-        List<GridRange> xHeaderRange = Collections.singletonList(new GridRange()
-                .setSheetId(0)
-                .setStartRowIndex(0)
-                .setEndRowIndex(1)
-                .setStartColumnIndex(1)
-                .setEndColumnIndex(subCharacters.size())
-        );
-        List<GridRange> yHeaderRange = Collections.singletonList(new GridRange()
-                .setSheetId(0)
-                .setStartRowIndex(1)
-                .setEndRowIndex(characters.size() + 1)
-                .setStartColumnIndex(0)
-                .setEndColumnIndex(1)
+                .setEndColumnIndex(3)
         );
 
         List<Request> requests = Arrays.asList(
@@ -101,8 +86,9 @@ public class ConfusionReport {
                                                 .setSheetId(0)
                                                 .setDimension("COLUMNS")
                                                 .setStartIndex(0)
+                                                .setEndIndex(2)
                                 )
-                                .setProperties(new DimensionProperties().setPixelSize(30))
+                                .setProperties(new DimensionProperties().setPixelSize(500))
                                 .setFields("pixelSize")
                 ),
                 new Request().setUpdateDimensionProperties(
@@ -110,28 +96,29 @@ public class ConfusionReport {
                                 .setRange(
                                         new DimensionRange()
                                                 .setSheetId(0)
-                                                .setDimension("ROWS")
-                                                .setStartIndex(0)
+                                                .setDimension("COLUMNS")
+                                                .setStartIndex(2)
+                                                .setEndIndex(3)
                                 )
-                                .setProperties(new DimensionProperties().setPixelSize(30))
+                                .setProperties(new DimensionProperties().setPixelSize(100))
                                 .setFields("pixelSize")
                 ),
                 new Request().setAddConditionalFormatRule(
                         new AddConditionalFormatRuleRequest()
                                 .setRule(new ConditionalFormatRule()
-                                        .setRanges(xHeaderRange)
+                                        .setRanges(fullRange)
                                         .setBooleanRule(new BooleanRule()
                                                 .setCondition(new BooleanCondition()
                                                         .setType("CUSTOM_FORMULA")
                                                         .setValues(Collections.singletonList(
-                                                                new ConditionValue().setUserEnteredValue("=TRUE")
+                                                                new ConditionValue().setUserEnteredValue("=IFERROR(IF(SEARCH(\"Equal\",$C1,1)>0,\"TRUE\"),\"FALSE\")")
                                                         ))
                                                 )
                                                 .setFormat(new CellFormat().setBackgroundColor(
                                                         new Color()
-                                                                .setRed(0.937f)
-                                                                .setGreen(0.603f)
-                                                                .setBlue(0.603f)
+                                                                .setRed(0.647f)
+                                                                .setGreen(0.839f)
+                                                                .setBlue(0.654f)
                                                 ))
                                         )
                                 )
@@ -140,19 +127,40 @@ public class ConfusionReport {
                 new Request().setAddConditionalFormatRule(
                         new AddConditionalFormatRuleRequest()
                                 .setRule(new ConditionalFormatRule()
-                                        .setRanges(yHeaderRange)
+                                        .setRanges(fullRange)
                                         .setBooleanRule(new BooleanRule()
                                                 .setCondition(new BooleanCondition()
                                                         .setType("CUSTOM_FORMULA")
                                                         .setValues(Collections.singletonList(
-                                                                new ConditionValue().setUserEnteredValue("=TRUE")
+                                                                new ConditionValue().setUserEnteredValue("=IFERROR(IF(SEARCH(\"Insert\",$C1,1)>0,\"TRUE\"),\"FALSE\")")
                                                         ))
                                                 )
                                                 .setFormat(new CellFormat().setBackgroundColor(
                                                         new Color()
-                                                                .setRed(0.647f)
-                                                                .setGreen(0.839f)
-                                                                .setBlue(0.654f)
+                                                                .setRed(0.160f)
+                                                                .setGreen(0.713f)
+                                                                .setBlue(0.964f)
+                                                ))
+                                        )
+                                )
+                                .setIndex(0)
+                ),
+                new Request().setAddConditionalFormatRule(
+                        new AddConditionalFormatRuleRequest()
+                                .setRule(new ConditionalFormatRule()
+                                        .setRanges(fullRange)
+                                        .setBooleanRule(new BooleanRule()
+                                                .setCondition(new BooleanCondition()
+                                                        .setType("CUSTOM_FORMULA")
+                                                        .setValues(Collections.singletonList(
+                                                                new ConditionValue().setUserEnteredValue("=IFERROR(IF(SEARCH(\"Delete\",$C1,1)>0,\"TRUE\"),\"FALSE\")")
+                                                        ))
+                                                )
+                                                .setFormat(new CellFormat().setBackgroundColor(
+                                                        new Color()
+                                                                .setRed(0.937f)
+                                                                .setGreen(0.603f)
+                                                                .setBlue(0.603f)
                                                 ))
                                         )
                                 )

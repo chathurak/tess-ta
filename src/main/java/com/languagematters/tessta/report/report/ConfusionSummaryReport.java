@@ -1,10 +1,9 @@
-package com.languagematters.tessta.report.model.report;
+package com.languagematters.tessta.report.report;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
-import com.languagematters.tessta.grammar.util.DBUtils;
 import com.languagematters.tessta.report.model.ConfusionMap;
 
 import java.io.IOException;
@@ -17,12 +16,11 @@ public class ConfusionSummaryReport {
 
     List<List<Object>> rows;
 
-    public ConfusionSummaryReport(ConfusionMap confusionMap) throws IOException, GeneralSecurityException {
+    public ConfusionSummaryReport(ConfusionMap confusionMap, HashSet<String> exBlock) throws IOException, GeneralSecurityException {
         this.confusionMap = confusionMap;
 
         rows = new ArrayList<>();
 
-        HashSet<String> exBlock = DBUtils.loadValues("select * from exblock", "character");
         LinkedHashSet<String> exBlockLinked = new LinkedHashSet<>(exBlock);
 
         // Create heading
