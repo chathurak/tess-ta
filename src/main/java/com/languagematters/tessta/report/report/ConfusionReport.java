@@ -4,17 +4,11 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
-import com.languagematters.tessta.db.service.DbServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 
-@Component
-@Scope("prototype")
 public class ConfusionReport {
 
     private ArrayList<String> characters;
@@ -22,7 +16,6 @@ public class ConfusionReport {
 
     private List<List<Object>> rows;
 
-    @Autowired
     public ConfusionReport(final ConfusionMap confusionMap, final HashSet<String> exBlock) {
         rows = new ArrayList<>();
 

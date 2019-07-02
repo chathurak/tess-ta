@@ -7,18 +7,13 @@ import com.google.api.services.sheets.v4.model.*;
 import com.languagematters.tessta.report.model.ConfusionMap;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.*;
 
 public class ConfusionSummaryReport {
 
-    ConfusionMap confusionMap;
-
     List<List<Object>> rows;
 
-    public ConfusionSummaryReport(ConfusionMap confusionMap, HashSet<String> exBlock) throws IOException, GeneralSecurityException {
-        this.confusionMap = confusionMap;
-
+    public ConfusionSummaryReport(ConfusionMap confusionMap, HashSet<String> exBlock) {
         rows = new ArrayList<>();
 
         LinkedHashSet<String> exBlockLinked = new LinkedHashSet<>(exBlock);
