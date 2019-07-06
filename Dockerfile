@@ -17,7 +17,6 @@ RUN apt-get update && apt-get install -y --fix-missing \
     openjdk-12-jre \
 	openjdk-12-jdk \
 	maven \
-#    redis-server \
 	vim \
 	psmisc \
 	htop \
@@ -40,8 +39,21 @@ FROM dependencies AS intermediate
 # Create log
 RUN touch ${LOG_FILE}
 
-# Clone tess-ta repo
-RUN git clone https://github.com/sinhala-ocr/tess-ta.git ${TESS_TA_DIR}
+# Copy tess-ta repo
+ADD ./database/db.sql ${TESS_TA_DIR}/database/db.sql
+ADD ./ocr-tesseract ${TESS_TA_DIR}/ocr-tesseract
+ADD ./src/main/app/public ${TESS_TA_DIR}/src/main/app/public
+ADD ./src/main/app/src ${TESS_TA_DIR}/src/main/app/src
+ADD ./src/main/app/package.json ${TESS_TA_DIR}/src/main/app/package.json
+ADD ./src/main/app/yarn.lock ${TESS_TA_DIR}/src/main/app/yarn.lock
+ADD ./src/main/java ${TESS_TA_DIR}/src/main/java
+ADD ./src/main/resources ${TESS_TA_DIR}/src/main/resources
+ADD ./src/test ${TESS_TA_DIR}/src/test
+ADD ./clear-docker.sh ${TESS_TA_DIR}/clear-docker.sh
+ADD ./docker-compose.yml ${TESS_TA_DIR}/docker-compose.yml
+ADD ./Dockerfile ${TESS_TA_DIR}/Dockerfile
+ADD ./pom.xml ${TESS_TA_DIR}/pom.xml
+ADD ./start-services.sh ${TESS_TA_DIR}/start-services.sh
 
 # Change working directory
 WORKDIR ${TESS_TA_DIR}
