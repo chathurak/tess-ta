@@ -157,10 +157,14 @@ public class ConfusionReport {
                 )
         );
 
+        System.out.println("Confusion creation done!!");
+
         BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest().setRequests(requests);
         BatchUpdateSpreadsheetResponse batchUpdateSpreadsheetResponse = sheets.spreadsheets()
                 .batchUpdate(spreadsheetFile.getId(), batchUpdateSpreadsheetRequest)
                 .execute();
+
+        System.out.println("Initial done!!");
 
         // Update values
         List<ValueRange> data = new ArrayList<ValueRange>();
@@ -170,5 +174,6 @@ public class ConfusionReport {
                 .setValueInputOption("RAW")
                 .setData(data);
         BatchUpdateValuesResponse batchUpdateValuesResponse = sheets.spreadsheets().values().batchUpdate(spreadsheetFile.getId(), batchUpdateValuesRequest).execute();
+        System.out.println("second done!!");
     }
 }

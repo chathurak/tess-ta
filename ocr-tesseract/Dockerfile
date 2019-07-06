@@ -10,4 +10,4 @@ RUN /home/scripts/compile_leptonica.sh
 RUN /home/scripts/compile_tesseract.sh
 
 # Build packages
-RUN /home/scripts/build_deb_pkg.sh
+#RUN /home/scripts/build_deb_pkg.sh
