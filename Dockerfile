@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y --fix-missing \
 	htop \
 	tree \
 	locales \
-#	mysql-client \
 	docker \
 	docker.io \
 	docker-compose
