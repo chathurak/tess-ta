@@ -5,27 +5,19 @@ sudo apt-get update && sudo apt-get install -y --fix-missing \
     curl \
     wget \
     unzip \
-    git \
     apt-transport-https \
 	vim \
 	psmisc \
 	htop \
 	tree \
 	locales \
-
-	# Java
+	git \
 	openjdk-12-jre \
 	openjdk-12-jdk \
     maven \
-
-	# MySQL
 	mysql-server \
-
-	# MongoDb
-	# TODO : Add MongoDb
-
-    # Redis
     redis-server
+    # TODO : Add MongoDb
 
 # Mysql
 sudo systemctl enable mysql.service
@@ -33,7 +25,7 @@ sudo systemctl start mysql.service
 sudo systemctl status mysql.service
 
 # MySQL - Init db
-mysql -u root -p tesseract_ta < ./database/db.sql
+mysql -u root < ./database/db.sql
 
 # Redis
 sudo systemctl enable redis-server.service
