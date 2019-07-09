@@ -105,49 +105,49 @@ public class ConfusionSummaryReport {
                                 )
                                 .setProperties(new DimensionProperties().setPixelSize(100))
                                 .setFields("pixelSize")
+                ),
+                new Request().setAddConditionalFormatRule(
+                        new AddConditionalFormatRuleRequest()
+                                .setRule(new ConditionalFormatRule()
+                                        .setRanges(summaryRange)
+                                        .setBooleanRule(new BooleanRule()
+                                                .setCondition(new BooleanCondition()
+                                                        .setType("CUSTOM_FORMULA")
+                                                        .setValues(Collections.singletonList(
+                                                                new ConditionValue().setUserEnteredValue("=TRUE")
+                                                        ))
+                                                )
+                                                .setFormat(new CellFormat().setBackgroundColor(
+                                                        new Color()
+                                                                .setRed(0.937f)
+                                                                .setGreen(0.603f)
+                                                                .setBlue(0.603f)
+                                                ))
+                                        )
+                                )
+                                .setIndex(0)
+                ),
+                new Request().setAddConditionalFormatRule(
+                        new AddConditionalFormatRuleRequest()
+                                .setRule(new ConditionalFormatRule()
+                                        .setRanges(charRange)
+                                        .setBooleanRule(new BooleanRule()
+                                                .setCondition(new BooleanCondition()
+                                                        .setType("CUSTOM_FORMULA")
+                                                        .setValues(Collections.singletonList(
+                                                                new ConditionValue().setUserEnteredValue("=TRUE")
+                                                        ))
+                                                )
+                                                .setFormat(new CellFormat().setBackgroundColor(
+                                                        new Color()
+                                                                .setRed(0.647f)
+                                                                .setGreen(0.839f)
+                                                                .setBlue(0.654f)
+                                                ))
+                                        )
+                                )
+                                .setIndex(0)
                 )
-//                new Request().setAddConditionalFormatRule(
-//                        new AddConditionalFormatRuleRequest()
-//                                .setRule(new ConditionalFormatRule()
-//                                        .setRanges(summaryRange)
-//                                        .setBooleanRule(new BooleanRule()
-//                                                .setCondition(new BooleanCondition()
-//                                                        .setType("CUSTOM_FORMULA")
-//                                                        .setValues(Collections.singletonList(
-//                                                                new ConditionValue().setUserEnteredValue("=TRUE")
-//                                                        ))
-//                                                )
-//                                                .setFormat(new CellFormat().setBackgroundColor(
-//                                                        new Color()
-//                                                                .setRed(0.937f)
-//                                                                .setGreen(0.603f)
-//                                                                .setBlue(0.603f)
-//                                                ))
-//                                        )
-//                                )
-//                                .setIndex(0)
-//                ),
-//                new Request().setAddConditionalFormatRule(
-//                        new AddConditionalFormatRuleRequest()
-//                                .setRule(new ConditionalFormatRule()
-//                                        .setRanges(charRange)
-//                                        .setBooleanRule(new BooleanRule()
-//                                                .setCondition(new BooleanCondition()
-//                                                        .setType("CUSTOM_FORMULA")
-//                                                        .setValues(Collections.singletonList(
-//                                                                new ConditionValue().setUserEnteredValue("=TRUE")
-//                                                        ))
-//                                                )
-//                                                .setFormat(new CellFormat().setBackgroundColor(
-//                                                        new Color()
-//                                                                .setRed(0.647f)
-//                                                                .setGreen(0.839f)
-//                                                                .setBlue(0.654f)
-//                                                ))
-//                                        )
-//                                )
-//                                .setIndex(0)
-//                )
         );
 
         BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest().setRequests(requests);
