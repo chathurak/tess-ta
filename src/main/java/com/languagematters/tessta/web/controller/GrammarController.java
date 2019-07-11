@@ -3,6 +3,13 @@ package com.languagematters.tessta.web.controller;
 import com.languagematters.tessta.grammar.model.WordObj;
 import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
+import com.languagematters.tessta.library.model.UserFile;
+import com.languagematters.tessta.library.services.DocumentServices;
+import com.languagematters.tessta.web.security.CurrentUser;
+import com.languagematters.tessta.web.security.UserPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +23,29 @@ import java.util.Map;
 
 @RestController
 public class GrammarController {
+    private final DocumentServices documentServices;
+
+    @Autowired
+    public GrammarController(final DocumentServices documentServices) {
+        this.documentServices = documentServices;
+    }
 
     private Jedis jedis = new Jedis("localhost");
+
+    @RequestMapping(value = "/api/grammar/process", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER')")
+    public Map<String, Object> process(@CurrentUser UserPrincipal currentUser,
+                                       @RequestParam(value = "documentId") int documentId) {
+
+        String text = this.documentServices.getDocumentContent(documentId, currentUser.getUsername());
+        List<WordObj> result = GrammarService.process(text);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("input", text);
+        res.put("output", result);
+
+        return res;
+    }
 
     @RequestMapping(value = "/api/grammar/get-test-dir-list", method = RequestMethod.GET)
     public List<Map<String, String>> getTestDirectoryList() {
@@ -40,16 +68,6 @@ public class GrammarController {
         return FileUtils.loadTextFile(testDirPath + "/output.txt");
     }
 
-    @RequestMapping(value = "/api/grammar/process", method = RequestMethod.GET)
-    public Map<String, Object> process(@RequestParam(value = "testDirPath") String testDirPath) {
-        List<WordObj> result = GrammarService.process(testDirPath);
-
-        Map<String, Object> res = new HashMap<>();
-        res.put("output", result);
-        res.put("input", loadFile(testDirPath));
-
-        return res;
-    }
 
     @RequestMapping(value = "/api/grammar/save-modified-output", method = RequestMethod.GET)
     public String saveModifiedFile(@RequestParam(value = "text") String text, @RequestParam(value = "testDirPath") String testDirPath) {
