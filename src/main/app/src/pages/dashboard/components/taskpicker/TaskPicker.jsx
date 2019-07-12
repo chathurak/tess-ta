@@ -6,11 +6,14 @@ import {taskServices}    from '../../../../services'
 import AutoCompleteAsync from './components/autocomplete/AutoCompleteAsync'
 import DocumentPicker    from './DocumentPicker'
 import {styles}          from './styles'
+import {actions}         from './duck'
+
 
 class TaskPicker extends React.Component {
 
     handleTaskChange = (item) => {
-        console.log(item)
+        const {dispatch} = this.props
+        dispatch(actions.selectTask(item))
     }
 
     promiseUserTasks = () => {

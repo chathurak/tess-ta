@@ -1,15 +1,6 @@
 const styles = {
-    card: {
-        maxWidth: '100%',
-        margin: 20,
-        padding: 20
-    },
-    formGroup: {
+    workspace: {
         margin: 10,
-    },
-    chart: {
-        margin: "0 auto",
-        marginTop: 30
     }
 }
 
