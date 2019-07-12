@@ -5,6 +5,7 @@ import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
+import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,12 @@ import java.util.Map;
 @RestController
 public class GrammarController {
     private final DocumentServices documentServices;
+    private final TaskServices taskServices;
 
     @Autowired
-    public GrammarController(final DocumentServices documentServices) {
+    public GrammarController(final DocumentServices documentServices, final TaskServices taskServices) {
         this.documentServices = documentServices;
+        this.taskServices = taskServices;
     }
 
     private Jedis jedis = new Jedis("localhost");
@@ -35,9 +38,9 @@ public class GrammarController {
     @RequestMapping(value = "/api/grammar/process", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER')")
     public Map<String, Object> process(@CurrentUser UserPrincipal currentUser,
-                                       @RequestParam(value = "documentId") int documentId) {
+                                       @RequestParam(value = "taskId") int taskId) {
 
-        String text = this.documentServices.getDocumentContent(documentId, currentUser.getUsername());
+        String text = this.taskServices.getTaskOutputContent(taskId, currentUser.getUsername());
         List<WordObj> result = GrammarService.process(text);
 
         Map<String, Object> res = new HashMap<>();

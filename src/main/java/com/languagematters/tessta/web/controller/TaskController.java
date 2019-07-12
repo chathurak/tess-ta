@@ -42,6 +42,12 @@ public class TaskController {
         return taskServices.getTasks(documentId);
     }
 
+    @GetMapping("/{taskId}")
+    @PreAuthorize("hasRole('USER')")
+    public Task getTask(@PathVariable int taskId) {
+        return taskServices.getTask(taskId);
+    }
+
     @PostMapping("/schedule")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> process(@CurrentUser UserPrincipal currentUser,
