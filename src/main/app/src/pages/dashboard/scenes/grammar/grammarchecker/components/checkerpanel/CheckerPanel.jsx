@@ -4,6 +4,7 @@ import styles                   from './styles'
 import {connect}                from 'react-redux'
 import Button                   from '@material-ui/core/Button';
 import { grammarServices }      from '../../../../../../../services'
+import { grammar }              from '../../../../../../../helpers/grammar'
 
 
 class CheckerPanel extends React.Component {
@@ -25,7 +26,8 @@ class CheckerPanel extends React.Component {
             .then((res) => {
                 this.setState({
                     inputText: res.input,
-                    data: res.output
+                    outputText: JSON.stringify(res.output),
+                    data: grammar.docToModel(res.output)
                 })
             })
             .catch((error) => {
@@ -42,6 +44,7 @@ class CheckerPanel extends React.Component {
                     <Button variant="contained" color="primary"  onClick={(e) => this.handleCheck(selectedTask)}>Process</Button>
                 
                     <p> { this.state.inputText } </p>
+                    <p> { this.state.outputText } </p>
                 </div>
             </div>
         )
