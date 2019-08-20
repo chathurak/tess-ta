@@ -5,6 +5,16 @@ import {connect}                from 'react-redux'
 import Button                   from '@material-ui/core/Button';
 import { grammarServices }      from '../../../../../../../services'
 import { grammar }              from '../../../../../../../helpers/grammar'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import DialogSelect            from '../../../../../../../components/dialogselect/DialogSelect';
 
 
 class CheckerPanel extends React.Component {
@@ -14,6 +24,10 @@ class CheckerPanel extends React.Component {
         this.state = {
             inputText: "",
             data: [],
+            dialogSelectItems: [
+                "A",
+                "B",
+            ]
         };
     }
 
@@ -35,6 +49,23 @@ class CheckerPanel extends React.Component {
             });
     };
 
+    handleEditWord = (index) => {
+        console.log("editing word");
+    };
+
+    handleEditLetter = (index) => {
+        console.log("editing letter");
+    };
+
+    handleEdit = () => {
+        // TODO: Update dialog content
+        this.dialogSelect.handleClickOpen();
+    };
+
+    handleDialogResponse = (result) => {
+        console.log(result)
+    }
+
     render() {
         const {selectedTask}   = this.props
 
@@ -45,6 +76,21 @@ class CheckerPanel extends React.Component {
                 
                     <p> { this.state.inputText } </p>
                     <p> { this.state.outputText } </p>
+
+                    <DialogSelect
+                        title="Suggestions"
+                        message="Select an alternative word"
+                        items={this.state.dialogSelectItems}
+                        ref={dialog => this.dialogSelect = dialog}
+                        onOk={this.handleEditWord}
+                    />
+
+                    <Button onClick={this.handleEdit.bind(this)}>test</Button>
+
+
+                    {this.state.data.map((word, index) => (
+                        <span key={index} onClick={this.handleEdit}>{word.value}</span>
+                    ))}
                 </div>
             </div>
         )
