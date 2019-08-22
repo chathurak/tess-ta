@@ -5,16 +5,8 @@ import {connect}                from 'react-redux'
 import Button                   from '@material-ui/core/Button';
 import { grammarServices }      from '../../../../../../../services'
 import { grammar }              from '../../../../../../../helpers/grammar'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import DialogSelect            from '../../../../../../../components/dialogselect/DialogSelect';
+import DialogAction            from '../../../../../../../components/dialogaction/DialogAction';
 
 
 class CheckerPanel extends React.Component {
@@ -22,16 +14,13 @@ class CheckerPanel extends React.Component {
         super(props, context)
 
         this.state = {
-            inputText: "",
-            data: [],
-            dialogSelectItems: [
-                "A",
-                "B",
-            ]
+            inputText        : "",
+            data             : [],
+            dialogSelectItems: []
         };
     }
 
-    handleCheck = (selectedTask) => {
+    handleProcess = (selectedTask) => {
         if (!selectedTask) {
             return;
         }
@@ -39,9 +28,11 @@ class CheckerPanel extends React.Component {
         grammarServices.process(selectedTask.value)
             .then((res) => {
                 this.setState({
-                    inputText: res.input,
+                    inputText : res.input,
                     outputText: JSON.stringify(res.output),
-                    data: grammar.docToModel(res.output)
+                    data      : grammar.docToModel(res.output),
+                    currentWordIndex: 0,
+                    currentLetterIndex: 0,
                 })
             })
             .catch((error) => {
@@ -50,20 +41,32 @@ class CheckerPanel extends React.Component {
     };
 
     handleEditWord = (index) => {
+        // TODO: Update dialog content
         console.log("editing word");
     };
 
-    handleEditLetter = (index) => {
-        console.log("editing letter");
+    handleEditLetter = (index, indexLetter, event) => {
+        this.setState({currentWordIndex: index, currentLetterIndex: indexLetter})
+        var letter = this.state.data[index].letters[indexLetter];
+
+        if (letter.isModified) {
+            this.dialogActionRestore.show();
+        } else {
+            this.dialogActionDelete.show();
+        }
+
     };
 
-    handleEdit = () => {
-        // TODO: Update dialog content
-        this.dialogSelect.handleClickOpen();
-    };
+    handleDeleteLetter = () => {
+        var data = this.state.data;
+        data[this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = true;
+        this.setState({data: data});
+    }
 
-    handleDialogResponse = (result) => {
-        console.log(result)
+    handleRestoreLetter = () => {
+        var data = this.state.data;
+        data[this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = false;
+        this.setState({data: data});
     }
 
     render() {
@@ -72,25 +75,67 @@ class CheckerPanel extends React.Component {
         return (
             <div className={this.props.className}>
                 <div style={styles.workspace}>
-                    <Button variant="contained" color="primary"  onClick={(e) => this.handleCheck(selectedTask)}>Process</Button>
+                    <Button variant="contained" color="primary"  onClick={(e) => this.handleProcess(selectedTask)}>Process</Button>
                 
                     <p> { this.state.inputText } </p>
                     <p> { this.state.outputText } </p>
 
+                    {/* Suggestions selector dialog box */}
                     <DialogSelect
-                        title="Suggestions"
-                        message="Select an alternative word"
-                        items={this.state.dialogSelectItems}
-                        ref={dialog => this.dialogSelect = dialog}
-                        onOk={this.handleEditWord}
+                        title   = 'Suggestions'
+                        message = 'Select an alternative word'
+                        items   = {this.state.dialogSelectItems}
+                        ref     = {dialog => this.dialogSelect = dialog}
+                        onOk    = {this.handleEditWord}
                     />
 
-                    <Button onClick={this.handleEdit.bind(this)}>test</Button>
+                    {/* Delete dialog box */}
+                    <DialogAction
+                        title   = 'Delete'
+                        message = 'No suggestions found. Click `Delete` to delete the letter.'
+                        action  = 'DELETE'
+                        ref     = {dialog => this.dialogActionDelete = dialog}
+                        onOk    = {this.handleDeleteLetter}
+                    />
 
+                    {/* Restore dialog box */}
+                    <DialogAction
+                        title   = 'Restore'
+                        message = 'The letter is deleted. Click `Restore` to undo it.'
+                        action  = 'Restore'
+                        ref     = {dialog => this.dialogActionRestore = dialog}
+                        onOk    = {this.handleRestoreLetter}
+                    />
 
-                    {this.state.data.map((word, index) => (
-                        <span key={index} onClick={this.handleEdit}>{word.value}</span>
-                    ))}
+                    {this.state.data.map((word, index) => {
+                        return (
+                            <span key={index}>
+                                {/* Level -1 word */}
+                                {word.level == -1 && word.value == 'NEW_LINE' && <br/>}
+
+                                {/* Level 0 word */}
+                                {word.level == 0 && word.value}
+
+                                {/* Level 1 word */}
+                                {word.level == 1 && (
+                                    word.letters.map((letter, indexLetter) => (
+                                        letter.flags.length > 0 ? (
+                                            <span key={indexLetter} onClick={this.handleEditLetter.bind(this, index, indexLetter)}>{letter.value}</span>
+                                        ) : (
+                                            <span key={indexLetter}>{letter.value}</span>
+                                        )
+                                    ))
+                                )}
+
+                                {/* Level 2 word */}
+                                {word.level == 2 && <span onClick={this.handleEditWord.bind(this, index)}>{word.value}</span>}
+
+                                &nbsp;
+                            </span>
+
+                            
+                        )
+                    })}
                 </div>
             </div>
         )

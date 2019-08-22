@@ -22,7 +22,7 @@ export default class FormDialog extends React.Component  {
         };
     }
 
-    handleClickOpen = () => {
+    show = () => {
         this.setState({
             open: true
         })
