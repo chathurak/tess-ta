@@ -1,5 +1,3 @@
-import { Letter } from './letter';
-
 export class Word {
 
     constructor(value) {
