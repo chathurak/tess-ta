@@ -2,6 +2,9 @@ const styles = {
     workspace: {
         margin: 10,
     },
+    tableContent:{
+        fontSize: 25,
+    },
     flagLetterCharacterLegitimacyError: {
         color: 'red',
         fontWeight: 'bold',
@@ -13,7 +16,7 @@ const styles = {
         cursor: 'pointer',
     },
     flagLetterChanged: {
-        // background-color: yellow,
+        // backgroundColor: 'yellow',
         color: 'blue',
         fontWeight: 'bold',
         cursor: 'pointer',
@@ -34,17 +37,16 @@ const styles = {
         cursor: 'pointer',
     },
     flagWordNotInDictionary: {
-        // background-color: yellow,
+        backgroundColor: 'yellow',
         textDecoration: 'underline',
         fontWeight: 'bold',
         cursor: 'pointer',
     },
     flagWordIllegitimate: {
-        // background-color: yellow,
+        backgroundColor: 'yellow',
         textDecoration: 'underline',
     },
     flagWordHasSuggestions: {
-        // text-decoration: underline,
         fontWeight: 'bold',
         cursor: 'pointer',
     },

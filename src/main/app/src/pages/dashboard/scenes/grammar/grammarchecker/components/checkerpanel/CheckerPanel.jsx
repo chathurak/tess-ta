@@ -5,9 +5,13 @@ import {connect}                from 'react-redux'
 import Button                   from '@material-ui/core/Button';
 import { grammarServices }      from '../../../../../../../services'
 import { grammar }              from '../../../../../../../helpers/grammar'
-import DialogSelect            from '../../../../../../../components/dialogselect/DialogSelect';
-import DialogAction            from '../../../../../../../components/dialogaction/DialogAction';
-
+import DialogSelect             from '../../../../../../../components/dialogselect/DialogSelect';
+import DialogAction             from '../../../../../../../components/dialogaction/DialogAction';
+import Table                    from '@material-ui/core/Table';
+import TableBody                from '@material-ui/core/TableBody';
+import TableCell                from '@material-ui/core/TableCell';
+import TableHead                from '@material-ui/core/TableHead';
+import TableRow                 from '@material-ui/core/TableRow';
 
 class CheckerPanel extends React.Component {
     constructor(props, context) {
@@ -53,7 +57,7 @@ class CheckerPanel extends React.Component {
         this.dialogSelectSuggestion.show();
     };
 
-    handleEditLetter = (index, indexLetter, event) => {
+    handleEditLetter = (index, indexLetter) => {
         this.setState({currentWordIndex: index, currentLetterIndex: indexLetter})
         var letter = this.state.data[index].letters[indexLetter];
 
@@ -107,8 +111,23 @@ class CheckerPanel extends React.Component {
         }
     }
 
+    getStateDataAsLines = () => {
+        var dataLines = [[]]
+        this.state.data.forEach(function(word) {
+            if (word.value === 'NEW_LINE') {
+                dataLines.push([])
+            } else {
+                dataLines[dataLines.length - 1].push(word)
+            }
+        })
+        console.log(dataLines)
+        return dataLines;
+    }
+
+    
     render() {
         const {selectedTask}   = this.props
+
 
         return (
             <div className={this.props.className}>
@@ -144,58 +163,78 @@ class CheckerPanel extends React.Component {
                     {/* Processs button */}
                     <Button variant="contained" color="primary"  onClick={(e) => this.handleProcess(selectedTask)}>Process</Button>
 
+
                     {/* Editing Area */}
-                    <div>
-                        {this.state.data.map((word, index) => {
-                            return (
-                                <span key={index}>
-                                    {/* Level -1 word */}
-                                    {word.level === -1 && word.value === 'NEW_LINE' && <br/>}
-
-                                    {/* Level 0 word */}
-                                    {word.level === 0 && word.value}
-
-                                    {/* Level 1 word */}
-                                    {word.level === 1 && (
-                                        <span style={styles.flagWordIllegitimate}>
-                                        {word.letters.map((letter, indexLetter) => (
-                                            letter.flags.length > 0 ? (
-                                                letter.isModified ? (
-                                                    <span key={indexLetter}>
-                                                        <span onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={styles.flagLetterDeleted}>
-                                                            {letter.value}
-                                                        </span>
-                                                        <span onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={styles.flagLetterInserted}>
-                                                            {letter.newValue}
-                                                        </span>
-                                                    </span>
-                                                ) : (
-                                                    <span key={indexLetter} onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={this.getTextStyle(letter)}>
-                                                        {letter.value}
-                                                    </span>
-                                                )
-                                            ) : (
-                                                <span key={indexLetter} style={this.getTextStyle(letter)}>{letter.value}</span>
-                                            )
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Before process</TableCell>
+                                <TableCell>After process</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        
+                        <TableBody>
+                            {this.getStateDataAsLines().map((dataLine, index) => (
+                                <TableRow key={index}>
+                                    <TableCell style={styles.tableContent}>
+                                        {dataLine.map((word, index) => (
+                                            <span key={index}> {word.value} </span>
                                         ))}
-                                        </span>
-                                    )}
+                                    </TableCell>
 
-                                    {/* Level 2 word */}
-                                    {word.level === 2 && (
-                                        word.selected === -1 ? (
-                                            <span onClick={this.handleEditWord.bind(this, index)} style={this.getTextStyle(word)}>{word.value}</span>
-                                        ) : (
-                                            <span onClick={this.handleEditWord.bind(this, index)} style={this.getTextStyle(word.suggestions[word.selected])}>{word.suggestions[word.selected].value}</span>
-                                        )
-                                    )}
-                                    
-                                    {/* Space after words */}
-                                    {word.level !== -1 && <span>&nbsp;</span>}
-                                </span>
-                            )
-                        })}
-                    </div>
+                                    <TableCell>
+                                        {dataLine.map((word, index) => [
+                                            <span key={index}>
+                                                {/* Level -1 word */}
+                                                {word.level === -1 && word.value === 'NEW_LINE' && <br/>}
+
+                                                {/* Level 0 word */}
+                                                {word.level === 0 && word.value}
+
+                                                {/* Level 1 word */}
+                                                {word.level === 1 && (
+                                                    <span style={styles.flagWordIllegitimate}>
+                                                    {word.letters.map((letter, indexLetter) => (
+                                                        letter.flags.length > 0 ? (
+                                                            letter.isModified ? (
+                                                                <span key={indexLetter}>
+                                                                    <span onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={styles.flagLetterDeleted}>
+                                                                        {letter.value}
+                                                                    </span>
+                                                                    <span onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={styles.flagLetterInserted}>
+                                                                        {letter.newValue}
+                                                                    </span>
+                                                                </span>
+                                                            ) : (
+                                                                <span key={indexLetter} onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={this.getTextStyle(letter)}>
+                                                                    {letter.value}
+                                                                </span>
+                                                            )
+                                                        ) : (
+                                                            <span key={indexLetter} style={this.getTextStyle(letter)}>{letter.value}</span>
+                                                        )
+                                                    ))}
+                                                    </span>
+                                                )}
+
+                                                {/* Level 2 word */}
+                                                {word.level === 2 && (
+                                                    word.selected === -1 ? (
+                                                        <span onClick={this.handleEditWord.bind(this, index)} style={this.getTextStyle(word)}>{word.value}</span>
+                                                    ) : (
+                                                        <span onClick={this.handleEditWord.bind(this, index)} style={this.getTextStyle(word.suggestions[word.selected])}>{word.suggestions[word.selected].value}</span>
+                                                    )
+                                                )}
+
+                                                {/* Space after words */}
+                                                {word.level !== -1 && <span>&nbsp;</span>}
+                                            </span>
+                                        ])}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
 
                 </div>
             </div>
