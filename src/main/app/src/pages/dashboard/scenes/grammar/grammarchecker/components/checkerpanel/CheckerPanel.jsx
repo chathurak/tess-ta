@@ -12,17 +12,24 @@ import TableBody                from '@material-ui/core/TableBody';
 import TableCell                from '@material-ui/core/TableCell';
 import TableHead                from '@material-ui/core/TableHead';
 import TableRow                 from '@material-ui/core/TableRow';
+import Grid                     from '@material-ui/core/Grid';
+import Typography               from '@material-ui/core/Typography';
+import Slider                   from '@material-ui/core/Slider';
+import ZoomIn from '@material-ui/icons/ZoomIn';
+
 
 class CheckerPanel extends React.Component {
     constructor(props, context) {
         super(props, context)
 
         this.state = {
-            inputText        : "",
+            taskName         : '',
+            inputText        : '',
             data             : [],
             currentWordIndex: 0,
             currentLetterIndex: 0,
             currentSuggestions: [],
+            textSize: 18,
         };
     }
 
@@ -34,6 +41,7 @@ class CheckerPanel extends React.Component {
         grammarServices.process(selectedTask.value)
             .then((res) => {
                 this.setState({
+                    taskName  : selectedTask.label,
                     inputText : res.input,
                     outputText: JSON.stringify(res.output),
                     data      : grammar.docToModel(res.output),
@@ -120,14 +128,16 @@ class CheckerPanel extends React.Component {
                 dataLines[dataLines.length - 1].push(word)
             }
         })
-        console.log(dataLines)
         return dataLines;
+    }
+
+    handleTextSizeChange = (event, newValue) => {
+        this.setState({textSize: newValue})
     }
 
     
     render() {
         const {selectedTask}   = this.props
-
 
         return (
             <div className={this.props.className}>
@@ -160,9 +170,42 @@ class CheckerPanel extends React.Component {
                         onOk    = {this.handleRestoreLetter}
                     />
 
-                    {/* Processs button */}
-                    <Button variant="contained" color="primary"  onClick={(e) => this.handleProcess(selectedTask)}>Process</Button>
+                    {/* Control bar */}
+                    <Grid container style={styles.centerAll}>
 
+                        {/* Processs button */}
+                        <Grid item xs={2}>
+                            <Button variant="contained" color="secondary"  onClick={(e) => this.handleProcess(selectedTask)}>Process</Button>
+                        </Grid>
+
+                        <Grid item xs={1}>
+                            <Typography id="discrete-slider"> {this.state.taskName} </Typography>
+                        </Grid>
+
+                        <Grid item xs={7}> </Grid>
+
+                        {/* Zoom */}
+                        <Grid item xs={2}>
+                            <Grid container >
+                                <Grid item>
+                                    <ZoomIn />
+                                </Grid>
+                                
+                                <Grid item xs>
+                                    <Slider
+                                        aria-labelledby="continuous-slider"
+                                        valueLabelDisplay="auto"
+                                        step={1}
+                                        marks
+                                        min={9}
+                                        max={30}
+                                        value={this.state.textSize}
+                                        onChange={this.handleTextSizeChange}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
 
                     {/* Editing Area */}
                     <Table size="small">
@@ -176,13 +219,13 @@ class CheckerPanel extends React.Component {
                         <TableBody>
                             {this.getStateDataAsLines().map((dataLine, index) => (
                                 <TableRow key={index}>
-                                    <TableCell style={styles.tableContent}>
+                                    <TableCell style={{fontSize: this.state.textSize}}>
                                         {dataLine.map((word, index) => (
                                             <span key={index}> {word.value} </span>
                                         ))}
                                     </TableCell>
 
-                                    <TableCell>
+                                    <TableCell style={{fontSize: this.state.textSize}}>
                                         {dataLine.map((word, index) => [
                                             <span key={index}>
                                                 {/* Level -1 word */}

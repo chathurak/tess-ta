@@ -2,8 +2,10 @@ const styles = {
     workspace: {
         margin: 10,
     },
-    tableContent:{
-        fontSize: 25,
+    centerAll: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     flagLetterCharacterLegitimacyError: {
         color: 'red',
