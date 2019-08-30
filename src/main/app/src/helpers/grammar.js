@@ -1,19 +1,24 @@
 import { Word } from '../models/word';
 import { Letter } from '../models/letter';
 
-// Convert document text to model
-const docToModel = (docJson) => {
-    var docModel = [];
+// Convert document text to data lines
+const docToDataLines = (docJson) => {
+    var dataLines = [[]];
 
     // For each word in doc
     for (var w in docJson) {
         var wordJson = docJson[w];
         var word = jsonToWord(wordJson);
-        docModel.push(word);
+        if (word.value === 'NEW_LINE') {
+            dataLines.push([]);
+        } else {
+            dataLines[dataLines.length - 1].push(word);
+        }
     }
 
-    return docModel;
+    return dataLines;
 }
+
 
 // Convert document model to text
 const modelToDoc = (doc) => {
@@ -66,7 +71,7 @@ const jsonToWord = (obj) => {
 }
 
 export const grammar = {
-    docToModel,
+    docToDataLines,
     modelToDoc,
     jsonToWord
 }

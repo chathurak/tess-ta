@@ -23,13 +23,14 @@ class CheckerPanel extends React.Component {
         super(props, context)
 
         this.state = {
-            taskName         : '',
-            inputText        : '',
-            data             : [],
-            currentWordIndex: 0,
+            taskName          : '',
+            inputText         : '',
+            data              : [],
+            currentLineIndex  : 0,
+            currentWordIndex  : 0,
             currentLetterIndex: 0,
             currentSuggestions: [],
-            textSize: 18,
+            textSize          : 18,
         };
     }
 
@@ -44,7 +45,7 @@ class CheckerPanel extends React.Component {
                     taskName  : selectedTask.label,
                     inputText : res.input,
                     outputText: JSON.stringify(res.output),
-                    data      : grammar.docToModel(res.output),
+                    data      : grammar.docToDataLines(res.output),
                 })
             })
             .catch((error) => {
@@ -52,22 +53,27 @@ class CheckerPanel extends React.Component {
             });
     };
 
-    handleEditWord = (index) => {
-        var s = this.state.data[index].suggestions.map(s => {
+    handleEditWord = (indexLine, indexWord) => {
+        var s = this.state.data[indexLine][indexWord].suggestions.map(s => {
             return s.value;
         });
 
         this.setState({
-            currentWordIndex: index,
+            currentLineIndex  : indexLine,
+            currentWordIndex  : indexWord,
             currentLetterIndex: 0,
             currentSuggestions: s
         })
         this.dialogSelectSuggestion.show();
     };
 
-    handleEditLetter = (index, indexLetter) => {
-        this.setState({currentWordIndex: index, currentLetterIndex: indexLetter})
-        var letter = this.state.data[index].letters[indexLetter];
+    handleEditLetter = (indexLine, indexWord, indexLetter) => {
+        this.setState({
+            currentLineIndex  : indexLine,
+            currentWordIndex  : indexWord,
+            currentLetterIndex: indexLetter
+        })
+        var letter = this.state.data[indexLine][indexWord].letters[indexLetter];
 
         if (letter.isModified) {
             this.dialogActionRestore.show();
@@ -79,19 +85,19 @@ class CheckerPanel extends React.Component {
 
     handleDeleteLetter = () => {
         var data = this.state.data;
-        data[this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = true;
+        data[this.state.currentLineIndex][this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = true;
         this.setState({data: data});
     }
 
     handleRestoreLetter = () => {
         var data = this.state.data;
-        data[this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = false;
+        data[this.state.currentLineIndex][this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = false;
         this.setState({data: data});
     }
 
     handleSuggestionSelector = (selectedIndex) => {
         var data = this.state.data;
-        data[this.state.currentWordIndex].selected = selectedIndex;
+        data[this.state.currentLineIndex][this.state.currentWordIndex].selected = selectedIndex;
         this.setState({data: data});
     }
 
@@ -217,8 +223,8 @@ class CheckerPanel extends React.Component {
                         </TableHead>
                         
                         <TableBody>
-                            {this.getStateDataAsLines().map((dataLine, index) => (
-                                <TableRow key={index}>
+                            {this.state.data.map((dataLine, indexLine) => (
+                                <TableRow key={indexLine}>
                                     <TableCell style={{fontSize: this.state.textSize}}>
                                         {dataLine.map((word, index) => (
                                             <span key={index}> {word.value} </span>
@@ -226,8 +232,8 @@ class CheckerPanel extends React.Component {
                                     </TableCell>
 
                                     <TableCell style={{fontSize: this.state.textSize}}>
-                                        {dataLine.map((word, index) => [
-                                            <span key={index}>
+                                        {dataLine.map((word, indexWord) => [
+                                            <span key={indexWord}>
                                                 {/* Level -1 word */}
                                                 {word.level === -1 && word.value === 'NEW_LINE' && <br/>}
 
@@ -241,15 +247,15 @@ class CheckerPanel extends React.Component {
                                                         letter.flags.length > 0 ? (
                                                             letter.isModified ? (
                                                                 <span key={indexLetter}>
-                                                                    <span onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={styles.flagLetterDeleted}>
+                                                                    <span onClick={this.handleEditLetter.bind(this, indexLine, indexWord, indexLetter)} style={styles.flagLetterDeleted}>
                                                                         {letter.value}
                                                                     </span>
-                                                                    <span onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={styles.flagLetterInserted}>
+                                                                    <span onClick={this.handleEditLetter.bind(this, indexLine, indexWord, indexLetter)} style={styles.flagLetterInserted}>
                                                                         {letter.newValue}
                                                                     </span>
                                                                 </span>
                                                             ) : (
-                                                                <span key={indexLetter} onClick={this.handleEditLetter.bind(this, index, indexLetter)} style={this.getTextStyle(letter)}>
+                                                                <span key={indexLetter} onClick={this.handleEditLetter.bind(this, indexLine, indexWord, indexLetter)} style={this.getTextStyle(letter)}>
                                                                     {letter.value}
                                                                 </span>
                                                             )
@@ -263,9 +269,9 @@ class CheckerPanel extends React.Component {
                                                 {/* Level 2 word */}
                                                 {word.level === 2 && (
                                                     word.selected === -1 ? (
-                                                        <span onClick={this.handleEditWord.bind(this, index)} style={this.getTextStyle(word)}>{word.value}</span>
+                                                        <span onClick={this.handleEditWord.bind(this, indexLine, indexWord)} style={this.getTextStyle(word)}>{word.value}</span>
                                                     ) : (
-                                                        <span onClick={this.handleEditWord.bind(this, index)} style={this.getTextStyle(word.suggestions[word.selected])}>{word.suggestions[word.selected].value}</span>
+                                                        <span onClick={this.handleEditWord.bind(this, indexLine, indexWord)} style={this.getTextStyle(word.suggestions[word.selected])}>{word.suggestions[word.selected].value}</span>
                                                     )
                                                 )}
 
