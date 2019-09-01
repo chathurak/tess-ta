@@ -20,21 +20,27 @@ const docToDataLines = (docJson) => {
 }
 
 
-// Convert document model to text
-const modelToDoc = (doc) => {
+// Convert dataLines to text
+const dataLinesToText = (dataLines) => {
     var text = "";
-    doc.forEach((word) => {
-        word.getLetters().forEach((letter) => {
-            if (letter.isModified) {
-                text += letter.newValue;
-            } else {
-                text += letter.value;
-            }
+    if (dataLines){
+        dataLines.forEach(line => {
+            line.forEach((word) => {
+                word.getLetters().forEach((letter) => {
+                    if (letter.isModified) {
+                        text += letter.newValue;
+                    } else {
+                        text += letter.value;
+                    }
+                })
+                text += " ";
+            })
+            text = text.slice(0, -1) + '\n';
         })
-        text += " ";
-    })
+    }
     return text;
 }
+
 
 // Convert json object to word object
 const jsonToWord = (obj) => {
@@ -72,6 +78,6 @@ const jsonToWord = (obj) => {
 
 export const grammar = {
     docToDataLines,
-    modelToDoc,
+    dataLinesToText,
     jsonToWord
 }

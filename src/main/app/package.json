@@ -10,6 +10,7 @@
     "@material-ui/styles": "^4.0.1",
     "axios": "^0.19.0",
     "date-fns": "^2.0.0-alpha.27",
+    "file-saver": "^2.0.2",
     "filepond": "^4.4.8",
     "filepond-plugin-image-preview": "^4.2.1",
     "history": "^4.9.0",

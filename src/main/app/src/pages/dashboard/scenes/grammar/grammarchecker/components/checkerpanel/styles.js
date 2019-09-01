@@ -52,7 +52,16 @@ const styles = {
         fontWeight: 'bold',
         cursor: 'pointer',
     },
-
+    smallMargin: {
+        margin: 2,
+    },
+    inlineContent: {
+        flexDirection: 'row',
+        display: 'flex'
+    },
+    subtitle: {
+        fontSize: 12
+    }
 }
 
 export default styles

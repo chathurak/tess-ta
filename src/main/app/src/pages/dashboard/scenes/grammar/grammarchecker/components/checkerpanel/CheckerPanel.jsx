@@ -16,6 +16,8 @@ import Grid                     from '@material-ui/core/Grid';
 import Typography               from '@material-ui/core/Typography';
 import Slider                   from '@material-ui/core/Slider';
 import ZoomIn from '@material-ui/icons/ZoomIn';
+import * as FileSaver from 'file-saver';
+
 
 
 class CheckerPanel extends React.Component {
@@ -25,7 +27,7 @@ class CheckerPanel extends React.Component {
         this.state = {
             taskName          : '',
             inputText         : '',
-            data              : [],
+            dataLines         : [],
             currentLineIndex  : 0,
             currentWordIndex  : 0,
             currentLetterIndex: 0,
@@ -38,14 +40,13 @@ class CheckerPanel extends React.Component {
         if (!selectedTask) {
             return;
         }
-
         grammarServices.process(selectedTask.value)
             .then((res) => {
                 this.setState({
                     taskName  : selectedTask.label,
                     inputText : res.input,
                     outputText: JSON.stringify(res.output),
-                    data      : grammar.docToDataLines(res.output),
+                    dataLines : grammar.docToDataLines(res.output),
                 })
             })
             .catch((error) => {
@@ -54,7 +55,7 @@ class CheckerPanel extends React.Component {
     };
 
     handleEditWord = (indexLine, indexWord) => {
-        var s = this.state.data[indexLine][indexWord].suggestions.map(s => {
+        var s = this.state.dataLines[indexLine][indexWord].suggestions.map(s => {
             return s.value;
         });
 
@@ -73,7 +74,7 @@ class CheckerPanel extends React.Component {
             currentWordIndex  : indexWord,
             currentLetterIndex: indexLetter
         })
-        var letter = this.state.data[indexLine][indexWord].letters[indexLetter];
+        var letter = this.state.dataLines[indexLine][indexWord].letters[indexLetter];
 
         if (letter.isModified) {
             this.dialogActionRestore.show();
@@ -84,21 +85,26 @@ class CheckerPanel extends React.Component {
     };
 
     handleDeleteLetter = () => {
-        var data = this.state.data;
+        var data = this.state.dataLines;
         data[this.state.currentLineIndex][this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = true;
         this.setState({data: data});
     }
 
     handleRestoreLetter = () => {
-        var data = this.state.data;
+        var data = this.state.dataLines;
         data[this.state.currentLineIndex][this.state.currentWordIndex].letters[this.state.currentLetterIndex].isModified = false;
         this.setState({data: data});
     }
 
     handleSuggestionSelector = (selectedIndex) => {
-        var data = this.state.data;
+        var data = this.state.dataLines;
         data[this.state.currentLineIndex][this.state.currentWordIndex].selected = selectedIndex;
         this.setState({data: data});
+    }
+
+    handleDownload = (selectedTask) => {
+        const blob = new Blob([grammar.dataLinesToText(this.state.dataLines)], {type: 'text/plain;charset=utf-8'});
+        FileSaver.saveAs(blob, this.state.taskName);
     }
 
     // Get styles for a letter or a word
@@ -127,7 +133,7 @@ class CheckerPanel extends React.Component {
 
     getStateDataAsLines = () => {
         var dataLines = [[]]
-        this.state.data.forEach(function(word) {
+        this.state.dataLines.forEach(function(word) {
             if (word.value === 'NEW_LINE') {
                 dataLines.push([])
             } else {
@@ -179,16 +185,11 @@ class CheckerPanel extends React.Component {
                     {/* Control bar */}
                     <Grid container style={styles.centerAll}>
 
-                        {/* Processs button */}
-                        <Grid item xs={2}>
-                            <Button variant="contained" color="secondary"  onClick={(e) => this.handleProcess(selectedTask)}>Process</Button>
+                        {/* Process button */}
+                        <Grid item xs={10} style={styles.inlineContent}>
+                            <Button variant="contained" color="secondary"  onClick={(e) => this.handleProcess(selectedTask)} style={styles.smallMargin}>Process</Button>
+                            <Button variant="contained" color="primary"  onClick={(e) => this.handleDownload()} style={styles.smallMargin}>Download</Button>
                         </Grid>
-
-                        <Grid item xs={1}>
-                            <Typography id="discrete-slider"> {this.state.taskName} </Typography>
-                        </Grid>
-
-                        <Grid item xs={7}> </Grid>
 
                         {/* Zoom */}
                         <Grid item xs={2}>
@@ -213,18 +214,24 @@ class CheckerPanel extends React.Component {
                         </Grid>
                     </Grid>
 
+                    <Typography style={{...styles.smallMargin, ...styles.subtitle}} id="discrete-slider"> Task: <i>{selectedTask && selectedTask.label}</i> </Typography>
+                    <br/>
+
                     {/* Editing Area */}
                     <Table size="small">
                         <TableHead>
                             <TableRow>
+                                <TableCell>#</TableCell>
                                 <TableCell>Before process</TableCell>
                                 <TableCell>After process</TableCell>
                             </TableRow>
                         </TableHead>
                         
                         <TableBody>
-                            {this.state.data.map((dataLine, indexLine) => (
+                            {this.state.dataLines.map((dataLine, indexLine) => (
                                 <TableRow key={indexLine}>
+                                    <TableCell>{indexLine}</TableCell>
+
                                     <TableCell style={{fontSize: this.state.textSize}}>
                                         {dataLine.map((word, index) => (
                                             <span key={index}> {word.value} </span>
