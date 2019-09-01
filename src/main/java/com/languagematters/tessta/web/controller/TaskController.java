@@ -60,6 +60,7 @@ public class TaskController {
         UserFile userFile = this.documentServices.getDocument(scheduleTaskRequest.getDocumentId());
 
         Task task = new Task();
+        task.setName(taskId); // TODO: Set custom name for the task
         task.setDocumentId(scheduleTaskRequest.getDocumentId());
         task.setTessdataId(1);
         task.setCreatedAt(timestamp);
@@ -67,6 +68,8 @@ public class TaskController {
 
         // TODO : Format response
         try {
+            taskServices.createTask(task); // Store task entry in db
+
             asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, currentUser.getUsername(), currentUser.getAccessToken(), userFile.getOriginalFileName());
 
             return ResponseEntity

@@ -137,7 +137,8 @@ public class OcrTask {
             uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
             uploadFileList.add(new Upload("out.tif", "image/tiff", taskDir.getAbsolutePath() + "/out.tif"));
             uploadFileList.add(new Upload("output.txt", "text/plain", taskDir.getAbsolutePath() + "/output.txt"));
-            uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
+            // TODO : Enable after generating log.json
+            // uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
 
             for (Upload upload : uploadFileList) {
                 System.out.printf("%s : Uploading %s%n", taskId, upload.getName());

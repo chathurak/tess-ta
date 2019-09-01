@@ -30,12 +30,14 @@ class FileManagerPanel extends React.Component {
         super(props);
 
         this.state = {
-            expanded : "1",
+            expanded : '1',
             selectedDocumentId : null,
             files    : [],
             taskInfo : [],
             isLoading: true,
         };
+
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     handleChange = (panel) => (event, expanded) => {
@@ -58,9 +60,9 @@ class FileManagerPanel extends React.Component {
         }
     };
 
-    handleDelete = (event) => {
+    handleDelete = () => {
         documentServices.deleteDocument(this.state.selectedDocumentId)
-            .then((res) => {
+            .then(() => {
                 this.componentDidMount();
             })
             .catch((error) => {
@@ -70,7 +72,7 @@ class FileManagerPanel extends React.Component {
 
     handleRename = (newValue) => {
         documentServices.renameDocument(this.state.selectedDocumentId, newValue)
-            .then((res) => {
+            .then(() => {
                 this.componentDidMount();
             })
             .catch((error) => {
@@ -81,10 +83,11 @@ class FileManagerPanel extends React.Component {
     componentDidMount() {
         documentServices.getDocuments()
             .then((files) => {
-                this.setState({
-                    files    : files,
-                    isLoading: false,
-                });
+                if (files) {
+                    this.setState({files : files, isLoading: false})
+                } else {
+                    this.setState({isLoading: false})
+                }
             })
             .catch((error) => {
                 console.log(error);

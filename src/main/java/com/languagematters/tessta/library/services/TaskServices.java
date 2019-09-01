@@ -85,12 +85,13 @@ public class TaskServices {
 
     public int createTask(Task task) {
         try {
-            String sql = "INSERT INTO task (document_id, tessdata_id, created_at, updated_at) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO task (document_id, tessdata_id, created_at, updated_at, name) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, task.getDocumentId());
             statement.setInt(2, task.getTessdataId());
             statement.setDate(3, new java.sql.Date(task.getCreatedAt().getTime()));
             statement.setDate(4, new java.sql.Date(task.getUpdatedAt().getTime()));
+            statement.setString(5, task.getName());
 
             int rowsInserted = statement.executeUpdate();
             ResultSet result = statement.getGeneratedKeys();
