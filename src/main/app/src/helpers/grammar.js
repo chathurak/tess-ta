@@ -41,6 +41,23 @@ const dataLinesToText = (dataLines) => {
     return text;
 }
 
+const jsonToDataLines = (str) => {
+    var obj = JSON.parse(str);
+    var dataLines = [[]];
+
+    // For each word in doc
+    for (var line in obj) {
+        for (var w in line){
+            var wordJson = obj[w];
+            var word = jsonToWord(wordJson);
+            dataLines[dataLines.length - 1].push(word);
+        }
+        dataLines.push([]);
+    }
+
+    return dataLines;
+}
+
 
 // Convert json object to word object
 const jsonToWord = (obj) => {
@@ -65,10 +82,16 @@ const jsonToWord = (obj) => {
     }
     // Set suggestions
     if (obj.hasOwnProperty('suggestions')) {
-        word.addSuggestion(Object.assign({}, word)); // Add self to the suggestion list
+        // Add self to the suggestion list
+        var wordCopy = Object.assign({}, word);
+        delete wordCopy.suggestions;
+        word.addSuggestion(wordCopy);
+
+        // Add suggestion words
         for (var s in obj.suggestions) {
             // var sugg = obj.suggestions[s];
             var suggWord = this.jsonToWord(obj.suggestions[s]);
+            delete suggWord.suggestions;
             word.addSuggestion(suggWord);
         }
     }
@@ -79,5 +102,6 @@ const jsonToWord = (obj) => {
 export const grammar = {
     docToDataLines,
     dataLinesToText,
+    jsonToDataLines,
     jsonToWord
 }

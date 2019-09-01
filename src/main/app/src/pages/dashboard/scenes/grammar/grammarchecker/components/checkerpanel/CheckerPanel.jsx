@@ -15,9 +15,8 @@ import TableRow                 from '@material-ui/core/TableRow';
 import Grid                     from '@material-ui/core/Grid';
 import Typography               from '@material-ui/core/Typography';
 import Slider                   from '@material-ui/core/Slider';
-import ZoomIn from '@material-ui/icons/ZoomIn';
-import * as FileSaver from 'file-saver';
-
+import ZoomIn                   from '@material-ui/icons/ZoomIn';
+import * as FileSaver           from 'file-saver';
 
 
 class CheckerPanel extends React.Component {
@@ -102,9 +101,24 @@ class CheckerPanel extends React.Component {
         this.setState({data: data});
     }
 
-    handleDownload = (selectedTask) => {
+    handleExport = (selectedTask) => {
         const blob = new Blob([grammar.dataLinesToText(this.state.dataLines)], {type: 'text/plain;charset=utf-8'});
         FileSaver.saveAs(blob, this.state.taskName);
+    }
+
+    handleSave = (selectedTask) => {
+        const blob = new Blob([JSON.stringify(this.state.dataLines)], {type: 'application/json;charset=utf-8'});
+        FileSaver.saveAs(blob, this.state.taskName);
+    }
+
+    handleOpen = (event) => {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = (event) => {
+            console.log(event.target.result)
+        };
+      
+        reader.readAsText(file);
     }
 
     // Get styles for a letter or a word
@@ -188,7 +202,13 @@ class CheckerPanel extends React.Component {
                         {/* Process button */}
                         <Grid item xs={10} style={styles.inlineContent}>
                             <Button variant="contained" color="secondary"  onClick={(e) => this.handleProcess(selectedTask)} style={styles.smallMargin}>Process</Button>
-                            <Button variant="contained" color="primary"  onClick={(e) => this.handleDownload()} style={styles.smallMargin}>Download</Button>
+                            <Button variant="outlined" color="secondary"  onClick={(e) => this.handleExport()} style={styles.smallMargin}>Export</Button>
+
+                            <Button variant="outlined" color="secondary" style={styles.smallMargin} onClick={(e) => this.handleSave()}>Save</Button>
+                            <input accept='*' onChange={this.handleOpen} style={{ display: 'none' }} id='raised-button-file' multiple type='file' />
+                            <label htmlFor="raised-button-file">
+                                <Button variant="outlined" component="span" color="secondary" style={styles.smallMargin}>Open</Button>
+                            </label> 
                         </Grid>
 
                         {/* Zoom */}
