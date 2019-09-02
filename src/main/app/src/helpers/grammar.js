@@ -49,8 +49,10 @@ const jsonToDataLines = (str) => {
     for (var line in obj) {
         for (var w in line){
             var wordJson = obj[w];
-            var word = jsonToWord(wordJson);
-            dataLines[dataLines.length - 1].push(word);
+            if (wordJson){
+                var word = jsonToWord(wordJson);
+                dataLines[dataLines.length - 1].push(word);
+            }
         }
         dataLines.push([]);
     }
@@ -90,7 +92,7 @@ const jsonToWord = (obj) => {
         // Add suggestion words
         for (var s in obj.suggestions) {
             // var sugg = obj.suggestions[s];
-            var suggWord = this.jsonToWord(obj.suggestions[s]);
+            var suggWord = jsonToWord(obj.suggestions[s]);
             delete suggWord.suggestions;
             word.addSuggestion(suggWord);
         }
