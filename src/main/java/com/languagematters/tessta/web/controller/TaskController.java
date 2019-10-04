@@ -8,8 +8,8 @@ import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import com.languagematters.tessta.web.service.AsynchronousServices;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,18 +23,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/task")
+@RequiredArgsConstructor
 public class TaskController {
 
     private final DocumentServices documentServices;
     private final TaskServices taskServices;
     private final AsynchronousServices asynchronousServices;
-
-    @Autowired
-    public TaskController(final DocumentServices documentServices, final TaskServices taskServices, final AsynchronousServices asynchronousServices) {
-        this.documentServices = documentServices;
-        this.taskServices = taskServices;
-        this.asynchronousServices = asynchronousServices;
-    }
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")

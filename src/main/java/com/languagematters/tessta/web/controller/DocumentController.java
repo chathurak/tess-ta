@@ -4,7 +4,7 @@ import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/document")
+@RequiredArgsConstructor
 public class DocumentController {
 
     private final DocumentServices documentServices;
-
-    @Autowired
-    public DocumentController(final DocumentServices documentServices) {
-        this.documentServices = documentServices;
-    }
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")

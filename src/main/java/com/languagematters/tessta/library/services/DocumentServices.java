@@ -2,8 +2,8 @@ package com.languagematters.tessta.library.services;
 
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.model.UserFile;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DocumentServices {
 
     @Value("${app.tempstore}")
     private String tempStorePath;
 
     private final Connection connection;
-
-    @Autowired
-    public DocumentServices(final Connection connection) {
-        this.connection = connection;
-    }
 
     public List<UserFile> getDocuments(int userId) {
         List<UserFile> userFiles = new ArrayList<>();

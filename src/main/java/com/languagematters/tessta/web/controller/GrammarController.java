@@ -3,13 +3,11 @@ package com.languagematters.tessta.web.controller;
 import com.languagematters.tessta.grammar.model.WordObj;
 import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
-import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,15 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class GrammarController {
     private final DocumentServices documentServices;
     private final TaskServices taskServices;
-
-    @Autowired
-    public GrammarController(final DocumentServices documentServices, final TaskServices taskServices) {
-        this.documentServices = documentServices;
-        this.taskServices = taskServices;
-    }
 
     private Jedis jedis = new Jedis("localhost");
 

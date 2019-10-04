@@ -1,6 +1,6 @@
 package com.languagematters.tessta.db.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -11,14 +11,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 @Service
+@RequiredArgsConstructor
 public class DbServices {
 
     private final Connection connection;
-
-    @Autowired
-    public DbServices(final Connection connection) {
-        this.connection = connection;
-    }
 
     public HashMap<String, String> loadKeyVal(String sql) {
         HashMap<String, String> data = new HashMap<>();

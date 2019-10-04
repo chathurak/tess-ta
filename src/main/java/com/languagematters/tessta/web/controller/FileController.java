@@ -5,7 +5,7 @@ import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.web.security.CurrentUser;
 import com.languagematters.tessta.web.security.UserPrincipal;
 import com.languagematters.tessta.web.service.StorageServices;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,16 +16,11 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/file")
+@RequiredArgsConstructor
 public class FileController {
 
     private final StorageServices storageServices;
     private final DocumentServices documentServices;
-
-    @Autowired
-    public FileController(final StorageServices storageServices, final DocumentServices documentServices) {
-        this.storageServices = storageServices;
-        this.documentServices = documentServices;
-    }
 
     @PostMapping("/process")
     @PreAuthorize("hasRole('USER')")

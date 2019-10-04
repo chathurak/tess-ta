@@ -3,24 +3,20 @@ package com.languagematters.tessta.library.services;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import lombok.RequiredArgsConstructor;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 // TODO
 @Service
+@RequiredArgsConstructor
 public class InfoServices {
 
     @Value("${app.mongo.library-collection-name}")
     private String libraryCollectionName;
 
     private final MongoDatabase mongoDatabase;
-
-    @Autowired
-    public InfoServices(final MongoDatabase mongoDatabase) {
-        this.mongoDatabase = mongoDatabase;
-    }
 
     /**
      * Sample JSON for input file

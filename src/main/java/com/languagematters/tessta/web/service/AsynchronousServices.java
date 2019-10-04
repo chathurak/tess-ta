@@ -1,22 +1,17 @@
 package com.languagematters.tessta.web.service;
 
 import com.languagematters.tessta.web.task.OcrTask;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 @Service
+@RequiredArgsConstructor
 public class AsynchronousServices {
 
     private final TaskExecutor taskExecutor;
     private final WebApplicationContext webApplicationContext;
-
-    @Autowired
-    public AsynchronousServices(final WebApplicationContext webApplicationContext, final TaskExecutor taskExecutor) {
-        this.webApplicationContext = webApplicationContext;
-        this.taskExecutor = taskExecutor;
-    }
 
     public void executeOcrTask(int documentId, String taskId, String username, String accessToken, String originalFileName) {
         OcrTask ocrTask = (OcrTask) webApplicationContext.getBean("ocrTask");
