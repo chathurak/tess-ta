@@ -3,8 +3,14 @@ version: 1
 update_configs:
   - package_manager: "javascript"
     directory: "/src/main/app"
-    update_schedule: "monthly"
+    update_schedule: "daily"
+    allowed_updates:
+      - match:
+          update_type: "security"
 
   - package_manager: "java:maven"
     directory: "/"
-    update_schedule: "monthly"
+    update_schedule: "daily"
+    allowed_updates:
+      - match:
+          update_type: "security"
