@@ -15,7 +15,7 @@
     <description>Tesseract test automate</description>
 
     <properties>
-        <java.version>12</java.version>
+        <java.version>13</java.version>
         <frontendSrcDir>${project.basedir}/src/main/app</frontendSrcDir>
         <node.version>v11.9.0</node.version>
         <yarn.version>v1.15.2</yarn.version>
