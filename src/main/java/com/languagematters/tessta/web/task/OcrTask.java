@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
+import com.languagematters.tessta.admin.service.GoogleAPIServices;
 import com.languagematters.tessta.db.service.DbServices;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
@@ -14,7 +15,6 @@ import com.languagematters.tessta.report.report.ConfusionSummaryReport;
 import com.languagematters.tessta.report.report.DiffReport;
 import com.languagematters.tessta.report.service.ConfusionMapServices;
 import com.languagematters.tessta.report.service.DiffServices;
-import com.languagematters.tessta.admin.service.GoogleAPIServices;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.Setter;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,13 +35,14 @@ import java.util.HashSet;
 
 @Component
 @Scope("prototype")
+@RequiredArgsConstructor
 public class OcrTask {
 
     private final DbServices dbServices;
     private final ImageServices imageServices;
     private final OcrServices ocrServices;
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${app.tempstore}")
     private String tempStorePath;
@@ -56,15 +57,6 @@ public class OcrTask {
     private String accessToken;
     @Setter
     private String originalFileName;
-
-    @Autowired
-    public OcrTask(final DbServices dbServices, final ImageServices imageServices, final OcrServices ocrServices) {
-        this.dbServices = dbServices;
-        this.imageServices = imageServices;
-        this.ocrServices = ocrServices;
-
-        this.objectMapper = new ObjectMapper();
-    }
 
     public void process() {
         try {
@@ -83,6 +75,7 @@ public class OcrTask {
 
             File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, taskId));
             File originalFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, originalFileName));
+            String extension = FilenameUtils.getExtension(originalFile.getName()).toLowerCase();
 
             // Create task directory
             System.out.printf("%s : Create task directory%n", taskId);
@@ -94,52 +87,63 @@ public class OcrTask {
             imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
 
             // OCR
-            System.out.printf("%s : OCR%n", taskId);
-            ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
+            if(extension.equals("txt")){
+                System.out.printf("%s : OCR%n", taskId);
+                ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
+            }
 
-            // Comparison
-            System.out.printf("%s : Comparison%n", taskId);
-            DiffList diffList = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
-            objectMapper.writeValue(new File(String.format("%s/diff_list.json", taskDir.getAbsolutePath())), diffList);
+            if(extension.equals("txt")){
+                // Comparison
+                System.out.printf("%s : Comparison%n", taskId);
+                DiffList diffList = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
+                objectMapper.writeValue(new File(String.format("%s/diff_list.json", taskDir.getAbsolutePath())), diffList);
 
-            // Confusion Matrix
-            System.out.printf("%s : Confusion Matrix%n", taskId);
-            ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
-            objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
+                // Confusion Matrix
+                System.out.printf("%s : Confusion Matrix%n", taskId);
+                ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
+                objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
 
-            // DiffReport
-            System.out.printf("%s : Generate DiffReport%n", taskId);
-            DiffReport diffReport = new DiffReport(diffList.getCustomDiffs());
-            System.out.printf("%s : Write DiffReport%n", taskId);
-            diffReport.writeReport(drive, sheets, parentDir.getId(), "diff");
+                // DiffReport
+                System.out.printf("%s : Generate DiffReport%n", taskId);
+                DiffReport diffReport = new DiffReport(diffList.getCustomDiffs());
+                System.out.printf("%s : Write DiffReport%n", taskId);
+                diffReport.writeReport(drive, sheets, parentDir.getId(), "diff");
 
-            HashSet<String> exBlock = dbServices.loadValues("select * from exblock", "character");
+                HashSet<String> exBlock = dbServices.loadValues("select * from exblock", "character");
 
-            // ConfusionReport
-            System.out.printf("%s : Generate ConfusionReport%n", taskId);
-            ConfusionReport confusionReport = new ConfusionReport(confusionMap, exBlock);
-            System.out.printf("%s : Write ConfusionReport%n", taskId);
-            confusionReport.writeReport(drive, sheets, parentDir.getId(), "confusion");
+                // ConfusionReport
+                System.out.printf("%s : Generate ConfusionReport%n", taskId);
+                ConfusionReport confusionReport = new ConfusionReport(confusionMap, exBlock);
+                System.out.printf("%s : Write ConfusionReport%n", taskId);
+                confusionReport.writeReport(drive, sheets, parentDir.getId(), "confusion");
 
-            // ConfusionSummaryReport
-            System.out.printf("%s : Generate ConfusionSummaryReport%n", taskId);
-            ConfusionSummaryReport confusionSummaryReport = new ConfusionSummaryReport(confusionMap, exBlock);
-            System.out.printf("%s : Write ConfusionSummaryReport%n", taskId);
-            confusionSummaryReport.writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
+                // ConfusionSummaryReport
+                System.out.printf("%s : Generate ConfusionSummaryReport%n", taskId);
+                ConfusionSummaryReport confusionSummaryReport = new ConfusionSummaryReport(confusionMap, exBlock);
+                System.out.printf("%s : Write ConfusionSummaryReport%n", taskId);
+                confusionSummaryReport.writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
+            }
 
             // Log
             // TODO : Generate Json and save as ./log.json
 
-            // Upload files
+            // Upload file list
             System.out.printf("%s : Upload files%n", taskId);
             ArrayList<Upload> uploadFileList = new ArrayList<>();
-            uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
-            uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
-            uploadFileList.add(new Upload("out.tif", "image/tiff", taskDir.getAbsolutePath() + "/out.tif"));
+
+            if(extension.equals("txt")){
+                uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
+                uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
+                uploadFileList.add(new Upload("out.tif", "image/tiff", taskDir.getAbsolutePath() + "/out.tif"));
+            }else if(extension.equals("jpeg")){
+                uploadFileList.add(new Upload(originalFileName, "image/jpeg", originalFile.getAbsolutePath()));
+            }
             uploadFileList.add(new Upload("output.txt", "text/plain", taskDir.getAbsolutePath() + "/output.txt"));
+
             // TODO : Enable after generating log.json
             // uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));
 
+            // Upload files
             for (Upload upload : uploadFileList) {
                 System.out.printf("%s : Uploading %s%n", taskId, upload.getName());
                 com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
@@ -179,12 +183,14 @@ public class OcrTask {
 
     @Data
     private class Upload {
+
         @NonNull
         private String name;
         @NonNull
         private String content;
         @NonNull
         private String path;
+
     }
 
     @RequiredArgsConstructor
@@ -210,5 +216,7 @@ public class OcrTask {
                 e.printStackTrace();
             }
         }
+
     }
+
 }
