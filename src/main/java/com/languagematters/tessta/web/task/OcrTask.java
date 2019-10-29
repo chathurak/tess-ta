@@ -5,7 +5,6 @@ import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import com.languagematters.tessta.admin.service.GoogleAPIServices;
-import com.languagematters.tessta.db.service.DbServices;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
@@ -29,6 +28,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,7 +40,8 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 public class OcrTask {
 
-    private final DbServices dbServices;
+    private final Connection connection;
+
     private final ImageServices imageServices;
     private final OcrServices ocrServices;
 
@@ -59,7 +62,7 @@ public class OcrTask {
     private String originalFileName;
 
     public void process() {
-        try {
+        try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery("select * from exblock")){
             Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
             Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
 
@@ -109,7 +112,10 @@ public class OcrTask {
                 System.out.printf("%s : Write DiffReport%n", taskId);
                 diffReport.writeReport(drive, sheets, parentDir.getId(), "diff");
 
-                HashSet<String> exBlock = dbServices.loadValues("select * from exblock", "character");
+                HashSet<String> exBlock = new HashSet<>();
+                while (rs.next()) {
+                    exBlock.add(rs.getString("character"));
+                }
 
                 // ConfusionReport
                 System.out.printf("%s : Generate ConfusionReport%n", taskId);
