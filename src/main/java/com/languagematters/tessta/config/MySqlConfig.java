@@ -1,4 +1,4 @@
-package com.languagematters.tessta.db.config;
+package com.languagematters.tessta.config;
 
 import lombok.Setter;
 import org.springframework.beans.factory.BeanCreationException;
