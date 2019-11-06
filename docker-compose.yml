@@ -1,11 +1,12 @@
 version: '3'
 services:
   tesseract:
-    build: ocr-tesseract
+    image: tesseractshadow/tesseract4cmp
     container_name: tesseract-daemon
     volumes:
-      - "/ocr/tessdata:/ocr/tessdata"
-      - "/ocr/storage:/ocr/storage"
+      - "~/ocr/tessdata:/ocr/tessdata"
+      - "~/ocr/storage:/ocr/storage"
+    command: bash -c "/home/scripts/repos_update.sh && /home/scripts/compile_leptonica.sh && /home/scripts/compile_tesseract.sh"
   mysql:
     image: mysql:8.0
     container_name: mysql-daemon
@@ -70,8 +71,8 @@ services:
       - "80:4000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "/ocr/tessdata:/ocr/tessdata"
-      - "/ocr/storage:/ocr/storage"
+      - "~/ocr/tessdata:/ocr/tessdata"
+      - "~/ocr/storage:/ocr/storage"
     depends_on:
       - tesseract
       - mysql
