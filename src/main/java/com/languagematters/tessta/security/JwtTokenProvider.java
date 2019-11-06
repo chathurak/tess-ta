@@ -30,7 +30,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(Integer.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
+                // .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
