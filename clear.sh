@@ -22,7 +22,7 @@ docker volume ls
 docker network ls
 
 # Delete storage
-rm -rf /ocr/storage
+rm -rf ~/ocr/storage
 
 # Delete log
-rm /ocr/log.txt
+rm ~/ocr/log.txt
