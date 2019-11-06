@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
-import com.languagematters.tessta.admin.service.GoogleAPIServices;
+import com.languagematters.tessta.service.GoogleAPIServices;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;

@@ -12,7 +12,7 @@ export const theme = createMuiTheme({
     },
     typography: {
         // useNextVariants: true,
-        fontSize: 13,
+        fontSize: 12,
     },
     spacing   : factor => `${0.5 * factor}rem`,
     app       : {
@@ -24,7 +24,7 @@ export const theme = createMuiTheme({
 
         dashboard: {
             layout: {
-                sidebarWidth: 240
+                sidebarWidth: 200
             }
         },
     }

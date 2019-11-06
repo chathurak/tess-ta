@@ -1,6 +1,5 @@
 package com.languagematters.tessta.ocr.service;
 
-import com.languagematters.tessta.admin.service.OsServices;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.environment.EnvironmentUtils;

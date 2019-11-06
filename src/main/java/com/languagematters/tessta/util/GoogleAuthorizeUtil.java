@@ -1,4 +1,4 @@
-package com.languagematters.tessta.admin.util;
+package com.languagematters.tessta.util;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
