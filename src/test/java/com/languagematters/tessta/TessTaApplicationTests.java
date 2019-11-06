@@ -1,6 +1,6 @@
 package com.languagematters.tessta;
 
-import com.languagematters.tessta.web.controller.HelloWorldController;
+import com.languagematters.tessta.controller.HelloWorldController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

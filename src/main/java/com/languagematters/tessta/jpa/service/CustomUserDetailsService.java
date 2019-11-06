@@ -2,7 +2,7 @@ package com.languagematters.tessta.jpa.service;
 
 import com.languagematters.tessta.jpa.entity.User;
 import com.languagematters.tessta.jpa.repository.UserRepository;
-import com.languagematters.tessta.web.security.UserPrincipal;
+import com.languagematters.tessta.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

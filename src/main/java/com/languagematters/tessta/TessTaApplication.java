@@ -1,6 +1,6 @@
 package com.languagematters.tessta;
 
-import com.languagematters.tessta.web.service.StorageServices;
+import com.languagematters.tessta.service.StorageServices;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
