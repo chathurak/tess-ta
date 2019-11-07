@@ -1,6 +1,6 @@
 package com.languagematters.tessta;
 
-import com.languagematters.tessta.controller.HelloWorldController;
+import com.languagematters.tessta.controller.HomeController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TessTaApplicationTests {
 
     @Autowired
-    private HelloWorldController helloWorldController;
+    private HomeController homeController;
 
     @Test
     public void contextLoads() {
-        assertThat(helloWorldController).isNotNull();
+        assertThat(homeController).isNotNull();
     }
 
 }
