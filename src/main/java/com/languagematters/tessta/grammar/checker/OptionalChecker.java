@@ -21,7 +21,7 @@ public class OptionalChecker {
 
             // List opt chars
             for (LetterObj letterObj : tmp.letters) {
-                if (Rules.getOptionalRules().keySet().contains(letterObj.value)) {
+                if (Rules.getOptionalRules().containsKey(letterObj.value)) {
                     optChars.add(new String[]{letterObj.value, Rules.getOptionalRules().get(letterObj.value)});
                     optLetters.add(letterObj);
                 }

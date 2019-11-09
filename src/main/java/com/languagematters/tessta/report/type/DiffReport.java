@@ -1,4 +1,4 @@
-package com.languagematters.tessta.report.report;
+package com.languagematters.tessta.report.type;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;

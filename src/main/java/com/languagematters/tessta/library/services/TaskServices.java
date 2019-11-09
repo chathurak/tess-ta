@@ -15,10 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskServices {
 
+    private final Connection connection;
     @Value("${app.tempstore}")
     private String tempStorePath;
-
-    private final Connection connection;
 
     public List<Task> getTasks(int documentId) {
         List<Task> tasks = new ArrayList<>();
@@ -50,7 +49,7 @@ public class TaskServices {
         return tasks;
     }
 
-    public Task getTask(int taskId){
+    public Task getTask(int taskId) {
         Task task = new Task();
 
         try {
@@ -100,7 +99,7 @@ public class TaskServices {
         return -1;
     }
 
-    public String getTaskOutputContent(int taskId, String username){
+    public String getTaskOutputContent(int taskId, String username) {
         Task task = this.getTask(taskId);
         File originalFile = new File(String.format("%s/%s/%s/%s/output.txt", this.tempStorePath, username, task.getDocumentId(), task.getName()));
         return FileUtils.loadTextFile(originalFile.getPath());

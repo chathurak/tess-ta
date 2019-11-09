@@ -1,11 +1,11 @@
 package com.languagematters.tessta.controller;
 
+import com.languagematters.tessta.exception.AppException;
 import com.languagematters.tessta.jpa.entity.Role;
 import com.languagematters.tessta.jpa.entity.RoleName;
 import com.languagematters.tessta.jpa.entity.User;
 import com.languagematters.tessta.jpa.repository.RoleRepository;
 import com.languagematters.tessta.jpa.repository.UserRepository;
-import com.languagematters.tessta.exception.AppException;
 import com.languagematters.tessta.security.CurrentUser;
 import com.languagematters.tessta.security.JwtTokenProvider;
 import com.languagematters.tessta.security.UserPrincipal;

@@ -7,10 +7,7 @@ import com.languagematters.tessta.grammar.checker.OptionalChecker;
 import com.languagematters.tessta.grammar.config.Rules;
 import com.languagematters.tessta.grammar.helper.DocHelper;
 import com.languagematters.tessta.grammar.model.WordObj;
-import com.languagematters.tessta.grammar.util.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
 
-import java.io.File;
 import java.util.List;
 
 public class GrammarService {
@@ -19,7 +16,7 @@ public class GrammarService {
         // Load rules TODO: Set load once
         Rules.load();
         DictionaryService.load();
-        
+
         // Mandatory Check
         text = MandatoryChecker.check(text);
 

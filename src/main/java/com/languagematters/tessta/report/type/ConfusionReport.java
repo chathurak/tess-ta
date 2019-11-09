@@ -1,4 +1,4 @@
-package com.languagematters.tessta.report.report;
+package com.languagematters.tessta.report.type;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -9,61 +9,50 @@ import com.languagematters.tessta.report.model.ConfusionMap;
 import java.io.IOException;
 import java.util.*;
 
-public class ConfusionSummaryReport {
+public class ConfusionReport {
 
-    List<List<Object>> rows;
+    private ArrayList<String> inputCharacters;
+    private ArrayList<String> outputCharacters;
 
-    public ConfusionSummaryReport(ConfusionMap confusionMap, HashSet<String> exBlock) {
+    private List<List<Object>> rows;
+
+    public ConfusionReport(final ConfusionMap confusionMap) {
         rows = new ArrayList<>();
 
-        LinkedHashSet<String> exBlockLinked = new LinkedHashSet<>(exBlock);
+        // Get characters and subCharacters
+        HashSet<String> inputCharacterSet = new HashSet<>();
+        HashSet<String> outputCharacterSet = new HashSet<>();
 
-        // Create heading
-        rows.add(Arrays.asList("Accuracy percentage", "Error percentage", "Correct count", "Error count", "Total count", "Character", "Error(s)"));
-
-        int totalCorrectCount = 0;
-        int totalErrorCount = 0;
-
-        for (String character : exBlockLinked) {
-            if (confusionMap.containsOuterKey(character)) {
-                List<Object> row = new ArrayList<>();
-                int errorCount = 0;
-                int correctCount = 0;
-                List<String> errorWordList = new ArrayList<>();
-
-                for (Map.Entry<String, Integer> entry : confusionMap.getCountInnerEntrySet(character)) {
-                    if (character.equals(entry.getKey())) {
-                        correctCount += entry.getValue();
-                    } else {
-                        errorCount += entry.getValue();
-                        errorWordList.add(entry.getKey());
-                    }
-                }
-
-                row.add(String.format("%.2f%%", 100.0 * correctCount / (correctCount + errorCount)));
-                row.add(String.format("%.2f%%", 100.0 * errorCount / (correctCount + errorCount)));
-                row.add(correctCount);
-                row.add(errorCount);
-                row.add(correctCount + errorCount);
-                row.add(character);
-                row.addAll(errorWordList);
-
-                totalCorrectCount += correctCount;
-                totalErrorCount += errorCount;
-
-                rows.add(row);
-            }
+        for (String character: confusionMap.getInputKeySet()) {
+            inputCharacterSet.add(character);
+            outputCharacterSet.addAll(confusionMap.getOutputKeySet(character));
         }
 
-        // Add summary row
-        List<Object> row = new ArrayList<>();
-        row.add(String.format("%.2f%%", 100.0 * totalCorrectCount / (totalCorrectCount + totalErrorCount)));
-        row.add(String.format("%.2f%%", 100.0 * totalErrorCount / (totalCorrectCount + totalErrorCount)));
-        row.add(totalCorrectCount);
-        row.add(totalErrorCount);
-        row.add(totalCorrectCount + totalErrorCount);
+        inputCharacters = new ArrayList<>(inputCharacterSet);
+        outputCharacters = new ArrayList<>(inputCharacters);
+        outputCharacterSet.removeAll(inputCharacterSet);
+        outputCharacters.addAll(outputCharacterSet);
 
-        rows.add(row);
+        // Create heading
+        List<Object> heading = new ArrayList<>();
+        heading.add(" ");
+        heading.addAll(outputCharacters);
+        rows.add(heading);
+
+        for (String character : inputCharacters) {
+            List<Object> row = new ArrayList<>();
+            row.add(character);
+
+            for (String subCharacter : outputCharacters) {
+                if (confusionMap.containsOutputKey(character, subCharacter)) {
+                    row.add(confusionMap.getCount(character, subCharacter));
+                } else {
+                    row.add("");
+                }
+            }
+
+            rows.add(row);
+        }
     }
 
     public void writeReport(Drive drive, Sheets sheets, String parentDirId, String outputFileName) throws IOException {
@@ -78,19 +67,24 @@ public class ConfusionSummaryReport {
                 .execute();
 
         // Update formatting
-        List<GridRange> summaryRange = Collections.singletonList(new GridRange()
+        List<GridRange> fullRange = Collections.singletonList(new GridRange()
                 .setSheetId(0)
-                .setStartRowIndex(rows.size() - 1)
-                .setEndRowIndex(rows.size())
+                .setStartRowIndex(0)
                 .setStartColumnIndex(0)
-                .setEndColumnIndex(5)
         );
-        List<GridRange> charRange = Collections.singletonList(new GridRange()
+        List<GridRange> xHeaderRange = Collections.singletonList(new GridRange()
+                .setSheetId(0)
+                .setStartRowIndex(0)
+                .setEndRowIndex(1)
+                .setStartColumnIndex(1)
+                .setEndColumnIndex(outputCharacters.size())
+        );
+        List<GridRange> yHeaderRange = Collections.singletonList(new GridRange()
                 .setSheetId(0)
                 .setStartRowIndex(1)
-                .setEndRowIndex(rows.size() - 2)
-                .setStartColumnIndex(5)
-                .setEndColumnIndex(6)
+                .setEndRowIndex(inputCharacters.size() + 1)
+                .setStartColumnIndex(0)
+                .setEndColumnIndex(1)
         );
 
         List<Request> requests = Arrays.asList(
@@ -101,15 +95,25 @@ public class ConfusionSummaryReport {
                                                 .setSheetId(0)
                                                 .setDimension("COLUMNS")
                                                 .setStartIndex(0)
-                                                .setEndIndex(6)
                                 )
-                                .setProperties(new DimensionProperties().setPixelSize(100))
+                                .setProperties(new DimensionProperties().setPixelSize(30))
+                                .setFields("pixelSize")
+                ),
+                new Request().setUpdateDimensionProperties(
+                        new UpdateDimensionPropertiesRequest()
+                                .setRange(
+                                        new DimensionRange()
+                                                .setSheetId(0)
+                                                .setDimension("ROWS")
+                                                .setStartIndex(0)
+                                )
+                                .setProperties(new DimensionProperties().setPixelSize(30))
                                 .setFields("pixelSize")
                 ),
                 new Request().setAddConditionalFormatRule(
                         new AddConditionalFormatRuleRequest()
                                 .setRule(new ConditionalFormatRule()
-                                        .setRanges(summaryRange)
+                                        .setRanges(xHeaderRange)
                                         .setBooleanRule(new BooleanRule()
                                                 .setCondition(new BooleanCondition()
                                                         .setType("CUSTOM_FORMULA")
@@ -130,7 +134,7 @@ public class ConfusionSummaryReport {
                 new Request().setAddConditionalFormatRule(
                         new AddConditionalFormatRuleRequest()
                                 .setRule(new ConditionalFormatRule()
-                                        .setRanges(charRange)
+                                        .setRanges(yHeaderRange)
                                         .setBooleanRule(new BooleanRule()
                                                 .setCondition(new BooleanCondition()
                                                         .setType("CUSTOM_FORMULA")
@@ -156,7 +160,7 @@ public class ConfusionSummaryReport {
                 .execute();
 
         // Update values
-        List<ValueRange> data = new ArrayList<ValueRange>();
+        List<ValueRange> data = new ArrayList<>();
         data.add(new ValueRange().setRange("A1").setValues(rows));
 
         BatchUpdateValuesRequest batchUpdateValuesRequest = new BatchUpdateValuesRequest()

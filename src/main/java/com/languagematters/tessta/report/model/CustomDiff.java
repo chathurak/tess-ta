@@ -1,9 +1,8 @@
 package com.languagematters.tessta.report.model;
 
+import com.languagematters.tessta.report.google.Operation;
 import lombok.Getter;
 import lombok.Setter;
-
-import com.languagematters.tessta.report.google.Operation;
 
 @Getter
 @Setter

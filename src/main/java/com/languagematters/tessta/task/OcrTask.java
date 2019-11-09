@@ -4,16 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
-import com.languagematters.tessta.service.GoogleAPIServices;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.DiffList;
-import com.languagematters.tessta.report.report.ConfusionReport;
-import com.languagematters.tessta.report.report.ConfusionSummaryReport;
-import com.languagematters.tessta.report.report.DiffReport;
-import com.languagematters.tessta.report.service.ConfusionMapServices;
 import com.languagematters.tessta.report.service.DiffServices;
+import com.languagematters.tessta.report.type.ConfusionReport;
+import com.languagematters.tessta.report.type.ConfusionSummaryReport;
+import com.languagematters.tessta.report.type.DiffReport;
+import com.languagematters.tessta.service.GoogleAPIServices;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +27,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 
 @Component
 @Scope("prototype")
 @RequiredArgsConstructor
 public class OcrTask {
-
-    private final Connection connection;
 
     private final ImageServices imageServices;
     private final OcrServices ocrServices;
@@ -61,8 +54,11 @@ public class OcrTask {
     @Setter
     private String originalFileName;
 
+    private final String T2I_OUTPUT_FILE_NAME = "Image_for_recog";
+    private final String OCR_OUTPUT_FILE_NAME = "Tesseract_output";
+
     public void process() {
-        try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery("select * from exblock")){
+        try {
             Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
             Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
 
@@ -87,23 +83,23 @@ public class OcrTask {
 
             // Text to image
             System.out.printf("%s : Text to image%n", taskId);
-            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/out");
+            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), String.format("%s/%s", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
 
             // OCR
-            if(extension.equals("txt")){
+            if (extension.equals("txt")) {
                 System.out.printf("%s : OCR%n", taskId);
-                ocrServices.ocr(getExecutor(), taskDir.getAbsolutePath() + "/out.tif", taskDir.getAbsolutePath() + "/output");
+                ocrServices.ocr(getExecutor(), String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME), String.format("%s/%s", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME));
             }
 
-            if(extension.equals("txt")){
+            if (extension.equals("txt")) {
                 // Comparison
                 System.out.printf("%s : Comparison%n", taskId);
-                DiffList diffList = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), taskDir.getAbsolutePath() + "/output.txt");
+                DiffList diffList = DiffServices.getDefaultDiff(originalFile.getAbsolutePath(), String.format("%s/%s.txt", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME));
                 objectMapper.writeValue(new File(String.format("%s/diff_list.json", taskDir.getAbsolutePath())), diffList);
 
                 // Confusion Matrix
                 System.out.printf("%s : Confusion Matrix%n", taskId);
-                ConfusionMap confusionMap = ConfusionMapServices.getConfusionMap(diffList);
+                ConfusionMap confusionMap = new ConfusionMap(diffList);
                 objectMapper.writeValue(new File(String.format("%s/confusion_map.json", taskDir.getAbsolutePath())), confusionMap);
 
                 // DiffReport
@@ -112,20 +108,15 @@ public class OcrTask {
                 System.out.printf("%s : Write DiffReport%n", taskId);
                 diffReport.writeReport(drive, sheets, parentDir.getId(), "diff");
 
-                HashSet<String> exBlock = new HashSet<>();
-                while (rs.next()) {
-                    exBlock.add(rs.getString("character"));
-                }
-
                 // ConfusionReport
                 System.out.printf("%s : Generate ConfusionReport%n", taskId);
-                ConfusionReport confusionReport = new ConfusionReport(confusionMap, exBlock);
+                ConfusionReport confusionReport = new ConfusionReport(confusionMap);
                 System.out.printf("%s : Write ConfusionReport%n", taskId);
                 confusionReport.writeReport(drive, sheets, parentDir.getId(), "confusion");
 
                 // ConfusionSummaryReport
                 System.out.printf("%s : Generate ConfusionSummaryReport%n", taskId);
-                ConfusionSummaryReport confusionSummaryReport = new ConfusionSummaryReport(confusionMap, exBlock);
+                ConfusionSummaryReport confusionSummaryReport = new ConfusionSummaryReport(confusionMap);
                 System.out.printf("%s : Write ConfusionSummaryReport%n", taskId);
                 confusionSummaryReport.writeReport(drive, sheets, parentDir.getId(), "confusion_summary");
             }
@@ -137,14 +128,14 @@ public class OcrTask {
             System.out.printf("%s : Upload files%n", taskId);
             ArrayList<Upload> uploadFileList = new ArrayList<>();
 
-            if(extension.equals("txt")){
+            if (extension.equals("txt")) {
                 uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
-                uploadFileList.add(new Upload("out.box", "application/octet-stream", taskDir.getAbsolutePath() + "/out.box"));
-                uploadFileList.add(new Upload("out.tif", "image/tiff", taskDir.getAbsolutePath() + "/out.tif"));
-            }else if(extension.equals("jpeg")){
+//                uploadFileList.add(new Upload(String.format("%s.box", T2I_OUTPUT_FILE_NAME), "application/octet-stream", String.format("%s/%s.box", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME)));
+                uploadFileList.add(new Upload(String.format("%s.tif", T2I_OUTPUT_FILE_NAME), "image/tiff", String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME)));
+            } else if (extension.equals("jpeg")) {
                 uploadFileList.add(new Upload(originalFileName, "image/jpeg", originalFile.getAbsolutePath()));
             }
-            uploadFileList.add(new Upload("output.txt", "text/plain", taskDir.getAbsolutePath() + "/output.txt"));
+            uploadFileList.add(new Upload(String.format("%s.txt", OCR_OUTPUT_FILE_NAME), "text/plain", String.format("%s/%s.txt", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME)));
 
             // TODO : Enable after generating log.json
             // uploadFileList.add(new Upload("log.json", "application/json", taskDir.getAbsolutePath() + "/log.json"));

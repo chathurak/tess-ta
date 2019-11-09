@@ -1,10 +1,11 @@
 package com.languagematters.tessta.report.model;
 
-import lombok.Getter;
+import com.languagematters.tessta.grammar.util.TextUtils;
+import com.languagematters.tessta.report.google.Operation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 public class ConfusionMap {
@@ -14,46 +15,82 @@ public class ConfusionMap {
     private HashMap<String, HashMap<String, Integer>> countMap = new HashMap<>();
     private HashMap<String, HashMap<String, ArrayList<String>>> wordMap = new HashMap<>();
 
-    @Getter
-    private int outerCount = 0;
+    public ConfusionMap(DiffList diffList) {
+        List<CustomDiff> deltas = diffList.getCustomDiffs();
 
-    public Set<Map.Entry<String, HashMap<String, Integer>>> getCountOuterEntrySet() {
-        return countMap.entrySet();
+        for (int i = 0; i < deltas.size(); i++) {
+            CustomDiff currentDiff = deltas.get(i);
+
+            if (currentDiff.getOperation() == Operation.EQUAL) {    // Add equally matched
+                for (String letter : TextUtils.splitLetters(currentDiff.getText())) {
+                    if (!countMap.containsKey(letter)) {
+                        addInputKey(letter);
+                    }
+
+                    incrementCount(letter, letter);
+                    addWord(letter, letter, currentDiff.getText());
+
+                    break;
+                }
+            } else {    // Add unmatched
+                try {   // Handle one character change
+                    CustomDiff preDiff = deltas.get(i - 1);
+                    CustomDiff nextDiff = deltas.get(i + 1);
+                    CustomDiff afterNextDiff = deltas.get(i + 2);
+                    if (preDiff.getCustomOperation() == CustomOperation.CUSTOM_EQUAL
+                            && afterNextDiff.getCustomOperation() == CustomOperation.CUSTOM_EQUAL
+                            && nextDiff.getCustomOperation() != CustomOperation.CUSTOM_EQUAL) {
+                        List<String> currentLetters = TextUtils.splitLetters(currentDiff.getText());
+                        List<String> nextLetters = TextUtils.splitLetters(nextDiff.getText());
+
+                        if (currentLetters.size() == nextLetters.size()) {
+                            for (int j = 0; j < currentLetters.size(); j++) {
+                                String currentLetter = currentLetters.get(j);
+                                String nextLetter = nextLetters.get(j);
+                                if (!countMap.containsKey(currentLetter)) {
+                                    addInputKey(currentLetter);
+                                }
+
+                                incrementCount(currentLetter, nextLetter);
+                                addWord(currentLetter, nextLetter, currentDiff.getText());
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // TODO: 4/22/18 Handle this properly
+                    System.out.println(e.toString());
+                }
+            }
+        }
     }
 
-    public Set<Map.Entry<String, Integer>> getCountInnerEntrySet(String outerKey) {
-        return countMap.get(outerKey).entrySet();
+    public Set<String> getInputKeySet() {
+        return countMap.keySet();
     }
 
-    public Integer getCountValue(String outerKey, String innerKey) {
-        return countMap.get(outerKey).get(innerKey);
+    public Set<String> getOutputKeySet(String inputKey){
+        return countMap.get(inputKey).keySet();
     }
 
-    public ArrayList<String> getWordList(String outerKey, String innerKey) {
-        return wordMap.get(outerKey).get(innerKey);
+    public boolean containsOutputKey(String inputKey, String outputKey) {
+        return countMap.get(inputKey).containsKey(outputKey);
     }
 
-    public boolean containsOuterKey(String outerKey) {
-        return countMap.containsKey(outerKey);
+    public Integer getCount(String inputKey, String outputKey) {
+        return countMap.get(inputKey).get(outputKey);
     }
 
-    public boolean containsInnerKey(String outerKey, String innerKey) {
-        return countMap.get(outerKey).containsKey(innerKey);
+    public void addInputKey(String inputKey) {
+        countMap.put(inputKey, new HashMap<>());
+        wordMap.put(inputKey, new HashMap<>());
     }
 
-    public void addOuterKey(String outerKey) {
-        countMap.put(outerKey, new HashMap<>());
-        wordMap.put(outerKey, new HashMap<>());
-
-        this.outerCount++;
+    public void incrementCount(String inputKey, String outputKey) {
+        countMap.get(inputKey).put(outputKey, countMap.get(inputKey).getOrDefault(outputKey, 0) + 1);
     }
 
-    public void incrementCount(String outerKey, String innerKey) {
-        countMap.get(outerKey).put(innerKey, countMap.get(outerKey).getOrDefault(innerKey, 0) + 1);
-    }
-
-    public void addWord(String outerKey, String innerKey, String word) {
-        wordMap.get(outerKey).computeIfAbsent(innerKey, k -> new ArrayList<>());
-        wordMap.get(outerKey).get(innerKey).add(word);
+    public void addWord(String inputKey, String outputKey, String word) {
+        wordMap.get(inputKey).computeIfAbsent(outputKey, k -> new ArrayList<>());
+        wordMap.get(inputKey).get(outputKey).add(word);
     }
 }
