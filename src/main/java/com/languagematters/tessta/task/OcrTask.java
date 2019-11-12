@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
-import com.languagematters.tessta.ocr.service.ImageServices;
-import com.languagematters.tessta.ocr.service.OcrServices;
+import com.languagematters.tessta.service.ImageServices;
+import com.languagematters.tessta.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
 import com.languagematters.tessta.report.model.DiffList;
 import com.languagematters.tessta.report.service.DiffServices;
@@ -83,7 +83,7 @@ public class OcrTask {
 
             // Text to image
             System.out.printf("%s : Text to image%n", taskId);
-            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), String.format("%s/%s", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
+            imageServices.text2Image(originalFile.getAbsolutePath(), taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME);
 
             // OCR
             if (extension.equals("txt")) {

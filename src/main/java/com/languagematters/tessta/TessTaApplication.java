@@ -28,7 +28,6 @@ public class TessTaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... arg) throws Exception {
-//        storageServices.clearStorage();
         storageServices.initStorage();
     }
 
