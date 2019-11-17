@@ -1,31 +1,36 @@
 import {createMuiTheme}                from '@material-ui/core'
 import {lightBlue}                     from '@material-ui/core/colors/index'
-import {layout as common}              from './common'
+import {spacing}                       from './shared'
 import {layout as fileWorkspaceLayout} from './layouts/workspace-option.layout'
 
 export const theme = createMuiTheme({
     palette   : {
         primary  : lightBlue,
         secondary: {
-            main: '#1976d2',
-        },
+            main: '#1976d2'
+        }
     },
     typography: {
         // useNextVariants: true,
-        fontSize: 12,
+        fontSize: 12
     },
-    spacing   : factor => `${0.5 * factor}rem`,
+    spacing   : spacing,
     app       : {
-        common,
+        common: {
+            border: {
+                defaultBorder: 'solid #CFD8DC 1px'
+            }
+        },
 
         layout: {
             fileWorkspaceLayout
         },
 
+        // custom
         dashboard: {
             layout: {
                 sidebarWidth: 200
             }
-        },
+        }
     }
 })

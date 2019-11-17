@@ -1,7 +1,6 @@
 import {withStyles}                     from '@material-ui/core'
 import PropTypes                        from 'prop-types'
 import * as React                       from 'react'
-import styles                           from './styles'
 import MuiExpansionPanel                from '@material-ui/core/ExpansionPanel'
 import MuiExpansionPanelSummary         from '@material-ui/core/ExpansionPanelSummary'
 import MuiExpansionPanelDetails         from '@material-ui/core/ExpansionPanelDetails'
@@ -13,9 +12,10 @@ import TableCell                        from '@material-ui/core/TableCell'
 import TableHead                        from '@material-ui/core/TableHead'
 import TableRow                         from '@material-ui/core/TableRow'
 import LinearProgress                   from '@material-ui/core/LinearProgress'
-import {documentServices, taskServices} from '../../../../services'
-import DialogInput                      from '../../../../components/dialoginput/DialogInput'
-import DialogConfirm                    from '../../../../components/dialogconfirm/DialogConfirm'
+import {documentServices, taskServices} from '../../services'
+import DialogInput                      from '../../components/dialoginput/DialogInput'
+import DialogConfirm                    from '../../components/dialogconfirm/DialogConfirm'
+import {styles}                         from './styles'
 
 
 const ExpansionPanel          = withStyles(styles.expansionPanel)(MuiExpansionPanel)
@@ -26,68 +26,10 @@ const ExpansionPanelDetails   = withStyles(styles.expansionPanelDetails)(MuiExpa
 
 
 class FileManagerPanel extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            expanded          : '1',
-            selectedDocumentId: null,
-            files             : [],
-            taskInfo          : [],
-            isLoading         : true,
-        }
-
-        this.componentDidMount = this.componentDidMount.bind(this)
-    }
-
-    handleChange = (panel) => (event, expanded) => {
-        this.setState({
-            expanded: expanded ? panel : false,
-        })
-
-        if (expanded) {
-            this.setState({selectedDocumentId: this.state.files[panel].id})
-
-            taskServices.getTasks(this.state.files[panel].id)
-                .then((tasks) => {
-                    this.setState({
-                        taskInfo: tasks,
-                    })
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-        }
-    }
-
-    handleDelete = () => {
-        documentServices.deleteDocument(this.state.selectedDocumentId)
-            .then(() => {
-                this.componentDidMount()
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
     handleRename = (newValue) => {
         documentServices.renameDocument(this.state.selectedDocumentId, newValue)
             .then(() => {
                 this.componentDidMount()
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-    componentDidMount() {
-        documentServices.getDocuments()
-            .then((files) => {
-                if (files) {
-                    this.setState({files: files, isLoading: false})
-                } else {
-                    this.setState({isLoading: false})
-                }
             })
             .catch((error) => {
                 console.log(error)
@@ -100,9 +42,8 @@ class FileManagerPanel extends React.Component {
 
         return (
             <div className={this.props.className}>
-                {this.state.isLoading && <LinearProgress/>}
-                {this.state.files !== [] &&
-                this.state.files.map((file, i) => {
+                {/*{this.state.isLoading && <LinearProgress/>}*/}
+                {this.state.files !== [] && this.state.files.map((file, i) => {
                     return (
                         <div key={i}>
                             <ExpansionPanel
@@ -208,7 +149,7 @@ class FileManagerPanel extends React.Component {
                                                     message="Are you sure you want to delete the document and its created tasks?"
                                                     onOk={this.handleDelete}
                                                 />
-                                                
+
                                             </div>
                                         </span>
                                 </ExpansionPanelDetails>

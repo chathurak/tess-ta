@@ -1,19 +1,18 @@
-import {layout as common} from '../common'
+import {spacing} from '../shared'
 
 export const layout = {
     root          : {
         display      : 'flex',
         flexDirection: 'row',
 
-        backgroundColor: 'white',
+        backgroundColor: '#FFFFFF'
     },
     workspacePanel: {
         display      : 'inline-flex',
         flexDirection: 'column',
         flexGrow     : 1,
 
-        border          : common.border.defaultBorder,
-        borderRightWidth: 0
+        padding: spacing(1)
     },
     optionPanel   : {
         width: 350,
@@ -21,8 +20,6 @@ export const layout = {
         display      : 'inline-flex',
         flexDirection: 'row',
         flexBasis    : 350,
-        flexGrow     : 0,
-
-        border: common.border.defaultBorder,
+        flexGrow     : 0
     }
 }
