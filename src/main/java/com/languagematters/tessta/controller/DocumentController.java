@@ -31,7 +31,7 @@ public class DocumentController {
 
     @PutMapping
     @PreAuthorize("hasRole('USER')")
-    public int deleteDocument(@CurrentUser UserPrincipal currentUser,
+    public int renameDocument(@CurrentUser UserPrincipal currentUser,
                               @RequestParam("documentId") int documentId,
                               @RequestParam("newName") String newName) {
         return documentServices.renameDocument(documentId, newName);

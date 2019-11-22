@@ -47,7 +47,7 @@ class Library extends React.Component {
         // console.log('FilePond instance has initialised', this.pond)
     }
 
-    handleDocumentSelect(documentId) {
+    handleDocumentSelect = documentId => {
         this.setState({
             selectedDocumentId: documentId
         })
@@ -61,8 +61,18 @@ class Library extends React.Component {
             })
     }
 
-    handleDocumentDelete = () => {
-        documentServices.deleteDocument(this.state.selectedDocumentId)
+    handleDocumentDelete = documentId => {
+        documentServices.deleteDocument(documentId)
+            .then(() => {
+                this.componentDidMount()
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    handleRename = newValue => {
+        documentServices.renameDocument(this.state.selectedDocumentId, newValue)
             .then(() => {
                 this.componentDidMount()
             })
