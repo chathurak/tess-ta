@@ -20,6 +20,7 @@ import lombok.Setter;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -81,15 +82,18 @@ public class OcrTask {
             Files.createDirectories(taskDir.toPath());
             System.out.println(taskDir.toPath());
 
-            // Text to image
-            System.out.printf("%s : Text to image%n", taskId);
-            imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), String.format("%s/%s", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
+            if (extension.equals("txt")) {
+                // Text to image
+                System.out.printf("%s : Text to image%n", taskId);
+                imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), String.format("%s/%s", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
+            }else if(extension.equals("tiff")){
+                File taskFile = new File(String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
+                FileUtils.copyFile(originalFile, taskFile);
+            }
 
             // OCR
-            if (extension.equals("txt")) {
-                System.out.printf("%s : OCR%n", taskId);
-                ocrServices.ocr(getExecutor(), String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME), String.format("%s/%s", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME));
-            }
+            System.out.printf("%s : OCR%n", taskId);
+            ocrServices.ocr(getExecutor(), String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME), String.format("%s/%s", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME));
 
             if (extension.equals("txt")) {
                 // Comparison
@@ -130,10 +134,11 @@ public class OcrTask {
 
             if (extension.equals("txt")) {
                 uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
-//                uploadFileList.add(new Upload(String.format("%s.box", T2I_OUTPUT_FILE_NAME), "application/octet-stream", String.format("%s/%s.box", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME)));
                 uploadFileList.add(new Upload(String.format("%s.tif", T2I_OUTPUT_FILE_NAME), "image/tiff", String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME)));
             } else if (extension.equals("jpeg")) {
                 uploadFileList.add(new Upload(originalFileName, "image/jpeg", originalFile.getAbsolutePath()));
+            }else if (extension.equals("tiff")) {
+                uploadFileList.add(new Upload(originalFileName, "image/tiff", originalFile.getAbsolutePath()));
             }
             uploadFileList.add(new Upload(String.format("%s.txt", OCR_OUTPUT_FILE_NAME), "text/plain", String.format("%s/%s.txt", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME)));
 
