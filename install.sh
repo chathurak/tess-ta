@@ -12,8 +12,8 @@ sudo apt-get update && sudo apt-get install -y --fix-missing \
 	tree \
 	locales \
 	git \
-	openjdk-12-jre \
-	openjdk-12-jdk \
+	openjdk-13-jre \
+	openjdk-13-jdk \
     maven \
 	mysql-server \
     redis-server
