@@ -31,9 +31,9 @@ mysql -u root <./database/db.sql
 sudo systemctl status mongodb
 
 # Redis
-sudo systemctl enable redis-server.service
-sudo systemctl start redis-server.service
-sudo systemctl status redis-server.service
+#sudo systemctl enable redis-server.service
+#sudo systemctl start redis-server.service
+#sudo systemctl status redis-server.service
 
 ######################################## Tesseract ########################################
 
