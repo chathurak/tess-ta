@@ -43,7 +43,7 @@ class Library extends React.Component {
             })
     }
 
-    handlePondInit() {
+    handlePondInit = () => {
         // console.log('FilePond instance has initialised', this.pond)
     }
 

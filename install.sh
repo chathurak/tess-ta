@@ -2,22 +2,22 @@
 
 # Install Dependencies
 sudo apt-get update && sudo apt-get install -y --fix-missing \
-    curl \
-    wget \
-    unzip \
-    apt-transport-https \
-	vim \
-	psmisc \
-	htop \
-	tree \
-	locales \
-	git \
-	openjdk-13-jre \
-	openjdk-13-jdk \
-    maven \
-	mysql-server \
-    redis-server
-    # TODO : Add MongoDb
+  curl \
+  wget \
+  unzip \
+  apt-transport-https \
+  vim \
+  psmisc \
+  htop \
+  tree \
+  locales \
+  git \
+  openjdk-13-jre \
+  openjdk-13-jdk \
+  maven \
+  mysql-server \
+  redis-server \
+  mongodb
 
 # Mysql
 sudo systemctl enable mysql.service
@@ -25,7 +25,10 @@ sudo systemctl start mysql.service
 sudo systemctl status mysql.service
 
 # MySQL - Init db
-mysql -u root < ./database/db.sql
+mysql -u root <./database/db.sql
+
+# Mongodb
+sudo systemctl status mongodb
 
 # Redis
 sudo systemctl enable redis-server.service
@@ -36,28 +39,28 @@ sudo systemctl status redis-server.service
 
 # Dependencies
 sudo apt-get update && sudo apt-get install -y \
-	autoconf \
-	autoconf-archive \
-	automake \
-	build-essential \
-	checkinstall \
-	cmake \
-	g++ \
-	git \
-	libcairo2-dev \
-	libicu-dev \
-	libjpeg-dev \
-	libpango1.0-dev \
-	libgif-dev \
-	libwebp-dev \
-	libopenjp2-7-dev \
-	libpng-dev \
-	libtiff-dev \
-	libtool \
-	pkg-config \
-	wget \
-	xzgv \
-	zlib1g-dev
+  autoconf \
+  autoconf-archive \
+  automake \
+  build-essential \
+  checkinstall \
+  cmake \
+  g++ \
+  git \
+  libcairo2-dev \
+  libicu-dev \
+  libjpeg-dev \
+  libpango1.0-dev \
+  libgif-dev \
+  libwebp-dev \
+  libopenjp2-7-dev \
+  libpng-dev \
+  libtiff-dev \
+  libtool \
+  pkg-config \
+  wget \
+  xzgv \
+  zlib1g-dev
 
 # Directories
 export SCRIPTS_DIR=/home/scripts
