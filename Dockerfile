@@ -1,4 +1,4 @@
-FROM ubuntu:19.04 AS dependencies
+FROM ubuntu:19.10 AS dependencies
 
 # Environment varialbes
 ENV OCR_DIR /ocr
