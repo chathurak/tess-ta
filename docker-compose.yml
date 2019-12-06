@@ -18,10 +18,9 @@ services:
       - "3306"
     environment:
       MYSQL_DATABASE: "tesseract_ta"
-      MYSQL_ROOT_PASSWORD: "leonie-mysql@ocr"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_USER: "ivantha"
-      MYSQL_PASSWORD: "cat"
+      MYSQL_USER: "tessuser"
+      MYSQL_PASSWORD: "leonie-mysql@ocr"
     expose:
       - "3306"
   phpmyadmin:
@@ -29,7 +28,8 @@ services:
     container_name: phpmyadmin-daemon
     hostname: phpmyadmin-daemon
     environment:
-      MYSQL_ROOT_PASSWORD: "leonie-mysql@ocr"
+      MYSQL_USER: "tessuser"
+      MYSQL_PASSWORD: "leonie-mysql@ocr"
       PMA_HOST: "mysql"
     ports:
       - "4001:80"
@@ -41,7 +41,7 @@ services:
     ports:
       - "27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_USERNAME: "tessuser"
       MONGO_INITDB_ROOT_PASSWORD: "leonie-mongo@ocr"
       MONGO_INITDB_DATABASE: "tess-library"
   mongo-express:
@@ -51,7 +51,7 @@ services:
       - "4002:8081"
     environment:
       ME_CONFIG_MONGODB_SERVER: "mongo-daemon"
-      ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: "tessuser"
       ME_CONFIG_MONGODB_ADMINPASSWORD: "leonie-mongo@ocr"
     depends_on:
       - mongo
