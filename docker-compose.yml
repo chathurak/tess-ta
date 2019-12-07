@@ -1,11 +1,5 @@
 version: '3'
 services:
-  tesseract:
-    build: tesseract
-    container_name: tesseract-daemon
-    volumes:
-      - "/ocr/tessdata:/ocr/tessdata"
-      - "/ocr/storage:/ocr/storage"
   mysql:
     image: mysql:8.0
     container_name: mysql-daemon
@@ -69,11 +63,9 @@ services:
       - "4000"
       - "80:4000"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
       - "/ocr/tessdata:/ocr/tessdata"
       - "/ocr/storage:/ocr/storage"
     depends_on:
-      - tesseract
       - mysql
       - mongo
       - redis

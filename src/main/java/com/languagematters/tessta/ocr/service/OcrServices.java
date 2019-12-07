@@ -16,14 +16,7 @@ public class OcrServices {
 
     public void ocr(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = null;
-//        if (OsServices.isMac()) {
-            cmdLine = new CommandLine("tesseract");
-//        } else {
-//            cmdLine = new CommandLine("docker");
-//            cmdLine.addArgument("exec");
-//            cmdLine.addArgument("tesseract-daemon");
-//            cmdLine.addArgument("tesseract");
-//        }
+        cmdLine = new CommandLine("tesseract");
         cmdLine.addArgument("--tessdata-dir");
         cmdLine.addArgument(tessdataPath);
         cmdLine.addArgument(inputPath);

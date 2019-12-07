@@ -1,4 +1,78 @@
-FROM ubuntu:19.10 AS dependencies
+ARG RELEASE=19.10
+
+FROM ubuntu:${RELEASE} AS dependencies
+
+RUN apt-get update && apt-get install -y \
+	autoconf \
+	autoconf-archive \
+	automake \
+	build-essential \
+	checkinstall \
+	cmake \
+	g++ \
+	git \
+	libcairo2-dev \
+	libicu-dev \
+	libjpeg-dev \
+	libpango1.0-dev \
+	libgif-dev \
+	libwebp-dev \
+	libopenjp2-7-dev \
+	libpng-dev \
+	libtiff-dev \
+	libtool \
+	pkg-config \
+	wget \
+	xzgv \
+	zlib1g-dev
+
+
+# SSH for diagnostic
+RUN apt-get update && apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:troubl3tim3' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
+
+# Directories
+ENV SCRIPTS_DIR /home/scripts
+ENV PKG_DIR /home/pkg
+ENV BASE_DIR /home/workspace
+ENV LEP_REPO_URL https://github.com/DanBloomberg/leptonica.git
+ENV LEP_SRC_DIR ${BASE_DIR}/leptonica
+ENV TES_REPO_URL https://github.com/tesseract-ocr/tesseract.git
+ENV TES_SRC_DIR ${BASE_DIR}/tesseract
+ENV TESSDATA_PREFIX /usr/local/share/tessdata
+
+RUN mkdir ${SCRIPTS_DIR}
+RUN mkdir ${PKG_DIR}
+RUN mkdir ${BASE_DIR}
+RUN mkdir ${TESSDATA_PREFIX}
+
+COPY ./scripts/* ${SCRIPTS_DIR}/
+RUN chmod +x ${SCRIPTS_DIR}/*
+RUN ${SCRIPTS_DIR}/repos_clone.sh
+RUN ${SCRIPTS_DIR}/tessdata_download.sh
+
+WORKDIR /home
+
+# Update repos
+RUN /home/scripts/repos_update.sh
+
+# Build leptonica
+RUN /home/scripts/compile_leptonica.sh
+
+# Build tesseract
+RUN /home/scripts/compile_tesseract.sh
+
+# Build packages
+#RUN /home/scripts/build_deb_pkg.sh
 
 # Environment varialbes
 ENV OCR_DIR /ocr
@@ -21,10 +95,7 @@ RUN apt-get update && apt-get install -y --fix-missing \
 	psmisc \
 	htop \
 	tree \
-	locales \
-	docker \
-	docker.io \
-	docker-compose
+	locales
 
 WORKDIR ${OCR_DIR}/build
 
@@ -61,12 +132,6 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
-# Add tesseract command
-RUN bash -c 'echo -e "#!/bin/bash\ndocker exec tesseract-daemon tesseract" > /usr/bin/tesseract && chmod +x /usr/bin/tesseract'
-
-# Add text2iamge command
-RUN bash -c 'echo -e "#!/bin/bash\ndocker exec tesseract-daemon text2iamge" > /usr/bin/text2iamge && chmod +x /usr/bin/text2iamge'
 
 # Export ports
 EXPOSE 4000
