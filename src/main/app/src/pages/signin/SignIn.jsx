@@ -13,10 +13,10 @@ import Typography       from '@material-ui/core/Typography'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import PropTypes        from 'prop-types'
 import * as React       from 'react'
-import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
-import {actions}        from './duck'
 import {styles}         from './styles'
+import {userServices}   from '../../services'
+import {history}        from '../../helpers'
 
 class SignIn extends React.Component {
 
@@ -24,7 +24,7 @@ class SignIn extends React.Component {
         super(props)
 
         // reset login status
-        this.props.dispatch(actions.signOut())
+        userServices.signOut()
 
         this.state = {
             email   : '',
@@ -35,19 +35,29 @@ class SignIn extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleChange(e) {
-        const {name, value} = e.target
+    handleChange = event => {
+        const {name, value} = event.target
         this.setState({[name]: value})
     }
 
-    handleSubmit(e) {
-        e.preventDefault()
+    handleSubmit = event => {
+        event.preventDefault()
 
         this.setState({submitted: true})
         const {email, password} = this.state
-        const {dispatch}        = this.props
+
         if (email && password) {
-            dispatch(actions.signIn(email, password))
+            userServices.signIn(email, password)
+                .then(
+                    user => {
+                        // TODO : Do login stuff like saving user details
+                        history.push('/')
+                    },
+                    error => {
+                        // TODO : Give a proper error message
+                        console.log('Some error occurred. Cant login!!!')
+                    }
+                )
         }
     }
 
@@ -66,14 +76,11 @@ class SignIn extends React.Component {
                     <form className={classes.form} onSubmit={this.handleSubmit}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" value={email} onChange={this.handleChange}
-                                   autoComplete="email" autoFocus/>
+                            <Input id="email" name="email" value={email} onChange={this.handleChange} autoComplete="email" autoFocus/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input id="password" name="password" type="password" value={password}
-                                   onChange={this.handleChange}
-                                   autoComplete="current-password"/>
+                            <Input id="password" name="password" type="password" value={password} onChange={this.handleChange} autoComplete="current-password"/>
                         </FormControl>
                         <FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
@@ -96,12 +103,4 @@ SignIn.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => {
-    const {loggingIn} = state.signInReducer
-    return {
-        loggingIn
-    }
-}
-
-const styledComponent = withStyles(styles, {withTheme: true})(SignIn)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(SignIn)

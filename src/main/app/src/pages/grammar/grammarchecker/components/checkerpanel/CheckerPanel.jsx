@@ -1,7 +1,6 @@
 import {withStyles}        from '@material-ui/core'
 import * as React          from 'react'
 import styles              from './styles'
-import {connect}           from 'react-redux'
 import Button              from '@material-ui/core/Button';
 import { grammarServices } from '../../../../../services'
 import { grammar }         from '../../../../../helpers/grammar'
@@ -326,5 +325,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-const styledComponent = withStyles(styles, {withTheme: true})(CheckerPanel)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(CheckerPanel)

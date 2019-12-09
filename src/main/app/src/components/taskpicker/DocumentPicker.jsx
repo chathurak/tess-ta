@@ -2,17 +2,20 @@ import {withStyles}             from '@material-ui/core/styles'
 import {KeyboardDateTimePicker} from '@material-ui/pickers'
 import PropTypes                from 'prop-types'
 import React                    from 'react'
-import {connect}                from 'react-redux'
 import {documentServices}       from '../../services'
 import AutoCompleteAsync        from './components/autocomplete/AutoCompleteAsync'
-import {actions}                from './duck'
 import {styles}                 from './styles'
 
 class DocumentPicker extends React.Component {
 
-    state = {
-        // The first commit of Material-UI
-        selectedDate: new Date('2014-08-18T21:11:54'),
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            // The first commit of Material-UI
+            selectedDate: new Date('2014-08-18T21:11:54'),
+            selectDocument: null
+        }
     }
 
     handleDateChange = date => {
@@ -20,8 +23,7 @@ class DocumentPicker extends React.Component {
     }
 
     handleDocumentChange = item => {
-        const {dispatch} = this.props
-        dispatch(actions.selectDocument(item))
+        this.setState({selectDocument: item})
     }
 
     promiseDocuments = () => {
@@ -90,13 +92,4 @@ DocumentPicker.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => {
-    const {selectedDocument, selectedTask} = state.taskPickerReducer
-    return {
-        selectedDocument,
-        selectedTask
-    }
-}
-
-const styledComponent = withStyles(styles, {withTheme: true})(DocumentPicker)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(DocumentPicker)

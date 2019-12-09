@@ -1,19 +1,24 @@
 import {withStyles}      from '@material-ui/core/styles/index'
 import PropTypes         from 'prop-types'
 import React             from 'react'
-import {connect}         from 'react-redux'
 import {taskServices}    from '../../services'
 import AutoCompleteAsync from './components/autocomplete/AutoCompleteAsync'
 import DocumentPicker    from './DocumentPicker'
 import {styles}          from './styles'
-import {actions}         from './duck'
 
 
 class TaskPicker extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selectedTask: null
+        }
+    }
+
     handleTaskChange = (item) => {
-        const {dispatch} = this.props
-        dispatch(actions.selectTask(item))
+        this.setState({selectedTask: item})
     }
 
     promiseUserTasks = () => {
@@ -64,13 +69,4 @@ TaskPicker.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => {
-    const {selectedDocument, selectedTask} = state.taskPickerReducer
-    return {
-        selectedDocument,
-        selectedTask
-    }
-}
-
-const styledComponent = withStyles(styles, {withTheme: true})(TaskPicker)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(TaskPicker)

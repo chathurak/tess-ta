@@ -8,9 +8,8 @@ import FormLabel        from '@material-ui/core/FormLabel'
 import Grid             from '@material-ui/core/Grid'
 import Icon             from '@material-ui/core/Icon'
 import * as React       from 'react'
-import {connect}        from 'react-redux'
-import {actions}        from './duck'
 import {styles}         from './styles'
+import {taskServices}   from '../../../../services'
 
 class TaskPanel extends React.Component {
 
@@ -30,9 +29,19 @@ class TaskPanel extends React.Component {
     }
 
     scheduleTask = () => {
-        const {dispatch, selectedDocument} = this.props
+        const {selectedDocument} = this.props
 
-        dispatch(actions.scheduleTask(selectedDocument.value))
+        taskServices.scheduleTask(selectedDocument.value)
+            .then(
+                _ => {
+                    // TODO : what happens when task is successfully scheduled?
+                    console.log('Task is successfully scheduled!')
+                },
+                error => {
+                    // TODO : Do stuff when scheduling error occurs
+                    console.log('Task scheduling error occurred!')
+                }
+            )
     }
 
     render() {
@@ -86,12 +95,4 @@ class TaskPanel extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
-    const {selectedDocument} = state.taskPickerReducer
-    return {
-        selectedDocument,
-    }
-}
-
-const styledComponent = withStyles(styles, {withTheme: true})(TaskPanel)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(TaskPanel)

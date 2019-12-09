@@ -20,15 +20,11 @@
     "react-dom": "^16.10.2",
     "react-filepond": "^7.0.1",
     "react-google-login": "^5.0.5",
-    "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.2.0",
     "react-select": "^3.0.8",
     "react-window": "^1.8.5",
-    "recharts": "^1.7.1",
-    "redux": "^4.0.4",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "recharts": "^1.7.1"
   },
   "scripts": {
     "start": "react-scripts start",

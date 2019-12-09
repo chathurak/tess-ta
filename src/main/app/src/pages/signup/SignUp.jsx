@@ -13,10 +13,10 @@ import Typography       from '@material-ui/core/Typography'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import PropTypes        from 'prop-types'
 import * as React       from 'react'
-import {connect}        from 'react-redux'
 import {Link}           from 'react-router-dom'
-import {actions}        from './duck'
 import {styles}         from './styles'
+import {userServices}   from '../../services'
+import {history}        from '../../helpers'
 
 class SignUp extends React.Component {
 
@@ -38,7 +38,7 @@ class SignUp extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleChange(event) {
+    handleChange = event => {
         const {name, value} = event.target
         const {user}        = this.state
         this.setState({
@@ -49,7 +49,7 @@ class SignUp extends React.Component {
         })
     }
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault()
 
         this.setState({
@@ -58,7 +58,18 @@ class SignUp extends React.Component {
         const {user}     = this.state
         const {dispatch} = this.props
         if (user.firstName && user.lastName && user.username && user.email && user.password) {
-            dispatch(actions.signUp(user))
+            userServices.signUp(user)
+                .then(
+                    user => {
+                        // TODO : Do success activity
+                        history.push('/signin')
+                        console.log('Registration successful')
+                    },
+                    error => {
+                        // TODO : handle registration error
+                        console.log('There were some errors in registration!')
+                    }
+                )
         }
     }
 
@@ -77,29 +88,23 @@ class SignUp extends React.Component {
                     <form className={classes.form} onSubmit={this.handleSubmit}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="firstName">First name</InputLabel>
-                            <Input id="firstName" name="firstName" value={user.firstName} onChange={this.handleChange}
-                                   autoComplete="fname" autoFocus/>
+                            <Input id="firstName" name="firstName" value={user.firstName} onChange={this.handleChange} autoComplete="fname" autoFocus/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="lastName">Last name</InputLabel>
-                            <Input id="lastName" name="lastName" value={user.lastName} onChange={this.handleChange}
-                                   autoComplete="lname"/>
+                            <Input id="lastName" name="lastName" value={user.lastName} onChange={this.handleChange} autoComplete="lname"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input id="username" name="username" value={user.username} onChange={this.handleChange}
-                                   autoComplete="username"/>
+                            <Input id="username" name="username" value={user.username} onChange={this.handleChange} autoComplete="username"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" value={user.email} onChange={this.handleChange}
-                                   autoComplete="email"/>
+                            <Input id="email" name="email" value={user.email} onChange={this.handleChange} autoComplete="email"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input id="password" name="password" type="password" value={user.password}
-                                   onChange={this.handleChange}
-                                   autoComplete="current-password"/>
+                            <Input id="password" name="password" type="password" value={user.password} onChange={this.handleChange} autoComplete="current-password"/>
                         </FormControl>
                         <FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
@@ -122,13 +127,4 @@ SignUp.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-
-function mapStateToProps(state) {
-    const {registering} = state.signUpReducer
-    return {
-        registering
-    }
-}
-
-const styledComponent = withStyles(styles, {withTheme: true})(SignUp)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(SignUp)

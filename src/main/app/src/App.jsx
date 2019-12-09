@@ -1,10 +1,8 @@
 import {withStyles}                      from '@material-ui/core/styles'
 import PropTypes                         from 'prop-types'
 import React                             from 'react'
-import {connect}                         from 'react-redux'
 import {Redirect, Route, Router, Switch} from 'react-router-dom'
 import styles                            from './App.styles'
-import {actions as alertActions}         from './components/alert/duck'
 import {history}                         from './helpers'
 import SignIn                            from './pages/signin/SignIn'
 import SignUp                            from './pages/signup/SignUp'
@@ -25,10 +23,9 @@ class App extends React.Component {
     constructor(props) {
         super(props)
 
-        const {dispatch} = this.props
         history.listen((location, action) => {
             // clear alertReducer on location change
-            dispatch(alertActions.clear())
+            // TODO : Clear alerts
         })
     }
 
@@ -75,12 +72,4 @@ App.propTypes = {
     theme  : PropTypes.object.isRequired,
 }
 
-function mapStateToProps(state) {
-    const alert = state.alertReducer
-    return {
-        alert
-    }
-}
-
-const styledComponent = withStyles(styles, {withTheme: true})(App)
-export default connect(mapStateToProps)(styledComponent)
+export default withStyles(styles, {withTheme: true})(App)
