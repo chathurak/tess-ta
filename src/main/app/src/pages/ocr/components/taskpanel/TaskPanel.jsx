@@ -1,4 +1,4 @@
-import {withStyles}     from '@material-ui/core'
+import {withStyles}     from '@material-ui/core/styles'
 import Button           from '@material-ui/core/Button'
 import Checkbox         from '@material-ui/core/Checkbox'
 import FormControl      from '@material-ui/core/FormControl'
@@ -9,7 +9,7 @@ import Grid             from '@material-ui/core/Grid'
 import Icon             from '@material-ui/core/Icon'
 import * as React       from 'react'
 import {styles}         from './styles'
-import {taskServices}   from '../../../../services'
+import {taskServices}   from '../../../../services/task.services'
 
 class TaskPanel extends React.Component {
 

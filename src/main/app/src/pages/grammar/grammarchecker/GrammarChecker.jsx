@@ -1,4 +1,4 @@
-import {withStyles} from '@material-ui/core'
+import {withStyles} from '@material-ui/core/styles'
 import * as React   from 'react'
 import {styles}     from './styles'
 import CheckerPanel from './components/checkerpanel/CheckerPanel'

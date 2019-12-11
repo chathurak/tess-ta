@@ -1,4 +1,4 @@
-import {createMuiTheme}                from '@material-ui/core'
+import {createMuiTheme}                from '@material-ui/core/styles'
 import {lightBlue}                     from '@material-ui/core/colors/index'
 import {spacing}                       from './shared'
 import {layout as fileWorkspaceLayout} from './layouts/workspace-option.layout'

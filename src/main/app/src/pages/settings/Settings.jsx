@@ -1,15 +1,15 @@
-import {withStyles}   from '@material-ui/core'
+import {withStyles}   from '@material-ui/core/styles'
 import PropTypes      from 'prop-types'
 import * as React     from 'react'
 import {GoogleLogin}  from 'react-google-login'
-import {userServices} from '../../services'
+import {userServices} from '../../services/user.services'
 import {styles}       from './styles'
 
 class Settings extends React.Component {
 
     handleGoogleResponseSuccess = (e) => {
         userServices.updateAccessToken(e.accessToken, e.profileObj.imageUrl)
-        console.log(e);
+        console.log(e)
     }
 
     handleGoogleResponseFailure = (e) => {

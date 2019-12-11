@@ -1,4 +1,4 @@
-import {withStyles}     from '@material-ui/core'
+import {withStyles}     from '@material-ui/core/styles'
 import Avatar           from '@material-ui/core/Avatar'
 import Button           from '@material-ui/core/Button'
 import Checkbox         from '@material-ui/core/Checkbox'
@@ -15,8 +15,8 @@ import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {Link}           from 'react-router-dom'
 import {styles}         from './styles'
-import {userServices}   from '../../services'
-import {history}        from '../../helpers'
+import {userServices}   from '../../services/user.services'
+import {history}        from '../../helpers/history'
 
 class SignUp extends React.Component {
 
@@ -55,7 +55,7 @@ class SignUp extends React.Component {
         this.setState({
             submitted: true
         })
-        const {user}     = this.state
+        const {user} = this.state
         if (user.firstName && user.lastName && user.username && user.email && user.password) {
             userServices.signUp(user)
                 .then(
@@ -87,23 +87,28 @@ class SignUp extends React.Component {
                     <form className={classes.form} onSubmit={this.handleSubmit}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="firstName">First name</InputLabel>
-                            <Input id="firstName" name="firstName" value={user.firstName} onChange={this.handleChange} autoComplete="fname" autoFocus/>
+                            <Input id="firstName" name="firstName" value={user.firstName} onChange={this.handleChange}
+                                   autoComplete="fname" autoFocus/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="lastName">Last name</InputLabel>
-                            <Input id="lastName" name="lastName" value={user.lastName} onChange={this.handleChange} autoComplete="lname"/>
+                            <Input id="lastName" name="lastName" value={user.lastName} onChange={this.handleChange}
+                                   autoComplete="lname"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input id="username" name="username" value={user.username} onChange={this.handleChange} autoComplete="username"/>
+                            <Input id="username" name="username" value={user.username} onChange={this.handleChange}
+                                   autoComplete="username"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" value={user.email} onChange={this.handleChange} autoComplete="email"/>
+                            <Input id="email" name="email" value={user.email} onChange={this.handleChange}
+                                   autoComplete="email"/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input id="password" name="password" type="password" value={user.password} onChange={this.handleChange} autoComplete="current-password"/>
+                            <Input id="password" name="password" type="password" value={user.password}
+                                   onChange={this.handleChange} autoComplete="current-password"/>
                         </FormControl>
                         <FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

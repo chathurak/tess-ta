@@ -2,18 +2,18 @@ import {withStyles}             from '@material-ui/core/styles'
 import {KeyboardDateTimePicker} from '@material-ui/pickers'
 import PropTypes                from 'prop-types'
 import React                    from 'react'
-import {documentServices}       from '../../services'
+import {documentServices}       from '../../services/document.services'
 import AutoCompleteAsync        from './components/autocomplete/AutoCompleteAsync'
 import {styles}                 from './styles'
 
 class DocumentPicker extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             // The first commit of Material-UI
-            selectedDate: new Date('2014-08-18T21:11:54'),
+            selectedDate  : new Date('2014-08-18T21:11:54'),
             selectDocument: null
         }
     }

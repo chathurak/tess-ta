@@ -1,4 +1,4 @@
-import {withStyles}   from '@material-ui/core'
+import {withStyles}   from '@material-ui/core/styles'
 import * as React     from 'react'
 import DocumentPicker from '../../../../components/taskpicker/DocumentPicker'
 import {styles}       from './styles'

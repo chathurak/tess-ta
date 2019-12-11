@@ -1,4 +1,4 @@
-import {withStyles}     from '@material-ui/core'
+import {withStyles}     from '@material-ui/core/styles'
 import Divider          from '@material-ui/core/Divider/index'
 import Drawer           from '@material-ui/core/Drawer/index'
 import Hidden           from '@material-ui/core/Hidden/index'

@@ -1,60 +1,60 @@
-import {withStyles}                                     from '@material-ui/core'
-import * as React                                       from 'react'
-import styles                                           from './styles'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
-import Card                                             from '@material-ui/core/Card';
-import CardActions                                      from '@material-ui/core/CardActions';
-import Button                                           from '@material-ui/core/Button';
-import Typography                                       from '@material-ui/core/Typography';
-import FormGroup                                        from '@material-ui/core/FormGroup';
-import FormControlLabel                                 from '@material-ui/core/FormControlLabel';
-import Checkbox                                         from '@material-ui/core/Checkbox';
-import { reportServices }                               from '../../../../services'
+import {withStyles}                                   from '@material-ui/core/styles'
+import * as React                                     from 'react'
+import styles                                         from './styles'
+import {CartesianGrid, Line, LineChart, XAxis, YAxis} from 'recharts'
+import Card                                           from '@material-ui/core/Card'
+import CardActions                                    from '@material-ui/core/CardActions'
+import Button                                         from '@material-ui/core/Button'
+import Typography                                     from '@material-ui/core/Typography'
+import FormGroup                                      from '@material-ui/core/FormGroup'
+import FormControlLabel                               from '@material-ui/core/FormControlLabel'
+import Checkbox                                       from '@material-ui/core/Checkbox'
+import {reportServices}                               from '../../../../services/report.services'
 
 class ReportsPanel extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
-            checked_confusion_matrix: true,
+            checked_confusion_matrix : true,
             checked_confusion_summary: true,
-            checked_diff: true,
-            tasksSummary: []
-        };
+            checked_diff             : true,
+            tasksSummary             : []
+        }
     }
 
     handleCheck = (name) => (event) => {
         this.setState({
             ...this.state,
-            ["checked_" + name]: event.target.checked
-        });
-    };
+            ['checked_' + name]: event.target.checked
+        })
+    }
 
     handleSaveToDrive = () => {
         reportServices.saveToDrive(
             this.checked_confusion_matrix,
             this.checked_confusion_summary,
             this.diff
-        );
-    };
+        )
+    }
 
     handleDownload = () => {
         reportServices.download(
             this.checked_confusion_matrix,
             this.checked_confusion_summary,
             this.diff
-        );
-    };
+        )
+    }
 
     componentDidMount() {
         reportServices
             .getTasksSummary()
             .then((res) => {
-                this.setState({ tasksSummary: res });
+                this.setState({tasksSummary: res})
             })
             .catch((error) => {
-                console.log(error);
-            });
+                console.log(error)
+            })
     }
 
     render() {
@@ -72,9 +72,9 @@ class ReportsPanel extends React.Component {
                         stroke="#8884d8"
                         strokeWidth={2}
                     />
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                    <CartesianGrid stroke="#ccc"/>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
                 </LineChart>
 
                 <Card style={styles.card}>
@@ -97,7 +97,7 @@ class ReportsPanel extends React.Component {
                                         this.state.checked_confusion_matrix
                                     }
                                     onChange={this.handleCheck(
-                                        "confusion_matrix"
+                                        'confusion_matrix'
                                     )}
                                     value="confusion_matrix"
                                 />
@@ -111,7 +111,7 @@ class ReportsPanel extends React.Component {
                                         this.state.checked_confusion_summary
                                     }
                                     onChange={this.handleCheck(
-                                        "confusion_summary"
+                                        'confusion_summary'
                                     )}
                                     value="confusion_summary"
                                 />
@@ -122,7 +122,7 @@ class ReportsPanel extends React.Component {
                             control={
                                 <Checkbox
                                     checked={this.state.checked_diff}
-                                    onChange={this.handleCheck("diff")}
+                                    onChange={this.handleCheck('diff')}
                                     value="diff"
                                 />
                             }
@@ -130,7 +130,7 @@ class ReportsPanel extends React.Component {
                         />
                     </FormGroup>
 
-                    <CardActions style={{ justifyContent: "flex-end" }}>
+                    <CardActions style={{justifyContent: 'flex-end'}}>
                         <Button
                             variant="contained"
                             color="secondary"
@@ -148,8 +148,8 @@ class ReportsPanel extends React.Component {
                     </CardActions>
                 </Card>
             </div>
-        );
+        )
     }
 }
 
-export default withStyles(styles, { withTheme: true })(ReportsPanel);
+export default withStyles(styles, {withTheme: true})(ReportsPanel)

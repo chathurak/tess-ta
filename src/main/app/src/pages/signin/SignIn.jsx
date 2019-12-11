@@ -1,4 +1,4 @@
-import {withStyles}     from '@material-ui/core'
+import {withStyles}     from '@material-ui/core/styles'
 import Avatar           from '@material-ui/core/Avatar'
 import Button           from '@material-ui/core/Button'
 import Checkbox         from '@material-ui/core/Checkbox'
@@ -15,8 +15,8 @@ import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {Link}           from 'react-router-dom'
 import {styles}         from './styles'
-import {userServices}   from '../../services'
-import {history}        from '../../helpers'
+import {userServices}   from '../../services/user.services'
+import {history}        from '../../helpers/history'
 
 class SignIn extends React.Component {
 
@@ -76,11 +76,13 @@ class SignIn extends React.Component {
                     <form className={classes.form} onSubmit={this.handleSubmit}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" value={email} onChange={this.handleChange} autoComplete="email" autoFocus/>
+                            <Input id="email" name="email" value={email} onChange={this.handleChange}
+                                   autoComplete="email" autoFocus/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input id="password" name="password" type="password" value={password} onChange={this.handleChange} autoComplete="current-password"/>
+                            <Input id="password" name="password" type="password" value={password}
+                                   onChange={this.handleChange} autoComplete="current-password"/>
                         </FormControl>
                         <FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>

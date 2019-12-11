@@ -1,16 +1,17 @@
-import {withStyles}                     from '@material-ui/core'
-import * as React                       from 'react'
-import {styles}                         from './styles'
-import LinearProgress                   from '@material-ui/core/LinearProgress'
-import {documentServices, taskServices} from '../../services'
-import {FilePond, registerPlugin}       from 'react-filepond'
-import {config as filepondConfig}       from './filepond.config'
-import FilePondPluginImagePreview       from 'filepond-plugin-image-preview'
-import DeleteForeverOutlinedIcon        from '@material-ui/icons/DeleteForeverOutlined'
+import {withStyles}               from '@material-ui/core/styles'
+import * as React                 from 'react'
+import {styles}                   from './styles'
+import LinearProgress             from '@material-ui/core/LinearProgress'
+import {documentServices}         from '../../services/document.services'
+import {taskServices}             from '../../services/task.services'
+import {FilePond, registerPlugin} from 'react-filepond'
+import {config as filepondConfig} from './filepond.config'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import DeleteForeverOutlinedIcon  from '@material-ui/icons/DeleteForeverOutlined'
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 import 'filepond/dist/filepond.min.css'
-import {InsertDriveFile}                from '@material-ui/icons'
+import {InsertDriveFile}          from '@material-ui/icons'
 
 // register the plugins
 registerPlugin(FilePondPluginImagePreview)

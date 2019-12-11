@@ -3,7 +3,7 @@ import PropTypes                         from 'prop-types'
 import React, {lazy, Suspense}           from 'react'
 import {Redirect, Route, Router, Switch} from 'react-router-dom'
 import styles                            from './App.styles'
-import {history}                         from './helpers'
+import {history}                         from './helpers/history'
 import {USER}                            from './constants/auth.constants'
 import Header                            from './components/header/Header'
 import Sidebar                           from './components/sidebar/Sidebar'
@@ -12,11 +12,11 @@ import CssBaseline                       from '@material-ui/core/CssBaseline'
 const SignIn = lazy(() => import('./pages/signin/SignIn'))
 const SignUp = lazy(() => import('./pages/signup/SignUp'))
 
-const Home = lazy(() => import('./pages/home/Home'))
-const Library = lazy(() => import('./pages/library/Library'))
-const Ocr = lazy(() => import('./pages/ocr/Ocr'))
-const Grammar = lazy(() => import('./pages/grammar/Grammar'))
-const Reports = lazy(() => import('./pages/reports/Reports'))
+const Home     = lazy(() => import('./pages/home/Home'))
+const Library  = lazy(() => import('./pages/library/Library'))
+const Ocr      = lazy(() => import('./pages/ocr/Ocr'))
+const Grammar  = lazy(() => import('./pages/grammar/Grammar'))
+const Reports  = lazy(() => import('./pages/reports/Reports'))
 const Settings = lazy(() => import('./pages/settings/Settings'))
 
 class App extends React.Component {
