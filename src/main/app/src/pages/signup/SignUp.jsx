@@ -56,7 +56,6 @@ class SignUp extends React.Component {
             submitted: true
         })
         const {user}     = this.state
-        const {dispatch} = this.props
         if (user.firstName && user.lastName && user.username && user.email && user.password) {
             userServices.signUp(user)
                 .then(

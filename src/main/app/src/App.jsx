@@ -30,11 +30,10 @@ class App extends React.Component {
     }
 
     render() {
-        const {classes, alert} = this.props
+        const {classes} = this.props
 
         return (
             <div className={classes.root}>
-                {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
                 <Router history={history}>
                     <div>
                         <Switch>

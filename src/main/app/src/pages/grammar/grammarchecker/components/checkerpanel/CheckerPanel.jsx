@@ -317,12 +317,4 @@ class CheckerPanel extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    const {selectedDocument, selectedTask} = state.taskPickerReducer
-    return {
-        selectedDocument,
-        selectedTask,
-    }
-}
-
 export default withStyles(styles, {withTheme: true})(CheckerPanel)
