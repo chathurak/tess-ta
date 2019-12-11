@@ -26,7 +26,11 @@
     "react-window": "^1.8.5",
     "recharts": "^1.7.1"
   },
+  "devDependencies": {
+    "source-map-explorer": "^2.1.2"
+  },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
