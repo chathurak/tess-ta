@@ -1,4 +1,4 @@
-import {ACCESS_TOKEN} from '../../constants/auth.constants'
+import {ACCESS_TOKEN} from '../../../../constants/auth.constants'
 
 export const config = {
     url    : '/api/file',
