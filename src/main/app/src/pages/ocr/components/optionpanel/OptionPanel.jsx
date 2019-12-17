@@ -8,7 +8,7 @@ class OptionPanel extends React.Component {
     render() {
         return (
             <div className={this.props.className}>
-                <DocumentPicker/>
+                <DocumentPicker handleDocumentChange={this.props.handleDocumentChange}/>
             </div>
         )
     }

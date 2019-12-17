@@ -10,7 +10,7 @@ import {styles}          from './styles'
 class TaskPicker extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             selectedTask: null
@@ -43,7 +43,9 @@ class TaskPicker extends React.Component {
     }
 
     render() {
-        const {classes, selectedDocument} = this.props
+        const {classes}          = this.props
+        const {selectedDocument} = this.props
+        const {handleTaskChange} = this.props
 
         return (
             <div>
@@ -55,7 +57,7 @@ class TaskPicker extends React.Component {
                         placeholder="Select task ..."
                         label="Task"
                         loadOptions={this.promiseUserTasks}
-                        onChange={this.handleTaskChange}
+                        onChange={handleTaskChange}
                     />
                 </div>
             </div>

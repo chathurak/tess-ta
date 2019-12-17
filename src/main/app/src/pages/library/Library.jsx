@@ -17,6 +17,7 @@ import {InsertDriveFile}          from '@material-ui/icons'
 registerPlugin(FilePondPluginImagePreview)
 
 class Library extends React.Component {
+
     constructor(props) {
         super(props)
 
@@ -30,11 +31,9 @@ class Library extends React.Component {
             // that has already been uploaded to the server (see docs)
             files: []
         }
-
-        this.componentDidMount = this.componentDidMount.bind(this)
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         documentServices.getDocuments()
             .then(documents => {
                 this.setState({documents: documents, isLoading: false})

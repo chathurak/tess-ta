@@ -13,17 +13,12 @@ class DocumentPicker extends React.Component {
 
         this.state = {
             // The first commit of Material-UI
-            selectedDate  : new Date('2014-08-18T21:11:54'),
-            selectDocument: null
+            selectedDate    : new Date('2014-08-18T21:11:54')
         }
     }
 
     handleDateChange = date => {
         this.setState({selectedDate: date})
-    }
-
-    handleDocumentChange = item => {
-        this.setState({selectDocument: item})
     }
 
     promiseDocuments = () => {
@@ -46,8 +41,9 @@ class DocumentPicker extends React.Component {
     }
 
     render() {
-        const {classes}      = this.props
-        const {selectedDate} = this.state
+        const {classes}              = this.props
+        const {handleDocumentChange} = this.props
+        const {selectedDate}         = this.state
 
         return (
             <div>
@@ -78,7 +74,7 @@ class DocumentPicker extends React.Component {
                         placeholder="Select document ..."
                         label="Document"
                         loadOptions={this.promiseDocuments}
-                        onChange={this.handleDocumentChange}
+                        onChange={handleDocumentChange}
                     />
                 </div>
             </div>
