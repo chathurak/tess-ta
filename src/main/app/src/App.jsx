@@ -9,15 +9,15 @@ import Header                            from './components/header/Header'
 import Sidebar                           from './components/sidebar/Sidebar'
 import CssBaseline                       from '@material-ui/core/CssBaseline'
 
-const SignIn = lazy(() => import('./pages/signin/SignIn'))
-const SignUp = lazy(() => import('./pages/signup/SignUp'))
+const SignIn = lazy(() => import(/* webpackChunkName: "SignIn" */ './pages/signin/SignIn'))
+const SignUp = lazy(() => import(/* webpackChunkName: "SignUp" */ './pages/signup/SignUp'))
 
-const Home     = lazy(() => import('./pages/home/Home'))
-const Library  = lazy(() => import('./pages/library/Library'))
-const Ocr      = lazy(() => import('./pages/ocr/Ocr'))
-const Grammar  = lazy(() => import('./pages/grammar/Grammar'))
-const Reports  = lazy(() => import('./pages/reports/Reports'))
-const Settings = lazy(() => import('./pages/settings/Settings'))
+const Home     = lazy(() => import(/* webpackChunkName: "Home" */ './pages/home/Home'))
+const Library  = lazy(() => import(/* webpackChunkName: "Library" */ './pages/library/Library'))
+const Ocr      = lazy(() => import(/* webpackChunkName: "Ocr" */ './pages/ocr/Ocr'))
+const Grammar  = lazy(() => import(/* webpackChunkName: "Grammar" */ './pages/grammar/Grammar'))
+const Reports  = lazy(() => import(/* webpackChunkName: "Reports" */ './pages/reports/Reports'))
+const Settings = lazy(() => import(/* webpackChunkName: "Settings" */ './pages/settings/Settings'))
 
 class App extends React.Component {
 
@@ -49,7 +49,7 @@ class App extends React.Component {
                                                    <Sidebar/>
                                                    <main className={classes.content}>
                                                        <div className={classes.toolbar}/>
-                                                       <Route exact path='/home' component={Home}/>
+                                                       <Route exact path='/home' component={Home} />
                                                        <Route exact path='/library' component={Library}/>
                                                        <Route exact path='/ocr' component={Ocr}/>
                                                        <Route exact path='/grammar' component={Grammar}/>
