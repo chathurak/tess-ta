@@ -13,7 +13,8 @@ class TaskPicker extends React.Component {
         super(props)
 
         this.state = {
-            selectedTask: null
+            selectedTask: null,
+            selectedDocument: null,
         }
     }
 
@@ -21,11 +22,15 @@ class TaskPicker extends React.Component {
         this.setState({selectedTask: item})
     }
 
-    promiseUserTasks = () => {
-        const {selectedDocument} = this.props
+    handleDocumentChange = (document) => {
+        this.setState({selectedDocument: document})
+    }
 
-        let options = selectedDocument ? taskServices.getTasks(selectedDocument.value)
+    promiseUserTasks = () => {
+        console.log(this.state.selectedDocument)
+        let options = this.state.selectedDocument ? taskServices.getTasks(this.state.selectedDocument.value)
             .then(tasks => {
+                console.log(tasks)
                 return tasks.map(task => ({
                     value: task.id,
                     label: task.name
@@ -49,7 +54,7 @@ class TaskPicker extends React.Component {
 
         return (
             <div>
-                <DocumentPicker/>
+                <DocumentPicker handleDocumentChange={this.handleDocumentChange}/>
                 <div className={classes.taskPickerRoot}>
                     <AutoCompleteAsync
                         key={selectedDocument ? selectedDocument.value : 'x'}
@@ -58,6 +63,7 @@ class TaskPicker extends React.Component {
                         label="Task"
                         loadOptions={this.promiseUserTasks}
                         onChange={handleTaskChange}
+                        defaultOptions={true}
                     />
                 </div>
             </div>

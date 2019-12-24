@@ -11,8 +11,8 @@ public class DBUtils {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/tesseract_ta"; // TODO: Load HOST as a property
 
-    private static final String USER = "tessuser";
-    private static final String PASS = "tesseract-ta@999";
+    private static final String USER = "root";
+    private static final String PASS = "";
 
     public static HashMap<String, String> loadKeyVal(String sql) {
         HashMap<String, String> data = new HashMap<>();

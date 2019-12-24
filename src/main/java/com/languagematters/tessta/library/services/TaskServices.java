@@ -101,7 +101,7 @@ public class TaskServices {
 
     public String getTaskOutputContent(int taskId, String username) {
         Task task = this.getTask(taskId);
-        File originalFile = new File(String.format("%s/%s/%s/%s/output.txt", this.tempStorePath, username, task.getDocumentId(), task.getName()));
+        File originalFile = new File(String.format("%s/%s/%s/%s/Tesseract_output.txt", this.tempStorePath, username, task.getDocumentId(), task.getName()));
         return FileUtils.loadTextFile(originalFile.getPath());
     }
 }

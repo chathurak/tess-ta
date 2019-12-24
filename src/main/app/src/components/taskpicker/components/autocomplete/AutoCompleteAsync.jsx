@@ -77,7 +77,7 @@ class AutoCompleteAsync extends React.Component {
 
                         // Async stuff
                         cacheOptions
-                        defaultOptions
+                        defaultOptions={true}
                         loadOptions={loadOptions}
                     />
                 </NoSsr>
