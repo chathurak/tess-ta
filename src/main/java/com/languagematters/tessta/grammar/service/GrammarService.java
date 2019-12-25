@@ -7,30 +7,50 @@ import com.languagematters.tessta.grammar.checker.OptionalChecker;
 import com.languagematters.tessta.grammar.config.Rules;
 import com.languagematters.tessta.grammar.helper.DocHelper;
 import com.languagematters.tessta.grammar.model.WordObj;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GrammarService {
+    @Autowired
+    private DictionaryService dictionaryService;
 
-    public static List<WordObj> process(String text) {
+    @Autowired
+    private DictionaryChecker dictionaryChecker;
+
+    @Autowired
+    private MandatoryChecker mandatoryChecker;
+
+    @Autowired
+    private LegitimacyChecker legitimacyChecker;
+
+    @Autowired
+    private OptionalChecker optionalChecker;
+
+    @Autowired
+    private Rules rules;
+
+    public List<WordObj> process(String text) {
         // Load rules TODO: Set load once
-        Rules.load();
-        DictionaryService.load();
+        rules.load();
+        dictionaryService.load();
 
         // Mandatory Check
-        text = MandatoryChecker.check(text);
+        text = mandatoryChecker.check(text);
 
         // Parse the document
         List<WordObj> doc = DocHelper.parseDoc(text);
 
         // Legitimacy Check
-        LegitimacyChecker.check(doc);
+        legitimacyChecker.check(doc);
 
         // Optional Check
-        OptionalChecker.check(doc);
+        optionalChecker.check(doc);
 
         // Dictionary check
-        DictionaryChecker.check(doc);
+        dictionaryChecker.check(doc);
 
         return doc;
     }

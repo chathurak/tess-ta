@@ -5,11 +5,13 @@ import com.languagematters.tessta.grammar.config.Rules;
 import com.languagematters.tessta.grammar.config.SinhalaUnicode;
 import com.languagematters.tessta.grammar.model.LetterObj;
 import com.languagematters.tessta.grammar.model.WordObj;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class LegitimacyChecker {
-    public static void check(List<WordObj> doc) {
+    public void check(List<WordObj> doc) {
         // For each word
         for (WordObj wordObj : doc) {
             if (wordObj.level == -1) {

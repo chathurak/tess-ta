@@ -1,5 +1,8 @@
 package com.languagematters.tessta.grammar.util;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,14 +10,19 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 
+@Service
 public class DBUtils {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/tesseract_ta"; // TODO: Load HOST as a property
+    @Value("${app.mysql-user}")
+    private String mysqlUser;
 
-    private static final String USER = "root";
-    private static final String PASS = "";
+    @Value("${app.mysql-password}")
+    private String mysqlPassword;
 
-    public static HashMap<String, String> loadKeyVal(String sql) {
+    @Value("${app.mysql-uri}")
+    private String mysqlUri;
+
+    public HashMap<String, String> loadKeyVal(String sql) {
         HashMap<String, String> data = new HashMap<>();
 
         Connection conn;
@@ -24,7 +32,7 @@ public class DBUtils {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Connecting to database...");
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(this.mysqlUri, this.mysqlUser, this.mysqlPassword);
             System.out.println("Creating statement...");
 
             stmt = conn.createStatement();
@@ -46,7 +54,7 @@ public class DBUtils {
     }
 
     // Load one column string data
-    public static HashSet<String> loadValues(String sql, String columnName) {
+    public HashSet<String> loadValues(String sql, String columnName) {
         HashSet<String> data = new HashSet<>();
 
         Connection conn;
@@ -57,7 +65,7 @@ public class DBUtils {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Connecting to database...");
 
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn = DriverManager.getConnection(this.mysqlUri, this.mysqlUser, this.mysqlPassword);
             System.out.println("Creating statement...");
 
             stmt = conn.createStatement();
@@ -76,6 +84,11 @@ public class DBUtils {
         }
 
         return data;
+    }
+
+
+    public String test() {
+        return this.mysqlUser;
     }
 
 

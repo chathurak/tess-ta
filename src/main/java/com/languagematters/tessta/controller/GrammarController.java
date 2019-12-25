@@ -1,6 +1,7 @@
 package com.languagematters.tessta.controller;
 
 import com.languagematters.tessta.grammar.model.WordObj;
+import com.languagematters.tessta.grammar.service.DictionaryService;
 import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.services.DocumentServices;
@@ -8,6 +9,7 @@ import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.security.CurrentUser;
 import com.languagematters.tessta.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class GrammarController {
-    private final DocumentServices documentServices;
+    private final GrammarService grammarService;
     private final TaskServices taskServices;
 
     private Jedis jedis = new Jedis("localhost");
@@ -34,7 +36,7 @@ public class GrammarController {
                                        @RequestParam(value = "taskId") int taskId) {
 
         String text = this.taskServices.getTaskOutputContent(taskId, currentUser.getUsername());
-        List<WordObj> result = GrammarService.process(text);
+        List<WordObj> result = grammarService.process(text);
 
         Map<String, Object> res = new HashMap<>();
         res.put("input", text);

@@ -1,10 +1,12 @@
 package com.languagematters.tessta.controller;
 
+import com.languagematters.tessta.grammar.util.DBUtils;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.security.CurrentUser;
 import com.languagematters.tessta.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,20 @@ public class DocumentController {
 
     private final DocumentServices documentServices;
 
+    @Autowired
+    private DBUtils dbUtils;
+
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public List<UserFile> getUserFiles(@CurrentUser UserPrincipal currentUser) {
         return documentServices.getDocuments(currentUser.getId());
+    }
+
+
+    @GetMapping("/test")
+    public void test() {
+        DBUtils x = new DBUtils();
+        System.out.println(this.dbUtils.test());
     }
 
     @DeleteMapping
