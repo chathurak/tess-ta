@@ -28,13 +28,6 @@ public class DocumentController {
         return documentServices.getDocuments(currentUser.getId());
     }
 
-
-    @GetMapping("/test")
-    public void test() {
-        DBUtils x = new DBUtils();
-        System.out.println(this.dbUtils.test());
-    }
-
     @DeleteMapping
     @PreAuthorize("hasRole('USER')")
     public int deleteDocument(@CurrentUser UserPrincipal currentUser, @RequestParam("documentId") int documentId) {

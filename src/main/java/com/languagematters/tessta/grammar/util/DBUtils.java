@@ -87,8 +87,13 @@ public class DBUtils {
     }
 
 
-    public String test() {
-        return this.mysqlUser;
+    // Get Connection
+    public Connection getConnection() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        System.out.println("Connecting to database...");
+
+        Connection conn = DriverManager.getConnection(this.mysqlUri, this.mysqlUser, this.mysqlPassword);
+        return conn;
     }
 
 

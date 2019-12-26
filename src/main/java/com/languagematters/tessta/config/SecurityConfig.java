@@ -80,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/queue",
                         "/ocr",
                         "/grammar",
+                        "/dictionary",
                         "/report",
                         "/settings"
                 ).permitAll()
