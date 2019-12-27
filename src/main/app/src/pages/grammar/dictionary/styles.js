@@ -8,7 +8,28 @@ export const styles = (theme) => ({
         marginTop: 20,
         marginLeft: 'auto',
         marginRight: 0,
-        width: 180
+        width: 50
     },  
-    iconButton: { }
+    iconButton: { },
+    root: {
+        marginTop: '5px',
+        alignItems: 'center',
+    },
+    menuButton: {
+        color: 'grey[800]',
+    },
+    dictionaryTitle: {
+        marginLeft: 15,
+    },
+    wordListView: {
+        marginBottom: 15
+    },
+    buttonGroup: {
+        height: 50,
+        width: "100%",
+        marginLeft: 10
+    },
+    inputTextArea: {
+        width: "100%"
+    }
 })
