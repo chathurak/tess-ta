@@ -61,6 +61,10 @@ const styles = {
     },
     subtitle: {
         fontSize: 12
+    },
+    legendPanel: {
+        padding: 20,
+        fontSize: 15
     }
 }
 

@@ -15,8 +15,8 @@ import Grid              from '@material-ui/core/Grid'
 import Typography        from '@material-ui/core/Typography'
 import Slider            from '@material-ui/core/Slider'
 import ZoomIn            from '@material-ui/icons/ZoomIn'
+import Popover           from '@material-ui/core/Popover';
 import * as FileSaver    from 'file-saver'
-
 
 class CheckerPanel extends React.Component {
     constructor(props, context) {
@@ -31,6 +31,8 @@ class CheckerPanel extends React.Component {
             currentLetterIndex: 0,
             currentSuggestions: [],
             textSize          : 18,
+            legendOpen        : false,
+            legendAnchorEl    : null
         }
     }
 
@@ -160,9 +162,25 @@ class CheckerPanel extends React.Component {
         this.setState({textSize: newValue})
     }
 
+    handleLegendClose = () => {
+        this.setState({legendAnchorEl: null})
+    }
+
+    handleLegendOpen = (event) => {
+        // this.setAnchorEl(event.currentTarget)
+        
+        this.setState({legendAnchorEl: event.currentTarget})
+        // console.log(this.state)
+    }
+
+    legendOpen = () => {
+        return Boolean(this.state.legendAnchorEl)
+    }
 
     render() {
         const {selectedTask} = this.props
+        const legendOpen = Boolean(this.state.legendAnchorEl);
+        const id = this.state.legendOpen ? 'simple-popover' : undefined;
 
         return (
             <div className={this.props.className}>
@@ -195,6 +213,28 @@ class CheckerPanel extends React.Component {
                         onOk={this.handleRestoreLetter}
                     />
 
+                    {/* Legend */}
+                    <Popover
+                        open={legendOpen}
+                        anchorEl={this.state.legendAnchorEl}
+                        anchorOrigin={{vertical: 'bottom', horizontal: 'left' }}
+                        transformOrigin={{vertical: 'top', horizontal: 'left' }}
+                        onClose={this.handleLegendClose}
+                        disableRestoreFocus
+                    >
+                        <div style={styles.legendPanel}>
+                            :: Characters ::
+                            <div style={styles.flagLetterCharacterLegitimacyError}>RED: CHARACTER LEGITIMACY ERROR</div>
+                            <div style={styles.flagLetterGrammarLegitimacyError}>ORANGE: GRAMMAR LEGITIMACY ERROR</div>
+                            <div style={styles.flagLetterChanged}>BLUE: LETTER CHANGED</div>
+                            <div style={styles.flagLetterOptional}>GREEN: OPTIONAL CHARACTER</div>
+                            <div style={styles.flagLetterDeleted}>GREY & STRIKETHROUGH: DELETED CHARACTER</div>
+                            <br/>:: Words ::
+                            <div style={styles.flagWordNotInDictionary}>HIGHLIGHTED & UNDERLINED: NOT IN DICTIONARY</div>
+                            <div style={styles.flagWordHasSuggestions}>BOLD: HAS SUGGESTIONS</div>
+                        </div>
+                    </Popover>
+
                     {/* Control bar */}
                     <Grid container style={styles.centerAll}>
 
@@ -214,6 +254,9 @@ class CheckerPanel extends React.Component {
                                 <Button variant="outlined" component="span" color="secondary"
                                         style={styles.smallMargin}>Open</Button>
                             </label>
+
+                            <Button aria-describedby={id} variant="outlined" color="secondary" style={styles.smallMargin}
+                                    onClick={this.handleLegendOpen}>Legend</Button>
                         </Grid>
 
                         {/* Zoom */}
