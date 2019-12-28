@@ -1,17 +1,18 @@
-import {withStyles}    from '@material-ui/core/styles'
-import * as React      from 'react'
-import {styles}        from './styles'
-import ListItem        from '@material-ui/core/ListItem'
-import ListItemText    from '@material-ui/core/ListItemText'
-import {FixedSizeList} from 'react-window'
-import Paper           from '@material-ui/core/Paper'
-import IconButton      from '@material-ui/core/IconButton'
+import {withStyles}         from '@material-ui/core/styles'
+import * as React           from 'react'
+import {styles}             from './styles'
+import ListItem             from '@material-ui/core/ListItem'
+import ListItemText         from '@material-ui/core/ListItemText'
+import {FixedSizeList}      from 'react-window'
+import Paper                from '@material-ui/core/Paper'
+import IconButton           from '@material-ui/core/IconButton'
 import {dictionaryServices} from '../../../services/dictionary.services'
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Grid, { GridSpacing } from '@material-ui/core/Grid';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import TextField            from '@material-ui/core/TextField';
+import Button               from '@material-ui/core/Button';
+import ButtonGroup          from '@material-ui/core/ButtonGroup';
+import Grid                 from '@material-ui/core/Grid';
+import RefreshIcon          from '@material-ui/icons/Refresh';
+import NotificationBox      from '../../../components/notificationbox/NotificationBox'
 
 
 class Dictionary extends React.Component {
@@ -46,37 +47,59 @@ class Dictionary extends React.Component {
         )
     }
 
-    handleAdd = (event) => {
+    handleAdd = () => {
+        if (this.state.inputText === ''){
+            this.notificationBox.showError("Please enter a word to insert")
+            return
+        }
+
+
         dictionaryServices.addWord(this.state.inputText)
             .then((res) => {
+                this.notificationBox.showSuccess(`Successfully Added '${this.state.inputText}'`)
                 this.handleLoad();
             })
             .catch((error) => {
+                this.notificationBox.showError("Error in Inserting word")
                 console.log(error)
             })
     }
 
-    handleUpdate = (event) => {
+    handleUpdate = () => {
+        if (this.state.inputText === ''){
+            this.notificationBox.showError("Please enter a word to update")
+            return
+        }
+
         dictionaryServices.updateWord(this.state.selectedWord, this.state.inputText)
             .then((res) => {
+                this.notificationBox.showSuccess("Successfully Updated")
                 this.handleLoad();
             })
             .catch((error) => {
+                this.notificationBox.showError("Error in Updating word")
                 console.log(error)
             })
     }
 
-    handleDelete = (event) => {
+    handleDelete = () => {
+        if (this.state.selectedWord === ''){
+            this.notificationBox.showError("Please select a word to delete")
+            return
+        }
+
         dictionaryServices.deleteWord(this.state.inputText)
             .then((res) => {
+                this.notificationBox.showSuccess("Successfully Deleted")
                 this.handleLoad();
             })
             .catch((error) => {
+                this.notificationBox.showError("Error in Deleting word")
                 console.log(error)
             })
     }
 
-    handleLoad = (event) => {
+    handleLoad = () => {
         dictionaryServices.getWords()
             .then((words) => {
                 this.setState({
@@ -137,6 +160,8 @@ class Dictionary extends React.Component {
                             {this.mainDictionaryWords}
                         </FixedSizeList>
                     </Paper>
+
+                    <NotificationBox ref={notification => this.notificationBox = notification} />
                 </div>
             </div>
         )
