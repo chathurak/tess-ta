@@ -22,7 +22,7 @@ public class OcrServices {
         cmdLine.addArgument(inputPath);
         cmdLine.addArgument(outputPath);
         cmdLine.addArgument("-l");
-        cmdLine.addArgument("sin");
+        cmdLine.addArgument("sin+eng");
         cmdLine.addArgument("segdemo");
         cmdLine.addArgument("inter");
 
