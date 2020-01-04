@@ -36,6 +36,10 @@ public class DBUtils {
             System.out.println("Creating statement...");
 
             stmt = conn.createStatement();
+            stmt.executeUpdate("SET NAMES 'utf8'");
+            stmt.executeUpdate("SET CHARACTER SET utf8");
+            stmt.executeUpdate("SET SESSION collation_connection = 'utf8_unicode_ci'");
+
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
@@ -69,6 +73,10 @@ public class DBUtils {
             System.out.println("Creating statement...");
 
             stmt = conn.createStatement();
+            stmt.executeUpdate("SET NAMES 'utf8'");
+            stmt.executeUpdate("SET CHARACTER SET utf8");
+            stmt.executeUpdate("SET SESSION collation_connection = 'utf8_unicode_ci'");
+
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
