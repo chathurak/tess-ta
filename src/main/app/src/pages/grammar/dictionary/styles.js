@@ -2,7 +2,11 @@ export const styles = (theme) => ({
     paper: {
         margin: 10,
         padding: 10,
-        width: 400,
+        width: "%100",
+    },
+    dictionaryPanel: {
+        margin: 'auto',
+        width: 800,
     },
     buttonBar: {
         marginTop: 20,

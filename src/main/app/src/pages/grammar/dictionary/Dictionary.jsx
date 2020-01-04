@@ -19,7 +19,11 @@ class Dictionary extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            mainDictionary: {
+            dictionaryPrimary: {
+                words: [],
+                size : 0
+            },
+            dictionarySecondary: {
                 words: [],
                 size : 0
             },
@@ -33,16 +37,25 @@ class Dictionary extends React.Component {
     }
 
     handleDictionaryWordClick = (e, index) => {
-        let selectedWord = this.state.mainDictionary.words[index]
+        let selectedWord = this.state.dictionaryPrimary.words[index]
         this.setState({inputText: selectedWord})
         this.setState({selectedWord: selectedWord})
     }
 
-    mainDictionaryWords = (props) => {
+    dictionaryPrimaryWords = (props) => {
         const {index, style} = props
         return (
             <ListItem button style={style} key={index} onClick={(e) => this.handleDictionaryWordClick(e, index)}>
-                <ListItemText primary={this.state.mainDictionary.words[index]} />
+                <ListItemText primary={this.state.dictionaryPrimary.words[index]} />
+            </ListItem>
+        )
+    }
+
+    dictionarySecondaryWords = (props) => {
+        const {index, style} = props
+        return (
+            <ListItem button style={style} key={index} onClick={(e) => this.handleDictionaryWordClick(e, index)}>
+                <ListItemText primary={this.state.dictionarySecondary.words[index]} />
             </ListItem>
         )
     }
@@ -103,7 +116,7 @@ class Dictionary extends React.Component {
         dictionaryServices.getWords()
             .then((words) => {
                 this.setState({
-                    mainDictionary: {
+                    dictionaryPrimary: {
                         words: words,
                         size: words.length
                     }
@@ -143,23 +156,52 @@ class Dictionary extends React.Component {
                         <Grid item xs={3}></Grid>
                     </Grid>
 
-                    {/* Primary Dictionary Panel */}
-                    <Paper className={classes.paper}>
-                        <Grid container>
-                            <Grid item xs={10}>
-                                <h2 className={classes.dictionaryTitle}>Primary Dictionary</h2>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <IconButton className={classes.margin} onClick={this.handleLoad}>
-                                    <RefreshIcon fontSize="large"/>
-                                </IconButton>
-                            </Grid>
+                    <Grid container className={classes.dictionaryPanel}>
+                        {/* Primary Dictionary Panel */}
+                        <Grid item xs={6}>
+                            <Paper className={classes.paper}>
+                                <Grid container>
+                                    <Grid item xs={10}>
+                                        <h2 className={classes.dictionaryTitle}>Primary Dictionary</h2>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <IconButton className={classes.margin} onClick={this.handleLoad}>
+                                            <RefreshIcon fontSize="large"/>
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
+
+                                <FixedSizeList className={classes.wordListView} height={400} itemSize={20} itemCount={this.state.dictionaryPrimary.size}>
+                                    {this.dictionaryPrimaryWords}
+                                </FixedSizeList>
+                            </Paper>
                         </Grid>
 
-                        <FixedSizeList className={classes.wordListView} height={400} itemSize={20} itemCount={this.state.mainDictionary.size}>
-                            {this.mainDictionaryWords}
-                        </FixedSizeList>
-                    </Paper>
+
+                        {/* Secondary Dictionary Panel */}
+                        <Grid item xs={6}>
+                            <Paper className={classes.paper}>
+                                <Grid container>
+                                    <Grid item xs={10}>
+                                        <h2 className={classes.dictionaryTitle}>Secondary Dictionary</h2>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <IconButton className={classes.margin} onClick={this.handleLoad}>
+                                            <RefreshIcon fontSize="large"/>
+                                        </IconButton>
+                                    </Grid>
+                                </Grid>
+
+                                <FixedSizeList className={classes.wordListView} height={400} itemSize={20} itemCount={this.state.dictionarySecondary.size}>
+                                    {this.dictionarySecondaryWords}
+                                </FixedSizeList>
+                            </Paper>
+                        </Grid>
+
+                    </Grid>
+
+
+
 
                     <NotificationBox ref={notification => this.notificationBox = notification} />
                 </div>
