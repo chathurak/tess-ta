@@ -1,11 +1,13 @@
 version: '3'
 services:
   mysql:
-    image: mysql:8.0
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
     container_name: mysql-daemon
     hostname: mysql-daemon
     # command: mysqld --user=root --verbose
-    command: ['--default-authentication-plugin=mysql_native_password']
+    command: ['mysqld', '--character-set-server=utf8', '--default-authentication-plugin=mysql_native_password']
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
     ports:
