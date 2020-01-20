@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,7 @@ public class DictionaryService {
     // Delete a word from the dictionary
     public int deleteWord(String word) {
         try {
-            PreparedStatement pstmt = dbUtils.getConnection().prepareStatement("delete from dictionary where word = ?");
+            PreparedStatement pstmt = dbUtils.getConnection().prepareStatement("DELETE FROM dictionary WHERE word = ?");
             pstmt.setString(1, word);
             return pstmt.executeUpdate();
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class DictionaryService {
     // Change a word in the dictionary
     public int changeWord(String oldWord, String newWord) {
         try {
-            PreparedStatement pstmt = dbUtils.getConnection().prepareStatement("update dictionary set word = ? where word = ?");
+            PreparedStatement pstmt = dbUtils.getConnection().prepareStatement("UPDATE dictionary SET word = ? where word = ?");
             pstmt.setString(1, newWord);
             pstmt.setString(2, oldWord);
             return pstmt.executeUpdate();
@@ -63,6 +64,19 @@ public class DictionaryService {
             PreparedStatement pstmt = dbUtils.getConnection().prepareStatement("INSERT INTO dictionary(word) VALUES(?)");
             pstmt.setString(1, word);
             return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    // Add new words to the dictionary
+    public int addWords(List<String> words) {
+        try {
+            Statement stmt = dbUtils.getConnection().createStatement();
+            String sql = "INSERT INTO dictionary(word) VALUES(\"" + String.join("\"),(\"", words) + "\")";
+            System.out.println(sql);
+            return stmt.executeUpdate(sql);
         } catch (Exception e) {
             e.printStackTrace();
         }
