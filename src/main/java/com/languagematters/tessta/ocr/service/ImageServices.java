@@ -33,4 +33,17 @@ public class ImageServices {
         executor.execute(cmdLine, customEnvironment);
     }
 
+    public void jpeg2tiff(Executor executor, String inputPath, String outputPath) throws Exception {
+        CommandLine cmdLine = null;
+        cmdLine = new CommandLine("convert");
+        cmdLine.addArgument(inputPath);
+        cmdLine.addArgument(outputPath);
+
+        Map<String, String> customEnvironment = null;
+        customEnvironment = EnvironmentUtils.getProcEnvironment();
+        customEnvironment.put("PANGOCAIRO_BACKEND", "fc");
+
+        executor.execute(cmdLine, customEnvironment);
+    }
+
 }

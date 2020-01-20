@@ -37,12 +37,18 @@ public class DictionaryController {
         return dictionaryService.addWord(word);
     }
 
+    @PostMapping("/bulk")
+    @PreAuthorize("hasRole('USER')")
+    public int addWords(@CurrentUser UserPrincipal currentUser, @RequestBody List<String> words) {
+        return dictionaryService.addWords(words);
+    }
+
     @DeleteMapping
     @PreAuthorize("hasRole('USER')")
     public int deleteWord(@CurrentUser UserPrincipal currentUser, @RequestParam("word") String word) {
         return dictionaryService.deleteWord(word);
     }
-
+    
     @PutMapping
     @PreAuthorize("hasRole('USER')")
     public int changeWord(@CurrentUser UserPrincipal currentUser,

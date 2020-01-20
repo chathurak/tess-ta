@@ -86,9 +86,12 @@ public class OcrTask {
                 // Text to image
                 System.out.printf("%s : Text to image%n", taskId);
                 imageServices.text2Image(getExecutor(), originalFile.getAbsolutePath(), String.format("%s/%s", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
-            }else if(extension.equals("tiff")){
+            } else if(extension.equals("tiff") || extension.equals("tif")){
                 File taskFile = new File(String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
                 FileUtils.copyFile(originalFile, taskFile);
+            } else if (extension.equals("jpeg") || extension.equals("jpg")) {
+                File taskFile = new File(String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
+                imageServices.jpeg2tiff(getExecutor(), originalFile.getAbsolutePath(), taskFile.getAbsolutePath());
             }
 
             // OCR
@@ -135,7 +138,7 @@ public class OcrTask {
             if (extension.equals("txt")) {
                 uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
                 uploadFileList.add(new Upload(String.format("%s.tif", T2I_OUTPUT_FILE_NAME), "image/tiff", String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME)));
-            } else if (extension.equals("jpeg")) {
+            } else if (extension.equals("jpeg") || extension.equals("jpg")) {
                 uploadFileList.add(new Upload(originalFileName, "image/jpeg", originalFile.getAbsolutePath()));
             }else if (extension.equals("tiff")) {
                 uploadFileList.add(new Upload(originalFileName, "image/tiff", originalFile.getAbsolutePath()));
