@@ -95,7 +95,8 @@ RUN apt-get update && apt-get install -y --fix-missing \
 	psmisc \
 	htop \
 	tree \
-	locales
+	locales\
+	imagemagick
 
 WORKDIR ${OCR_DIR}/build
 
