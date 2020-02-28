@@ -20,7 +20,7 @@ class Settings extends React.Component {
         return (
             <div>
                 <GoogleLogin
-                    clientId="1001062260512-6i2uotvcggju09e133vvu71oaerujqdt.apps.googleusercontent.com"
+                    clientId="649193414368-cad9sob1hd0u1dg8pb9f843ho93t6lim.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={this.handleGoogleResponseSuccess}
                     onFailure={this.handleGoogleResponseFailure}
