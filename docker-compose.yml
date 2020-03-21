@@ -7,10 +7,13 @@ services:
     container_name: mysql-daemon
     hostname: mysql-daemon
     # command: mysqld --user=root --verbose
-    command: ['mysqld', '--character-set-server=utf8', '--default-authentication-plugin=mysql_native_password']
+    command: [
+      'mysqld', '--character-set-server=utf8',
+      '--default-authentication-plugin=mysql_native_password'
+    ]
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
-      - "/ocr/database:/var/lib/mysql"
+      - "~/ocr/mysql:/var/lib/mysql"
     ports:
       - "3306"
     environment:
@@ -52,12 +55,6 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: "leonie-mongo@ocr"
     depends_on:
       - mongo
-  redis:
-    image: redis:5.0
-    container_name: redis-daemon
-    command: "redis-server --requirepass leonie-redis@ocr"
-    expose:
-      - "6379"
   tessta:
     build: .
     container_name: tessta-daemon
@@ -66,9 +63,8 @@ services:
       - "4000"
       - "80:4000"
     volumes:
-      - "/ocr/tessdata:/ocr/tessdata"
-      - "/ocr/storage:/ocr/storage"
+      - "~/ocr/tessdata:/ocr/tessdata"
+      - "~/ocr/storage:/ocr/storage"
     depends_on:
       - mysql
       - mongo
-      - redis
