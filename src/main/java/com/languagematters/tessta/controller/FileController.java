@@ -2,17 +2,17 @@ package com.languagematters.tessta.controller;
 
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
-import com.languagematters.tessta.security.CurrentUser;
-import com.languagematters.tessta.security.UserPrincipal;
 import com.languagematters.tessta.service.StorageServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+
+import static com.languagematters.tessta.Temp.USERNAME;
+import static com.languagematters.tessta.Temp.USER_ID;
 
 @RestController
 @RequestMapping("/api/file")
@@ -23,21 +23,19 @@ public class FileController {
     private final DocumentServices documentServices;
 
     @PostMapping("/process")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> process(@CurrentUser UserPrincipal currentUser,
-                                          @RequestParam("filepond") MultipartFile file) {
+    public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file) {
         Date timestamp = new Date();
 
         try {
             UserFile userFile = new UserFile();
-            userFile.setUserId(currentUser.getId());
+            userFile.setUserId(USER_ID);
             userFile.setName(file.getOriginalFilename());
             userFile.setOriginalFileName(file.getOriginalFilename());
             userFile.setCreatedAt(timestamp);
             userFile.setUpdatedAt(timestamp);
             int fileId = documentServices.createDocument(userFile);
 
-            storageServices.store(file, String.format("%s/%d/", currentUser.getUsername(), fileId));
+            storageServices.store(file, String.format("%s/%d/", USERNAME, fileId));
 
             return ResponseEntity
                     .status(HttpStatus.OK)

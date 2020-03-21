@@ -4,15 +4,12 @@ import com.languagematters.tessta.library.model.Task;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.library.services.TaskServices;
-import com.languagematters.tessta.security.CurrentUser;
-import com.languagematters.tessta.security.UserPrincipal;
 import com.languagematters.tessta.service.AsynchronousServices;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +17,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+
+import static com.languagematters.tessta.Temp.USERNAME;
+import static com.languagematters.tessta.Temp.USER_ACCESS_TOKEN;
 
 @RestController
 @RequestMapping("/api/task")
@@ -31,21 +31,17 @@ public class TaskController {
     private final AsynchronousServices asynchronousServices;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
     public List<Task> getTasks(@RequestParam(value = "documentId") int documentId) {
         return taskServices.getTasks(documentId);
     }
 
     @GetMapping("/{taskId}")
-    @PreAuthorize("hasRole('USER')")
     public Task getTask(@PathVariable int taskId) {
         return taskServices.getTask(taskId);
     }
 
     @PostMapping("/schedule")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> process(@CurrentUser UserPrincipal currentUser,
-                                          @Valid @RequestBody ScheduleTaskRequest scheduleTaskRequest) {
+    public ResponseEntity<String> process(@Valid @RequestBody ScheduleTaskRequest scheduleTaskRequest) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         String taskId = LocalDateTime.now().format(formatter);
 
@@ -64,7 +60,7 @@ public class TaskController {
         try {
             taskServices.createTask(task); // Store task entry in db
 
-            asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, currentUser.getUsername(), currentUser.getAccessToken(), userFile.getOriginalFileName());
+            asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, USERNAME, USER_ACCESS_TOKEN, userFile.getOriginalFileName());
 
             return ResponseEntity
                     .status(HttpStatus.OK)

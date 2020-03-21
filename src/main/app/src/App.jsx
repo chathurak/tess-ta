@@ -10,7 +10,6 @@ import Sidebar                           from './components/sidebar/Sidebar'
 import CssBaseline                       from '@material-ui/core/CssBaseline'
 
 const SignIn = lazy(() => import(/* webpackChunkName: "SignIn" */ './pages/signin/SignIn'))
-const SignUp = lazy(() => import(/* webpackChunkName: "SignUp" */ './pages/signup/SignUp'))
 
 const Home     = lazy(() => import(/* webpackChunkName: "Home" */ './pages/home/Home'))
 const Library  = lazy(() => import(/* webpackChunkName: "Library" */ './pages/library/Library'))
@@ -40,7 +39,6 @@ class App extends React.Component {
                         <Suspense fallback={<div>Loading...</div>}>
                             <Switch>
                                 <Route path="/signin" component={SignIn}/>
-                                <Route path="/signup" component={SignUp}/>
                                 <Route path="/"
                                        render={props => (localStorage.getItem(USER) ?
                                                <div className={classes.adminpanel}>
