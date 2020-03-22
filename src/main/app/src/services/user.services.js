@@ -80,5 +80,4 @@ const updateAccessToken = (accessToken, imageUrl) => {
 export const userServices = {
     signOut,
     updateAccessToken,
-    delete: _delete
 }

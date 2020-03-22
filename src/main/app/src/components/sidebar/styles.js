@@ -7,5 +7,7 @@ export const styles = theme => ({
     },
     drawerPaper: {
         width: theme.app.dashboard.layout.sidebarWidth,
+        backgroundColor : '#2f3640',
+        color : '#ffffff'
     },
 })

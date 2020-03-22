@@ -1,13 +1,14 @@
 import {createMuiTheme}                from '@material-ui/core/styles'
-import {lightBlue}                     from '@material-ui/core/colors/index'
 import {spacing}                       from './shared'
 import {layout as fileWorkspaceLayout} from './layouts/workspace-option.layout'
 
 export const theme = createMuiTheme({
     palette   : {
-        primary  : lightBlue,
+        primary  : {
+            main: '#0097e6'
+        },
         secondary: {
-            main: '#1976d2'
+            main: '#718093'
         }
     },
     typography: {
@@ -29,7 +30,7 @@ export const theme = createMuiTheme({
         // custom
         dashboard: {
             layout: {
-                sidebarWidth: 200
+                sidebarWidth: 230
             }
         }
     }

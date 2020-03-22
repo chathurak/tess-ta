@@ -22,7 +22,7 @@ class Header extends React.Component {
 
         return (
             <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
+                <Toolbar variant="dense">
                     <IconButton
                         color="inherit"
                         aria-label="Open drawer"
