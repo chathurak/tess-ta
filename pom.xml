@@ -38,7 +38,8 @@
     </profiles>
 
     <dependencies>
-        <!-- Spring -->
+
+        <!-- Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -47,11 +48,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
             <version>${spring.version}</version>
         </dependency>
         <dependency>
@@ -66,10 +62,22 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.3.0.RELEASE</version>
+        </dependency>
         <!-- OAuth2 Client -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
+            <version>5.3.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+            <version>5.3.0.RELEASE</version>
         </dependency>
 
         <!-- Apache -->

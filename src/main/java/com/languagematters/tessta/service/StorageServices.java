@@ -1,6 +1,7 @@
 package com.languagematters.tessta.service;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.languagematters.tessta.config.YAMLConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@RequiredArgsConstructor
 @Service
 public class StorageServices {
 
-    @Value("${app.tempstore}")
-    private String tempStorePath;
+    private final YAMLConfig config;
 
     private Path rootLocation;
 
     @PostConstruct
     private void init() {
-        rootLocation = Paths.get(tempStorePath);
+        rootLocation = Paths.get(config.getTempstore());
     }
 
     public void initStorage() {

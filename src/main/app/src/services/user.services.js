@@ -1,36 +1,36 @@
 import axios                from 'axios/index'
 import {ACCESS_TOKEN, USER} from '../constants/auth.constants'
 
-const signUp = (user) => {
-    return axios.request({
-        method : 'post',
-        url    : '/api/auth/signup',
-        data   : JSON.stringify(user),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-}
+// const signUp = (user) => {
+//     return axios.request({
+//         method : 'post',
+//         url    : '/api/auth/signup',
+//         data   : JSON.stringify(user),
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
+// }
 
-const signIn = (email, password) => {
-    let loginRequest = {
-        usernameOrEmail: email,
-        password
-    }
-
-    return axios.request({
-        method : 'post',
-        url    : '/api/auth/signin',
-        data   : JSON.stringify(loginRequest),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(res => {
-            localStorage.setItem(ACCESS_TOKEN, res.data.accessToken)
-            return getCurrentUser()
-        })
-}
+// const signIn = (email, password) => {
+//     let loginRequest = {
+//         usernameOrEmail: email,
+//         password
+//     }
+//
+//     return axios.request({
+//         method : 'post',
+//         url    : '/api/auth/signin',
+//         data   : JSON.stringify(loginRequest),
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then(res => {
+//             localStorage.setItem(ACCESS_TOKEN, res.data.accessToken)
+//             return getCurrentUser()
+//         })
+// }
 
 const signOut = () => {
     localStorage.removeItem(ACCESS_TOKEN)
@@ -61,14 +61,6 @@ const getCurrentUser = () => {
         })
 }
 
-const getAll = () => {
-    // TODO
-}
-
-const getById = (id) => {
-    // TODO
-}
-
 const updateAccessToken = (accessToken, imageUrl) => {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject('No access token set.')
@@ -85,21 +77,8 @@ const updateAccessToken = (accessToken, imageUrl) => {
     })
 }
 
-const update = (id) => {
-    // TODO
-}
-
-const _delete = (id) => {
-    // TODO
-}
-
 export const userServices = {
-    signIn,
     signOut,
-    signUp,
-    getAll,
-    getById,
-    update,
     updateAccessToken,
     delete: _delete
 }
