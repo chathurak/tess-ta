@@ -65,11 +65,11 @@ class Sidebar extends React.Component {
                         </ListItemIcon>
                         <ListItemText primary="OCR"/>
                     </ListItem>
-                    <ListItem className={classes.drawerButton} button component={Link} to="/grammar">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/spellcheck">
                         <ListItemIcon>
                             <SpellcheckIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
-                        <ListItemText primary="Grammar"/>
+                        <ListItemText primary="Spell Check"/>
                     </ListItem>
                     <Divider/>
                     <ListItem className={classes.drawerButton} button component={Link} to="/reports">

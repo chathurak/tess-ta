@@ -7,8 +7,6 @@ import MenuIcon              from '@material-ui/icons/Menu'
 import PropTypes             from 'prop-types'
 import * as React            from 'react'
 import {styles}              from './styles'
-import {AccountCircle, Menu} from '@material-ui/icons'
-import MenuItem              from '@material-ui/core/MenuItem'
 
 class Header extends React.Component {
     state = {

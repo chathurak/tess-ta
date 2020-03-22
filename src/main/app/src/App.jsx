@@ -10,12 +10,12 @@ import CssBaseline             from '@material-ui/core/CssBaseline'
 
 const SignIn = lazy(() => import(/* webpackChunkName: "SignIn" */ './pages/signin/SignIn'))
 
-const Home     = lazy(() => import(/* webpackChunkName: "Home" */ './pages/home/Home'))
-const Library  = lazy(() => import(/* webpackChunkName: "Library" */ './pages/library/Library'))
-const Ocr      = lazy(() => import(/* webpackChunkName: "Ocr" */ './pages/ocr/Ocr'))
-const Grammar  = lazy(() => import(/* webpackChunkName: "Grammar" */ './pages/grammar/Grammar'))
-const Reports  = lazy(() => import(/* webpackChunkName: "Reports" */ './pages/reports/Reports'))
-const Settings = lazy(() => import(/* webpackChunkName: "Settings" */ './pages/settings/Settings'))
+const Home       = lazy(() => import(/* webpackChunkName: "Home" */ './pages/home/Home'))
+const Library    = lazy(() => import(/* webpackChunkName: "Library" */ './pages/library/Library'))
+const Ocr        = lazy(() => import(/* webpackChunkName: "Ocr" */ './pages/ocr/Ocr'))
+const Spellcheck = lazy(() => import(/* webpackChunkName: "Spellcheck" */ './pages/spellcheck/Spellcheck'))
+const Reports    = lazy(() => import(/* webpackChunkName: "Reports" */ './pages/reports/Reports'))
+const Settings   = lazy(() => import(/* webpackChunkName: "Settings" */ './pages/settings/Settings'))
 
 class App extends React.Component {
 
@@ -48,7 +48,7 @@ class App extends React.Component {
                                             <Route exact path='/home' component={Home}/>
                                             <Route exact path='/library' component={Library}/>
                                             <Route exact path='/ocr' component={Ocr}/>
-                                            <Route exact path='/grammar' component={Grammar}/>
+                                            <Route exact path='/spellcheck' component={Spellcheck}/>
                                             <Route exact path='/reports' component={Reports}/>
                                             <Route exact path='/settings' component={Settings}/>
                                         </main>

@@ -4,12 +4,12 @@ import { styles }     from "./styles";
 import AppBar         from "@material-ui/core/AppBar";
 import Tabs           from "@material-ui/core/Tabs";
 import Tab            from "@material-ui/core/Tab";
-import GrammarChecker from "./grammarchecker/GrammarChecker";
+import GrammarChecker from "./spellchecker/GrammarChecker";
 import Dictionary     from "./dictionary/Dictionary";
 import Exblock        from "./exblock/Exblock";
 import Rules          from "./rules/Rules";
 
-class Grammar extends React.Component {
+class Spellcheck extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,4 +60,4 @@ class Grammar extends React.Component {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(Grammar);
+export default withStyles(styles, { withTheme: true })(Spellcheck);
