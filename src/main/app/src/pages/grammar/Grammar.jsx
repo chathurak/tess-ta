@@ -28,7 +28,7 @@ class Grammar extends React.Component {
                 <AppBar position="static" color="default">
                     <Tabs value={this.state.selectedTab} onChange={this.handleChange}>
                         <Tab label="Grammar Checker" />
-                        <Tab label="Dictionary" />
+                        <Tab label="Word Inventory" />
                         <Tab label="Rules" />
                     </Tabs>
                 </AppBar>

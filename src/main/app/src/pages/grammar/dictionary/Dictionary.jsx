@@ -162,7 +162,7 @@ class Dictionary extends React.Component {
                             <Paper className={classes.paper}>
                                 <Grid container>
                                     <Grid item xs={10}>
-                                        <h2 className={classes.dictionaryTitle}>Primary Dictionary</h2>
+                                        <h2 className={classes.dictionaryTitle}>Primary Word Inventory</h2>
                                     </Grid>
                                     <Grid item xs={2}>
                                         <IconButton className={classes.margin} onClick={this.handleLoad}>
@@ -183,7 +183,7 @@ class Dictionary extends React.Component {
                             <Paper className={classes.paper}>
                                 <Grid container>
                                     <Grid item xs={10}>
-                                        <h2 className={classes.dictionaryTitle}>Secondary Dictionary</h2>
+                                        <h2 className={classes.dictionaryTitle}>Secondary Word Inventory</h2>
                                     </Grid>
                                     <Grid item xs={2}>
                                         <IconButton className={classes.margin} onClick={this.handleLoad}>
