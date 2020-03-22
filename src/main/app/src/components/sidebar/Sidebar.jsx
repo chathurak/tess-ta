@@ -13,6 +13,7 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import ListAltIcon      from '@material-ui/icons/ListAlt'
 import QueueIcon        from '@material-ui/icons/Queue'
 import SettingsIcon     from '@material-ui/icons/Settings'
+import ExitToAppIcon     from '@material-ui/icons/ExitToApp'
 import SpellcheckIcon   from '@material-ui/icons/Spellcheck'
 import PropTypes        from 'prop-types'
 import * as React       from 'react'
@@ -37,52 +38,59 @@ class Sidebar extends React.Component {
             <div>
                 <List
                     component="nav"
-                    subheader={<ListSubheader component="div">Tess-TA</ListSubheader>}
+                    subheader={<ListSubheader component="div" style={{color: 'white'}}>Tess-TA</ListSubheader>}
                 >
-                    <ListItem button component={Link} to="/home">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/home">
                         <ListItemIcon>
-                            <HomeIcon/>
+                            <HomeIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Home"/>
                     </ListItem>
-                    <ListItem button component={Link} to="/library">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/library">
                         <ListItemIcon>
-                            <LibraryBooksIcon/>
+                            <LibraryBooksIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Library"/>
                     </ListItem>
-                    <ListItem button component={Link} to="/queue">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/queue">
                         <ListItemIcon>
-                            <QueueIcon/>
+                            <QueueIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Queue"/>
                     </ListItem>
                     <Divider/>
-                    <ListItem button component={Link} to="/ocr">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/ocr">
                         <ListItemIcon>
-                            <FindInPageIcon/>
+                            <FindInPageIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="OCR"/>
                     </ListItem>
-                    <ListItem button component={Link} to="/grammar">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/grammar">
                         <ListItemIcon>
-                            <SpellcheckIcon/>
+                            <SpellcheckIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Grammar"/>
                     </ListItem>
                     <Divider/>
-                    <ListItem button component={Link} to="/reports">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/reports">
                         <ListItemIcon>
-                            <ListAltIcon/>
+                            <ListAltIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Reports"/>
                     </ListItem>
                     <Divider/>
-                    <ListItem button component={Link} to="/settings">
+                    <ListItem className={classes.drawerButton} button component={Link} to="/settings">
                         <ListItemIcon>
-                            <SettingsIcon/>
+                            <SettingsIcon className={classes.drawerIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Settings"/>
+                    </ListItem>
+                    <Divider/>
+                    <ListItem className={classes.signOutButton} button component={Link} to="/signout">
+                        <ListItemIcon>
+                            <ExitToAppIcon  className={classes.signOutIcon}/>
+                        </ListItemIcon>
+                        <ListItemText primary="Sign Out"/>
                     </ListItem>
                 </List>
             </div>
