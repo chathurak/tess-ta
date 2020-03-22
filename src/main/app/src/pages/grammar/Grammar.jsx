@@ -32,9 +32,21 @@ class Grammar extends React.Component {
                         <Tab label="Rules" />
                     </Tabs>
                 </AppBar>
-                {this.state.selectedTab === 0 && <GrammarChecker />}
-                {this.state.selectedTab === 1 && <Dictionary />}
-                {this.state.selectedTab === 2 && <Rules />}
+
+                {/* Grammar tab content */}
+                <div className={this.state.selectedTab !== 0 ? classes.hidden : ''}>
+                    <GrammarChecker />
+                </div>
+
+                {/* Dictionary tab content */}
+                <div className={this.state.selectedTab !== 1 ? classes.hidden : ''}>
+                    <Dictionary />
+                </div>
+
+                {/* Rules tab content */}
+                <div className={this.state.selectedTab !== 2 ? classes.hidden : ''}>
+                    <Rules />
+                </div>
             </div>
         );
     }
