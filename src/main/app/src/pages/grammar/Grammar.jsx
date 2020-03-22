@@ -6,6 +6,7 @@ import Tabs           from "@material-ui/core/Tabs";
 import Tab            from "@material-ui/core/Tab";
 import GrammarChecker from "./grammarchecker/GrammarChecker";
 import Dictionary     from "./dictionary/Dictionary";
+import Exblock        from "./exblock/Exblock";
 import Rules          from "./rules/Rules";
 
 class Grammar extends React.Component {
@@ -29,6 +30,7 @@ class Grammar extends React.Component {
                     <Tabs value={this.state.selectedTab} onChange={this.handleChange}>
                         <Tab label="Grammar Checker" />
                         <Tab label="Word Inventory" />
+                        <Tab label="Extended Block" />
                         <Tab label="Rules" />
                     </Tabs>
                 </AppBar>
@@ -43,8 +45,14 @@ class Grammar extends React.Component {
                     <Dictionary />
                 </div>
 
-                {/* Rules tab content */}
+
+                {/* Exblock tab content */}
                 <div className={this.state.selectedTab !== 2 ? classes.hidden : ''}>
+                    <Exblock />
+                </div>
+
+                {/* Rules tab content */}
+                <div className={this.state.selectedTab !== 3 ? classes.hidden : ''}>
                     <Rules />
                 </div>
             </div>
