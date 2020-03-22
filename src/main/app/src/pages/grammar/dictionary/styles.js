@@ -2,7 +2,7 @@ export const styles = (theme) => ({
     paper: {
         margin: 10,
         padding: 10,
-        width: "%100",
+        width: "100%",
     },
     dictionaryPanel: {
         margin: 'auto',
