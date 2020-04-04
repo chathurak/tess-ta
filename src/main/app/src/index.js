@@ -7,11 +7,14 @@ import App                                 from './App'
 import './index.sass'
 import * as serviceWorker                  from './serviceWorker'
 import {theme}                             from './styles/theme'
+import {BrowserRouter}                     from 'react-router-dom'
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <App/>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
         </MuiPickersUtilsProvider>
     </MuiThemeProvider>,
     document.getElementById('root'))

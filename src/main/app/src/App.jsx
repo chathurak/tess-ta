@@ -33,6 +33,7 @@ class App extends React.Component {
 
         return (
             <div className={classes.root}>
+                <CssBaseline/>
                 <Router history={history}>
                     <div>
                         <Suspense fallback={<div>Loading...</div>}>
@@ -40,17 +41,18 @@ class App extends React.Component {
                                 <Route path="/signin" component={SignIn}/>
                                 <Route path="/">
                                     <div className={classes.adminpanel}>
-                                        <CssBaseline/>
                                         <Header/>
                                         <Sidebar/>
                                         <main className={classes.content}>
                                             <div className={classes.toolbar}/>
-                                            <Route exact path='/home' component={Home}/>
-                                            <Route exact path='/library' component={Library}/>
-                                            <Route exact path='/ocr' component={Ocr}/>
-                                            <Route exact path='/spellcheck' component={Spellcheck}/>
-                                            <Route exact path='/reports' component={Reports}/>
-                                            <Route exact path='/settings' component={Settings}/>
+                                            <Suspense fallback={<div>Loading...</div>}>
+                                                <Route exact path='/home' component={Home}/>
+                                                <Route exact path='/library' component={Library}/>
+                                                <Route exact path='/ocr' component={Ocr}/>
+                                                <Route exact path='/spellcheck' component={Spellcheck}/>
+                                                <Route exact path='/reports' component={Reports}/>
+                                                <Route exact path='/settings' component={Settings}/>
+                                            </Suspense>
                                         </main>
                                     </div>
                                 </Route>
