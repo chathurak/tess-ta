@@ -16,7 +16,7 @@
 
     <properties>
         <frontendSrcDir>${project.basedir}/src/main/app</frontendSrcDir>
-        <java.version>13</java.version>
+        <java.version>11</java.version>
         <spring.version>2.2.5.RELEASE</spring.version>
         <node.version>v13.0.1</node.version>
         <yarn.version>v1.19.1</yarn.version>
