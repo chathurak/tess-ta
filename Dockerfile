@@ -88,15 +88,15 @@ RUN apt-get update && apt-get install -y --fix-missing \
     unzip \
     git \
     apt-transport-https \
-    openjdk-13-jre \
-	openjdk-13-jdk \
-	maven \
-	vim \
-	psmisc \
-	htop \
-	tree \
-	locales\
-	imagemagick
+    openjdk-11-jre \
+    openjdk-11-jdk \
+    maven \
+    vim \
+    psmisc \
+    htop \
+    tree \
+    locales\
+    imagemagick
 
 WORKDIR ${OCR_DIR}/build
 
