@@ -47,4 +47,3 @@ services:
       - "~/ocr/storage:/ocr/storage"
     depends_on:
       - mysql
-      - mongo
