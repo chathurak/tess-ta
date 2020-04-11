@@ -36,8 +36,6 @@ public class DocumentServices {
                 userFile.setUserId(result.getInt("user_id"));
                 userFile.setName(result.getString("name"));
                 userFile.setOriginalFileName(result.getString("original_file_name"));
-                userFile.setCreatedAt(result.getDate("created_at"));
-                userFile.setUpdatedAt(result.getDate("updated_at"));
                 userFiles.add(userFile);
             }
         } catch (SQLException ex) {
@@ -61,8 +59,6 @@ public class DocumentServices {
                 userFile.setUserId(result.getInt("user_id"));
                 userFile.setName(result.getString("name"));
                 userFile.setOriginalFileName(result.getString("original_file_name"));
-                userFile.setCreatedAt(result.getDate("created_at"));
-                userFile.setUpdatedAt(result.getDate("updated_at"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -78,8 +74,6 @@ public class DocumentServices {
             statement.setInt(1, userFile.getUserId());
             statement.setString(2, userFile.getName());
             statement.setString(3, userFile.getOriginalFileName());
-            statement.setDate(4, new java.sql.Date(userFile.getCreatedAt().getTime()));
-            statement.setDate(5, new java.sql.Date(userFile.getUpdatedAt().getTime()));
 
             int rowsInserted = statement.executeUpdate();
             ResultSet result = statement.getGeneratedKeys();

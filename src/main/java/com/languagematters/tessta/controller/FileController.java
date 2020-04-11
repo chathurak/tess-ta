@@ -31,8 +31,6 @@ public class FileController {
             userFile.setUserId(USER_ID);
             userFile.setName(file.getOriginalFilename());
             userFile.setOriginalFileName(file.getOriginalFilename());
-            userFile.setCreatedAt(timestamp);
-            userFile.setUpdatedAt(timestamp);
             int fileId = documentServices.createDocument(userFile);
 
             storageServices.store(file, String.format("%s/%d/", USERNAME, fileId));
