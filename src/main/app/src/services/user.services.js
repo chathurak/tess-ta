@@ -33,8 +33,7 @@ import {ACCESS_TOKEN, USER} from '../constants/auth.constants'
 // }
 
 const signOut = () => {
-    localStorage.removeItem(ACCESS_TOKEN)
-    localStorage.removeItem(USER)
+
 }
 
 const getCurrentUser = () => {
@@ -79,5 +78,6 @@ const updateAccessToken = (accessToken, imageUrl) => {
 
 export const userServices = {
     signOut,
+    getCurrentUser,
     updateAccessToken,
 }

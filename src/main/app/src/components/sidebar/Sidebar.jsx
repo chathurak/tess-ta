@@ -13,12 +13,13 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import ListAltIcon      from '@material-ui/icons/ListAlt'
 import QueueIcon        from '@material-ui/icons/Queue'
 import SettingsIcon     from '@material-ui/icons/Settings'
-import ExitToAppIcon     from '@material-ui/icons/ExitToApp'
+import ExitToAppIcon    from '@material-ui/icons/ExitToApp'
 import SpellcheckIcon   from '@material-ui/icons/Spellcheck'
 import PropTypes        from 'prop-types'
 import * as React       from 'react'
 import {Link}           from 'react-router-dom'
 import {styles}         from './styles'
+import {ACCESS_TOKEN}   from '../../constants/auth.constants'
 
 
 class Sidebar extends React.Component {
@@ -29,6 +30,15 @@ class Sidebar extends React.Component {
 
     handleDrawerToggle = () => {
         this.setState(state => ({mobileOpen: !state.mobileOpen}))
+    }
+
+    handleLogout = () => {
+        localStorage.removeItem(ACCESS_TOKEN)
+        this.setState({
+            authenticated: false,
+            currentUser  : null
+        })
+        console.log('You are safely logged out!')
     }
 
     render() {

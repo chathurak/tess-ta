@@ -1,9 +1,9 @@
 package com.languagematters.tessta.library.services;
 
+import com.languagematters.tessta.config.AppProperties;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.model.UserFile;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -15,11 +15,11 @@ import java.util.List;
 public class DocumentServices {
 
     private final Connection connection;
-    @Value("${app.tempstore}")
-    private String tempStorePath;
+    private final AppProperties appProperties;
 
-    public DocumentServices(Connection connection) {
+    public DocumentServices(Connection connection, AppProperties appProperties) {
         this.connection = connection;
+        this.appProperties = appProperties;
     }
 
     public List<UserFile> getDocuments(int userId) {
@@ -124,7 +124,7 @@ public class DocumentServices {
     public String getDocumentContent(int documentId, String username) {
         UserFile userFile = this.getDocument(documentId);
 
-        File originalFile = new File(String.format("%s/%s/%s/%s", this.tempStorePath, username, documentId, userFile.getOriginalFileName()));
+        File originalFile = new File(String.format("%s/%s/%s/%s", appProperties.getStore().getTempstore(), username, documentId, userFile.getOriginalFileName()));
         String text = FileUtils.loadTextFile(originalFile.getPath());
 
         return text;

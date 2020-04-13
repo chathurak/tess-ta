@@ -10,7 +10,7 @@ import java.security.Principal;
 public class HomeController {
 
     @RequestMapping(value = {
-            "/signin",
+            "/login",
             "/",
             "/home",
             "/library",

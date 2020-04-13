@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
+import com.languagematters.tessta.config.AppProperties;
 import com.languagematters.tessta.ocr.service.ImageServices;
 import com.languagematters.tessta.ocr.service.OcrServices;
 import com.languagematters.tessta.report.model.ConfusionMap;
@@ -34,21 +35,22 @@ public class OcrTask {
 
     private final ImageServices imageServices;
     private final OcrServices ocrServices;
+    private final AppProperties appProperties;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String T2I_OUTPUT_FILE_NAME = "Image_for_recog";
     private final String OCR_OUTPUT_FILE_NAME = "Tesseract_output";
-    @Value("${app.tempstore}")
-    private String tempStorePath;
+
     private int documentId;
     private String taskId;
     private String username;
     private String accessToken;
     private String originalFileName;
 
-    public OcrTask(ImageServices imageServices, OcrServices ocrServices) {
+    public OcrTask(ImageServices imageServices, OcrServices ocrServices, AppProperties appProperties) {
         this.imageServices = imageServices;
         this.ocrServices = ocrServices;
+        this.appProperties = appProperties;
     }
 
     public void setDocumentId(int documentId) {
@@ -86,8 +88,8 @@ public class OcrTask {
                     .setFields("id")
                     .execute();
 
-            File taskDir = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, taskId));
-            File originalFile = new File(String.format("%s/%s/%s/%s", tempStorePath, username, documentId, originalFileName));
+            File taskDir = new File(String.format("%s/%s/%s/%s", appProperties.getStore().getTempstore(), username, documentId, taskId));
+            File originalFile = new File(String.format("%s/%s/%s/%s", appProperties.getStore().getTempstore(), username, documentId, originalFileName));
             String extension = FilenameUtils.getExtension(originalFile.getName()).toLowerCase();
 
             // Create task directory

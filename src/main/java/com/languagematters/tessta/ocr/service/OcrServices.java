@@ -1,9 +1,9 @@
 package com.languagematters.tessta.ocr.service;
 
+import com.languagematters.tessta.config.AppProperties;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -11,14 +11,17 @@ import java.util.Map;
 @Service
 public class OcrServices {
 
-    @Value("${app.tessdata}")
-    private String tessdataPath;
+    private final AppProperties appProperties;
+
+    public OcrServices(AppProperties appProperties) {
+        this.appProperties = appProperties;
+    }
 
     public void ocr(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = null;
         cmdLine = new CommandLine("tesseract");
         cmdLine.addArgument("--tessdata-dir");
-        cmdLine.addArgument(tessdataPath);
+        cmdLine.addArgument(appProperties.getStore().getTessdata());
         cmdLine.addArgument(inputPath);
         cmdLine.addArgument(outputPath);
         cmdLine.addArgument("-l");

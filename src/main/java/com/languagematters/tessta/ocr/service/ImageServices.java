@@ -1,5 +1,6 @@
 package com.languagematters.tessta.ocr.service;
 
+import com.languagematters.tessta.config.AppProperties;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.environment.EnvironmentUtils;
@@ -11,8 +12,11 @@ import java.util.Map;
 @Service
 public class ImageServices {
 
-    @Value("${app.tessdata}")
-    private String tessdataPath;
+    private final AppProperties appProperties;
+
+    public ImageServices(AppProperties appProperties) {
+        this.appProperties = appProperties;
+    }
 
     public void text2Image(Executor executor, String inputPath, String outputPath) throws Exception {
         CommandLine cmdLine = null;
@@ -22,7 +26,7 @@ public class ImageServices {
         cmdLine.addArgument("--outputbase");
         cmdLine.addArgument(outputPath);
         cmdLine.addArgument("--fonts_dir");
-        cmdLine.addArgument(tessdataPath);
+        cmdLine.addArgument(appProperties.getStore().getTessdata());
         cmdLine.addArgument("--font");
         cmdLine.addArgument("Iskoola Pota", false);
 

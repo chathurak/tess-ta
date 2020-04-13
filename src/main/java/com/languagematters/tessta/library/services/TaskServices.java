@@ -1,5 +1,6 @@
 package com.languagematters.tessta.library.services;
 
+import com.languagematters.tessta.config.AppProperties;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.model.Task;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,12 +15,11 @@ import java.util.List;
 public class TaskServices {
 
     private final Connection connection;
+    private final AppProperties appProperties;
 
-    @Value("${app.tempstore}")
-    private String tempStorePath;
-
-    public TaskServices(Connection connection) {
+    public TaskServices(Connection connection, AppProperties appProperties) {
         this.connection = connection;
+        this.appProperties = appProperties;
     }
 
     public List<Task> getTasks(int documentId) {
@@ -98,7 +98,7 @@ public class TaskServices {
 
     public String getTaskOutputContent(int taskId, String username) {
         Task task = this.getTask(taskId);
-        File originalFile = new File(String.format("%s/%s/%s/%s/Tesseract_output.txt", this.tempStorePath, username, task.getDocumentId(), task.getName()));
+        File originalFile = new File(String.format("%s/%s/%s/%s/Tesseract_output.txt", appProperties.getStore().getTempstore(), username, task.getDocumentId(), task.getName()));
         return FileUtils.loadTextFile(originalFile.getPath());
     }
 }
