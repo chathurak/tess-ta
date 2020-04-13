@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="894de738-adbf-44b4-afd2-1e319bcd8128" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/languagematters/tessta/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/languagematters/tessta/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/oauth2redirecthandler/OAuth2RedirectHandler.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/oauth2redirecthandler/OAuth2RedirectHandler.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/privateroute/PrivateRoute.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/signin/SignIn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/signin/SignIn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/user.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/user.services.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1aUMeXX3GzxJ8OG711gdUKLEfRl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="894de738-adbf-44b4-afd2-1e319bcd8128" name="Default Changelist" comment="" />
+      <created>1586785814234</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586785814234</updated>
+      <workItem from="1586785817522" duration="4626000" />
+      <workItem from="1586794997210" duration="168000" />
+      <workItem from="1586795883652" duration="812000" />
+      <workItem from="1586797659293" duration="3941000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1899" height="311" key="GridCell.Tab.0.bottom" timestamp="1586829102660">
+      <screen x="0" y="23" width="1920" height="1120" />
+    </state>
+    <state width="1899" height="311" key="GridCell.Tab.0.bottom/0.23.1920.1120@0.23.1920.1120" timestamp="1586829102660" />
+    <state width="1899" height="311" key="GridCell.Tab.0.center" timestamp="1586829102659">
+      <screen x="0" y="23" width="1920" height="1120" />
+    </state>
+    <state width="1899" height="311" key="GridCell.Tab.0.center/0.23.1920.1120@0.23.1920.1120" timestamp="1586829102659" />
+    <state width="1899" height="311" key="GridCell.Tab.0.left" timestamp="1586829102659">
+      <screen x="0" y="23" width="1920" height="1120" />
+    </state>
+    <state width="1899" height="311" key="GridCell.Tab.0.left/0.23.1920.1120@0.23.1920.1120" timestamp="1586829102659" />
+    <state width="1899" height="311" key="GridCell.Tab.0.right" timestamp="1586829102659">
+      <screen x="0" y="23" width="1920" height="1120" />
+    </state>
+    <state width="1899" height="311" key="GridCell.Tab.0.right/0.23.1920.1120@0.23.1920.1120" timestamp="1586829102659" />
+  </component>
+</project>

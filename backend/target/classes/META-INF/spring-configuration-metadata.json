@@ -1,0 +1,77 @@
+{
+  "groups": [
+    {
+      "name": "app",
+      "type": "com.languagematters.tessta.config.AppProperties",
+      "sourceType": "com.languagematters.tessta.config.AppProperties"
+    },
+    {
+      "name": "app.auth",
+      "type": "com.languagematters.tessta.config.AppProperties$Auth",
+      "sourceType": "com.languagematters.tessta.config.AppProperties",
+      "sourceMethod": "getAuth()"
+    },
+    {
+      "name": "app.mysql",
+      "type": "com.languagematters.tessta.config.AppProperties$MySQL",
+      "sourceType": "com.languagematters.tessta.config.AppProperties",
+      "sourceMethod": "getMysql()"
+    },
+    {
+      "name": "app.oauth2",
+      "type": "com.languagematters.tessta.config.AppProperties$OAuth2",
+      "sourceType": "com.languagematters.tessta.config.AppProperties",
+      "sourceMethod": "getOauth2()"
+    },
+    {
+      "name": "app.store",
+      "type": "com.languagematters.tessta.config.AppProperties$Store",
+      "sourceType": "com.languagematters.tessta.config.AppProperties",
+      "sourceMethod": "getStore()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.auth.token-expiration-msec",
+      "type": "java.lang.Long",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$Auth",
+      "defaultValue": 0
+    },
+    {
+      "name": "app.auth.token-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$Auth"
+    },
+    {
+      "name": "app.mysql.password",
+      "type": "java.lang.String",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$MySQL"
+    },
+    {
+      "name": "app.mysql.uri",
+      "type": "java.lang.String",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$MySQL"
+    },
+    {
+      "name": "app.mysql.user",
+      "type": "java.lang.String",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$MySQL"
+    },
+    {
+      "name": "app.oauth2.authorized-redirect-uris",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$OAuth2"
+    },
+    {
+      "name": "app.store.tempstore",
+      "type": "java.lang.String",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$Store"
+    },
+    {
+      "name": "app.store.tessdata",
+      "type": "java.lang.String",
+      "sourceType": "com.languagematters.tessta.config.AppProperties$Store"
+    }
+  ],
+  "hints": []
+}
