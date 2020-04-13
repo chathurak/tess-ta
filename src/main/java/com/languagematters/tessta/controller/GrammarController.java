@@ -4,7 +4,6 @@ import com.languagematters.tessta.grammar.model.WordObj;
 import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.services.TaskServices;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,10 +16,14 @@ import java.util.Map;
 import static com.languagematters.tessta.Temp.USERNAME;
 
 @RestController
-@RequiredArgsConstructor
 public class GrammarController {
     private final GrammarService grammarService;
     private final TaskServices taskServices;
+
+    public GrammarController(GrammarService grammarService, TaskServices taskServices) {
+        this.grammarService = grammarService;
+        this.taskServices = taskServices;
+    }
 
     @RequestMapping(value = "/api/grammar/process", method = RequestMethod.GET)
     public Map<String, Object> process(@RequestParam(value = "taskId") int taskId) {

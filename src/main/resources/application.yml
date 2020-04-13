@@ -1,8 +1,5 @@
-# Server
 server:
     port: 4000
-
-# Spring
 spring:
     servlet:
         multipart:
@@ -18,23 +15,28 @@ spring:
                         scope:
                             - email
                             - profile
-
 app:
-    # Store
-    tessdata: ~/ocr/tessdata
-    tempstore: ~/ocr/storage
-
-    # MySQL
-    mysql-uri: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
-    mysql-user: root
-    mysql-password:
+    auth:
+        tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+        tokenExpirationMsec: 864000000
+    oauth2:
+        authorizedRedirectUris:
+            - http://localhost:4000/oauth2/redirect
+            - ocrsrilanka://oauth2/redirect
+    store:
+        tessdata: ~/ocr/tessdata
+        tempstore: ~/ocr/storage
+    mysql:
+        uri: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
+        user: root
+        password:
 
 ---
 spring:
     profiles: release
 
 app:
-    # MySQL
-    mysql-uri: jdbc:mysql://mysql-daemon:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
-    mysql-user: tessuser
-    mysql-password: leonie-mysql@ocr
+    mysql:
+        uri: jdbc:mysql://mysql-daemon:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
+        user: tessuser
+        password: leonie-mysql@ocr

@@ -2,7 +2,6 @@ package com.languagematters.tessta.grammar.service;
 
 
 import com.languagematters.tessta.grammar.util.DBUtils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class DictionaryService {
     @Autowired
     private DBUtils dbUtils;
@@ -22,6 +20,10 @@ public class DictionaryService {
     private final Connection connection;
 
     private static HashSet<String> words;
+
+    public DictionaryService(Connection connection) {
+        this.connection = connection;
+    }
 
     // Load dictionary words
     public void load() {

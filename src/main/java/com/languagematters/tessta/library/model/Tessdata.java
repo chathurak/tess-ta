@@ -1,18 +1,23 @@
 package com.languagematters.tessta.library.model;
 
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.Date;
-
-@Getter
-@Setter
 public class Tessdata {
     private int id;
     private String name;
 
-    private Date createdAt;
-    private int createdBy;
-    private Date updatedAt;
-    private int updatedBy;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

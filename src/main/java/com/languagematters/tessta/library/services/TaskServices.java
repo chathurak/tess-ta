@@ -2,7 +2,6 @@ package com.languagematters.tessta.library.services;
 
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.model.Task;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class TaskServices {
 
     private final Connection connection;
 
     @Value("${app.tempstore}")
     private String tempStorePath;
+
+    public TaskServices(Connection connection) {
+        this.connection = connection;
+    }
 
     public List<Task> getTasks(int documentId) {
         List<Task> tasks = new ArrayList<>();
@@ -39,8 +41,6 @@ public class TaskServices {
                 task.setDocumentId(result.getInt("document_id"));
                 task.setTessdataId(result.getInt("tessdata_id"));
                 task.setTessdataName(result.getString("tessdata.name"));
-                task.setCreatedAt(result.getDate("created_at"));
-                task.setUpdatedAt(result.getDate("updated_at"));
                 tasks.add(task);
             }
         } catch (SQLException ex) {
@@ -68,8 +68,6 @@ public class TaskServices {
                 task.setDocumentId(result.getInt("document_id"));
                 task.setTessdataId(result.getInt("tessdata_id"));
                 task.setTessdataName(result.getString("tessdata.name"));
-                task.setCreatedAt(result.getDate("created_at"));
-                task.setUpdatedAt(result.getDate("updated_at"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -84,8 +82,6 @@ public class TaskServices {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, task.getDocumentId());
             statement.setInt(2, task.getTessdataId());
-            statement.setDate(3, new java.sql.Date(task.getCreatedAt().getTime()));
-            statement.setDate(4, new java.sql.Date(task.getUpdatedAt().getTime()));
             statement.setString(5, task.getName());
 
             int rowsInserted = statement.executeUpdate();

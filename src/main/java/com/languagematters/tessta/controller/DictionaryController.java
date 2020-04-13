@@ -1,19 +1,19 @@
 package com.languagematters.tessta.controller;
 
 import com.languagematters.tessta.grammar.service.DictionaryService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/dictionary")
-@RequiredArgsConstructor
 public class DictionaryController {
 
-    @Autowired
     private final DictionaryService dictionaryService;
+
+    public DictionaryController(DictionaryService dictionaryService) {
+        this.dictionaryService = dictionaryService;
+    }
 
     @GetMapping
     public List<String> getWords() {

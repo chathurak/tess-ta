@@ -3,7 +3,6 @@ package com.languagematters.tessta.controller;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.service.StorageServices;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,15 @@ import static com.languagematters.tessta.Temp.USER_ID;
 
 @RestController
 @RequestMapping("/api/file")
-@RequiredArgsConstructor
 public class FileController {
 
     private final StorageServices storageServices;
     private final DocumentServices documentServices;
+
+    public FileController(StorageServices storageServices, DocumentServices documentServices) {
+        this.storageServices = storageServices;
+        this.documentServices = documentServices;
+    }
 
     @PostMapping("/process")
     public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file) {

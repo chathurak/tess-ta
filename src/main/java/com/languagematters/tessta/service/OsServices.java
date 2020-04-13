@@ -3,7 +3,7 @@ package com.languagematters.tessta.service;
 import org.jetbrains.annotations.Contract;
 
 public class OsServices {
-    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static final String OS = System.getProperty("os.name").toLowerCase();
 
     @Contract(pure = true)
     public static boolean isWindows() {

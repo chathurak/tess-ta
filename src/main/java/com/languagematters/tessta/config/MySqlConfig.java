@@ -1,6 +1,5 @@
 package com.languagematters.tessta.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,16 +8,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@RequiredArgsConstructor
 @Configuration
 public class MySqlConfig {
 
-    private final YAMLConfig config;
+    private final AppProperties appProperties;
+
+    public MySqlConfig(AppProperties appProperties) {
+        this.appProperties = appProperties;
+    }
 
     @Bean
     public Connection mysqlConnection() {
         try {
-            return DriverManager.getConnection(config.getMysqlUri(), config.getMysqlUser(), config.getMysqlPassword());
+            return DriverManager.getConnection(appProperties.getMysql().getUri(), appProperties.getMysql().getUser(),
+                    appProperties.getMysql().getPassword());
         } catch (SQLException e) {
             throw new BeanCreationException("MySQL Bean", "Failed to create MySQL Bean", e);
         }

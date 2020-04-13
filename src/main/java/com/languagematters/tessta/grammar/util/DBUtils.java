@@ -1,6 +1,5 @@
 package com.languagematters.tessta.grammar.util;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -10,10 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 @Service
-@RequiredArgsConstructor
 public class DBUtils {
 
     private final Connection connection;
+
+    public DBUtils(Connection connection) {
+        this.connection = connection;
+    }
 
     public HashMap<String, String> loadKeyVal(String sql) {
         HashMap<String, String> data = new HashMap<>();

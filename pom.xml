@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.languagematters</groupId>
@@ -17,7 +17,9 @@
     <properties>
         <frontendSrcDir>${project.basedir}/src/main/app</frontendSrcDir>
         <java.version>11</java.version>
-        <spring.version>2.2.5.RELEASE</spring.version>
+        <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+        <spring.security.version>5.3.1.RELEASE</spring.security.version>
+<!--        <spring.data.version>2.2.6.RELEASE</spring.data.version>-->
         <node.version>v13.0.1</node.version>
         <yarn.version>v1.19.1</yarn.version>
     </properties>
@@ -38,47 +40,48 @@
     </profiles>
 
     <dependencies>
-
-        <!-- Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.version}</version>
+            <version>${spring.boot.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!-- Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>5.3.0.RELEASE</version>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
-            <version>5.3.0.RELEASE</version>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
-            <version>5.3.0.RELEASE</version>
+            <version>${spring.security.version}</version>
         </dependency>
-
         <!-- Apache -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -95,48 +98,49 @@
             <artifactId>commons-exec</artifactId>
             <version>1.3</version>
         </dependency>
-
         <!-- Google APIs -->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
-            <version>1.30.5</version>
+            <version>1.30.9</version>
         </dependency>
         <dependency>
             <groupId>com.google.oauth-client</groupId>
             <artifactId>google-oauth-client-jetty</artifactId>
-            <version>1.30.4</version>
+            <version>1.30.6</version>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-drive</artifactId>
-            <version>v3-rev173-1.25.0</version>
+            <version>v3-rev197-1.25.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-sheets</artifactId>
-            <version>v4-rev1-1.21.0</version>
+            <version>v4-rev614-1.18.0-rc</version>
         </dependency>
-
         <!-- Database -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.data</groupId>-->
+<!--            <artifactId>spring-data-jpa</artifactId>-->
+<!--            <version>${spring.data.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.18</version>
+            <version>8.0.19</version>
         </dependency>
-
         <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-
         <!-- JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -148,7 +152,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.10.0</version>
         </dependency>
-
         <!-- Other -->
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -160,13 +163,6 @@
             <artifactId>guava</artifactId>
             <version>28.1-jre</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!--Test-->
         <dependency>
             <groupId>junit</groupId>

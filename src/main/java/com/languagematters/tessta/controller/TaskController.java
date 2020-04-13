@@ -5,9 +5,6 @@ import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.library.services.TaskServices;
 import com.languagematters.tessta.service.AsynchronousServices;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +20,17 @@ import static com.languagematters.tessta.Temp.USER_ACCESS_TOKEN;
 
 @RestController
 @RequestMapping("/api/task")
-@RequiredArgsConstructor
 public class TaskController {
 
     private final DocumentServices documentServices;
     private final TaskServices taskServices;
     private final AsynchronousServices asynchronousServices;
+
+    public TaskController(DocumentServices documentServices, TaskServices taskServices, AsynchronousServices asynchronousServices) {
+        this.documentServices = documentServices;
+        this.taskServices = taskServices;
+        this.asynchronousServices = asynchronousServices;
+    }
 
     @GetMapping
     public List<Task> getTasks(@RequestParam(value = "documentId") int documentId) {
@@ -53,8 +55,6 @@ public class TaskController {
         task.setName(taskId); // TODO: Set custom name for the task
         task.setDocumentId(scheduleTaskRequest.getDocumentId());
         task.setTessdataId(1);
-        task.setCreatedAt(timestamp);
-        task.setUpdatedAt(timestamp);
 
         // TODO : Format response
         try {
@@ -75,10 +75,15 @@ public class TaskController {
 
 }
 
-@Getter
-@Setter
 class ScheduleTaskRequest {
 
     private int documentId;
 
+    public int getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
+    }
 }
