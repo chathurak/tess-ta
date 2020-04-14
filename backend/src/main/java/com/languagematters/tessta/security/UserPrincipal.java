@@ -3,6 +3,7 @@ package com.languagematters.tessta.security;
 import com.languagematters.tessta.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class UserPrincipal implements OAuth2User {
+public class UserPrincipal implements OAuth2User, UserDetails {
     private final Long id;
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -23,14 +24,14 @@ public class UserPrincipal implements OAuth2User {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
-        return new UserPrincipal(
+        UserPrincipal userPrincipal = new UserPrincipal(
                 user.getId(),
                 user.getEmail(),
                 authorities
         );
+        return userPrincipal;
     }
 
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
@@ -65,4 +66,40 @@ public class UserPrincipal implements OAuth2User {
     public String getName() {
         return String.valueOf(id);
     }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
 }

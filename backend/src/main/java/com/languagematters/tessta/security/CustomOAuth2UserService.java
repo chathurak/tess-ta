@@ -2,6 +2,9 @@ package com.languagematters.tessta.security;
 
 import com.languagematters.tessta.exception.OAuth2AuthenticationProcessingException;
 import com.languagematters.tessta.model.User;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,6 +18,8 @@ import java.util.Optional;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
 
     private final UserRepository userRepository;
 
@@ -37,36 +42,37 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(),
-                oAuth2User.getAttributes());
-        if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
+        logger.error("CustomOAuth2UserService>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        GoogleOAuth2UserInfo googleOAuth2UserInfo = new GoogleOAuth2UserInfo(oAuth2User.getAttributes());
+
+        if (StringUtils.isEmpty(googleOAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+        Optional<User> userOptional = userRepository.findByEmail(googleOAuth2UserInfo.getEmail());
         User user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
-            user = updateExistingUser(user, oAuth2UserInfo);
+            user = updateExistingUser(user, googleOAuth2UserInfo);
         } else {
-            user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
+            user = registerNewUser(oAuth2UserRequest, googleOAuth2UserInfo);
         }
 
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, GoogleOAuth2UserInfo googleOAuth2UserInfo) {
         User user = new User();
 
-        user.setName(oAuth2UserInfo.getName());
-        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setName(googleOAuth2UserInfo.getName());
+        user.setEmail(googleOAuth2UserInfo.getEmail());
+        user.setImageUrl(googleOAuth2UserInfo.getImageUrl());
         return userRepository.save(user);
     }
 
-    private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
-        existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+    private User updateExistingUser(User existingUser, GoogleOAuth2UserInfo googleOAuth2UserInfo) {
+        existingUser.setName(googleOAuth2UserInfo.getName());
+        existingUser.setImageUrl(googleOAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
     }
 

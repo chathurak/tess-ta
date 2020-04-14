@@ -13,24 +13,25 @@ public class UserController {
 
     @GetMapping("/me")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(),
-                currentUser.getEmail(),
-                currentUser.getName(),
-                currentUser.getAttributes().get("imageUrl").toString());
+        UserSummary userSummary = new UserSummary(currentUser.getEmail(), currentUser.getName());
         return userSummary;
     }
 
     class UserSummary {
-        private Long id;
         private String email;
         private String name;
-        private String imageUrl;
 
-        public UserSummary(Long id, String email, String name, String imageUrl) {
-            this.id = id;
+        public UserSummary(String email, String name) {
             this.email = email;
             this.name = name;
-            this.imageUrl = imageUrl;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 

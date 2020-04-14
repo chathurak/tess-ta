@@ -2,29 +2,52 @@ package com.languagematters.tessta.security;
 
 import java.util.Map;
 
-public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
+public class GoogleOAuth2UserInfo {
+
+    private String id;
+    private String name;
+    private String email;
+    private String imageUrl;
+
+    public GoogleOAuth2UserInfo() {
+    }
 
     public GoogleOAuth2UserInfo(Map<String, Object> attributes) {
-        super(attributes);
+        this.id = (String) attributes.get("sub");
+        this.name = (String) attributes.get("name");
+        this.email = (String) attributes.get("email");
+        this.imageUrl = (String) attributes.get("picture");
     }
 
-    @Override
     public String getId() {
-        return (String) attributes.get("sub");
+        return id;
     }
 
-    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return (String) attributes.get("name");
+        return name;
     }
 
-    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
-        return (String) attributes.get("email");
+        return email;
     }
 
-    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getImageUrl() {
-        return (String) attributes.get("picture");
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

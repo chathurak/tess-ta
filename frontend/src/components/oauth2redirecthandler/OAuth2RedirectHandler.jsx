@@ -7,8 +7,6 @@ class OAuth2RedirectHandler extends Component {
 
     constructor(props) {
         super(props)
-
-        console.log('catoo')
     }
 
     getUrlParameter(name) {
@@ -26,8 +24,10 @@ class OAuth2RedirectHandler extends Component {
         if (token) {
             localStorage.setItem(ACCESS_TOKEN, token)
             return <Redirect to={{
-                pathname: '/home',
-                state   : {from: this.props.location}
+                pathname: '/',
+                state   : {
+                    from: this.props.location
+                }
             }}/>
         } else {
             return <Redirect to={{

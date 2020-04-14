@@ -42,6 +42,7 @@ class App extends React.Component {
 
         userServices.getCurrentUser()
             .then(response => {
+                console.log(response)
                 this.setState({
                     currentUser: response,
                     authenticated: true
@@ -54,7 +55,11 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        console.log('Before user')
+        console.log(this.state)
         this.loadCurrentlyLoggedInUser();
+        console.log('After user')
+        console.log(this.state)
     }
 
     render() {
