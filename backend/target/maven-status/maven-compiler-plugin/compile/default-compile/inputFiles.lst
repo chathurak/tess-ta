@@ -1,5 +1,6 @@
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/config/WebMvcConfig.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/grammar/util/FileUtils.java
+/Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/security/CurrentUser.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/config/SecurityConfig.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/report/type/ConfusionReport.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/config/MySqlConfig.java
@@ -29,6 +30,7 @@
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/library/services/DocumentServices.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/exception/OAuth2AuthenticationProcessingException.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/grammar/util/DBUtils.java
+/Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/controller/UserController.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/service/AsynchronousServices.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/model/User.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/grammar/model/LetterObj.java
@@ -55,6 +57,7 @@
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/library/services/TaskServices.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/security/HttpCookieOAuth2AuthorizationRequestRepository.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/grammar/util/TextUtils.java
+/Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/security/CustomUserDetailsService.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/library/model/Tessdata.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/grammar/checker/OptionalChecker.java
 /Users/ivantha/Git/tess-ta/backend/src/main/java/com/languagematters/tessta/controller/TaskController.java
