@@ -1,44 +1,42 @@
-import React, {Component} from 'react'
-import {Redirect}         from 'react-router-dom'
-import {ACCESS_TOKEN}     from '../../constants/auth.constants'
-import {history} from "../../helpers/history";
+import React from 'react'
+import {Redirect, withRouter} from 'react-router-dom'
+import {ACCESS_TOKEN} from '../../constants/auth.constants'
+import {withStyles} from '@material-ui/core/styles'
+import {styles} from '../../pages/signin/styles'
 
-class OAuth2RedirectHandler extends Component {
+class OAuth2RedirectHandler extends React.Component {
 
     constructor(props) {
         super(props)
     }
 
     getUrlParameter(name) {
-        name      = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
         let regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
 
         let results = regex.exec(this.props.location.search)
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '))
     };
 
-    render() {
+    componentDidMount() {
+        const {history} = this.props
+
         const token = this.getUrlParameter('token')
         const error = this.getUrlParameter('error')
 
         if (token) {
             localStorage.setItem(ACCESS_TOKEN, token)
-            return <Redirect to={{
-                pathname: '/',
-                state   : {
-                    from: this.props.location
-                }
-            }}/>
+            this.props.setAuthenticated(true)
+            history.push('/home', {from: this.props.location})
         } else {
-            return <Redirect to={{
-                pathname: '/signin',
-                state   : {
-                    from : this.props.location,
-                    error: error
-                }
-            }}/>
+            this.props.setAuthenticated(false)
+            history.push('/signin', {from: this.props.location, error: error})
         }
+    }
+
+    render() {
+        return null
     }
 }
 
-export default OAuth2RedirectHandler
+export default withRouter(OAuth2RedirectHandler)

@@ -2,7 +2,6 @@ package com.languagematters.tessta.security;
 
 import com.languagematters.tessta.exception.OAuth2AuthenticationProcessingException;
 import com.languagematters.tessta.model.User;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -42,7 +41,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        logger.error("CustomOAuth2UserService>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         GoogleOAuth2UserInfo googleOAuth2UserInfo = new GoogleOAuth2UserInfo(oAuth2User.getAttributes());
 
         if (StringUtils.isEmpty(googleOAuth2UserInfo.getEmail())) {

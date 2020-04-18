@@ -18,13 +18,12 @@ import java.io.IOException;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
+
     @Autowired
     private TokenProvider tokenProvider;
-
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
-
-    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
