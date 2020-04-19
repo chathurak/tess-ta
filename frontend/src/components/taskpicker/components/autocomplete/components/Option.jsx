@@ -10,7 +10,7 @@ class Option extends Component {
                 selected={this.props.isFocused}
                 component="div"
                 style={{
-                    fontWeight: this.props.isSelected ? 500 : 400,
+                    fontWeight: this.props.isSelected ? 500 : 400
                 }}
                 {...this.props.innerProps}
             >

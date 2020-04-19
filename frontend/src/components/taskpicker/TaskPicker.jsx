@@ -13,8 +13,8 @@ class TaskPicker extends React.Component {
         super(props)
 
         this.state = {
-            selectedTask: null,
-            selectedDocument: null,
+            selectedTask    : null,
+            selectedDocument: null
         }
     }
 
@@ -74,7 +74,7 @@ class TaskPicker extends React.Component {
 
 TaskPicker.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme  : PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired
 }
 
 export default withStyles(styles, {withTheme: true})(TaskPicker)

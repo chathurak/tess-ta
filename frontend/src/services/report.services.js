@@ -9,7 +9,7 @@ const getTasksSummary = () => {
             {name: 'Task 01', uv: 400, pv: 2400, amt: 2400},
             {name: 'Task 02', uv: 300, pv: 2400, amt: 2400},
             {name: 'Task 03', uv: 50, pv: 2400, amt: 2400},
-            {name: 'Task 03', uv: 600, pv: 2400, amt: 2400},
+            {name: 'Task 03', uv: 600, pv: 2400, amt: 2400}
         ])
     })
 }

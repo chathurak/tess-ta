@@ -25,7 +25,7 @@ import {ACCESS_TOKEN}   from '../../constants/auth.constants'
 class Sidebar extends React.Component {
 
     state = {
-        mobileOpen: false,
+        mobileOpen: false
     }
 
     handleDrawerToggle = () => {
@@ -96,9 +96,9 @@ class Sidebar extends React.Component {
                         <ListItemText primary="Settings"/>
                     </ListItem>
                     <Divider/>
-                    <ListItem className={classes.signOutButton} button component={Link} to="/signout">
+                    <ListItem className={classes.signOutButton} button component={Link} to="/test">
                         <ListItemIcon>
-                            <ExitToAppIcon  className={classes.signOutIcon}/>
+                            <ExitToAppIcon className={classes.signOutIcon}/>
                         </ListItemIcon>
                         <ListItemText primary="Sign Out"/>
                     </ListItem>
@@ -117,7 +117,7 @@ class Sidebar extends React.Component {
                         open={this.state.mobileOpen}
                         onClose={this.handleDrawerToggle}
                         classes={{
-                            paper: classes.drawerPaper,
+                            paper: classes.drawerPaper
                         }}
                     >
                         {drawer}
@@ -126,7 +126,7 @@ class Sidebar extends React.Component {
                 <Hidden xsDown implementation="css">
                     <Drawer
                         classes={{
-                            paper: classes.drawerPaper,
+                            paper: classes.drawerPaper
                         }}
                         variant="permanent"
                         open
@@ -142,7 +142,7 @@ class Sidebar extends React.Component {
 
 Sidebar.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme  : PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired
 }
 
 export default withStyles(styles, {withTheme: true})(Sidebar)

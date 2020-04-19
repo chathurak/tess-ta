@@ -11,7 +11,7 @@ class MultiValue extends Component {
                 tabIndex={-1}
                 label={this.props.children}
                 className={classNames(this.props.selectProps.classes.chip, {
-                    [this.props.selectProps.classes.chipFocused]: this.props.isFocused,
+                    [this.props.selectProps.classes.chipFocused]: this.props.isFocused
                 })}
                 onDelete={this.props.removeProps.onClick}
                 deleteIcon={<CancelIcon {...this.props.removeProps} />}

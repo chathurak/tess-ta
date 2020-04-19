@@ -1,15 +1,15 @@
-import {withStyles} from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
-import React, {lazy, Suspense} from 'react'
-import {Redirect, Route, Router, Switch, withRouter} from 'react-router-dom'
-import styles from './App.styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import PrivateRoute from './components/privateroute/PrivateRoute'
-import {ACCESS_TOKEN} from './constants/auth.constants'
+import {withStyles}                        from '@material-ui/core/styles'
+import PropTypes                           from 'prop-types'
+import React, {lazy, Suspense}             from 'react'
+import {Route, Switch, withRouter} from 'react-router-dom'
+import styles                              from './App.styles'
+import CssBaseline                         from '@material-ui/core/CssBaseline'
+import PrivateRoute                        from './components/privateroute/PrivateRoute'
+import {ACCESS_TOKEN}                      from './constants/auth.constants'
 
-const SignIn = lazy(() => import(/* webpackChunkName: "SignIn" */ './pages/signin/SignIn'))
+const SignIn                = lazy(() => import(/* webpackChunkName: "SignIn" */ './components/signin/SignIn'))
 const OAuth2RedirectHandler = lazy(() => import(/* webpackChunkName: "OAuth2RedirectHandler" */ './components/oauth2redirecthandler/OAuth2RedirectHandler'))
-const ManagementConsole = lazy(() => import(/* webpackChunkName: "SignIn" */ './pages/managementconsole/ManagementConsole'))
+const ManagementConsole     = lazy(() => import(/* webpackChunkName: "SignIn" */ './components/managementconsole/ManagementConsole'))
 
 
 class App extends React.Component {
@@ -19,13 +19,13 @@ class App extends React.Component {
 
         this.state = {
             authenticated: false,
-            currentUser: null
+            currentUser  : null
         }
 
         if (localStorage.getItem(ACCESS_TOKEN)) {
             this.state = {
                 authenticated: true,
-                currentUser: null
+                currentUser  : null
             }
         }
     }
@@ -68,7 +68,8 @@ class App extends React.Component {
                         <Route path="/signin"
                                render={(props) => <SignIn authenticated={this.state.authenticated} {...props} />}/>
                         <Route path="/oauth2/redirect"
-                               render={(props) => <OAuth2RedirectHandler authenticated={this.state.authenticated} setAuthenticated={this.setAuthenticated} {...props} />}/>
+                               render={(props) => <OAuth2RedirectHandler authenticated={this.state.authenticated}
+                                                                         setAuthenticated={this.setAuthenticated} {...props} />}/>
                         <PrivateRoute path="/" component={ManagementConsole}
                                       authenticated={this.state.authenticated}
                                       currentUser={this.state.currentUser}/>
@@ -82,7 +83,7 @@ class App extends React.Component {
 
 App.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired
+    theme  : PropTypes.object.isRequired
 }
 
 export default withRouter((withStyles(styles, {withTheme: true})(App)))

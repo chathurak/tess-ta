@@ -12,8 +12,8 @@ const process = (taskId) => {
     }).then((res) => {
         console.log(res.data) // TODO: temp
         let result = {
-            input   : res.data.input,
-            output  : res.data.output,
+            input : res.data.input,
+            output: res.data.output
         }
 
         return new Promise((resolve, reject) => {
@@ -26,5 +26,5 @@ const process = (taskId) => {
 
 
 export const grammarServices = {
-    process,
+    process
 }

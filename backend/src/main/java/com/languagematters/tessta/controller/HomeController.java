@@ -26,6 +26,7 @@ public class HomeController {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public Principal testFun() {
+        System.out.println("Doing some tests!");
         return null;
     }
 

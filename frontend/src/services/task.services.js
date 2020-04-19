@@ -1,5 +1,5 @@
-import axios          from 'axios/index'
-import {ACCESS_TOKEN} from '../constants/auth.constants'
+import axios                          from 'axios/index'
+import {ACCESS_TOKEN, G_ACCESS_TOKEN} from '../constants/auth.constants'
 
 const getTasks = (documentId) => {
     return axios.request({
@@ -29,12 +29,13 @@ const getTasks = (documentId) => {
 }
 
 const scheduleTask = (documentId) => {
+    let accessToken = localStorage.getItem(G_ACCESS_TOKEN)
     return axios.request({
         method : 'post',
         url    : '/api/task/schedule',
-        data   : JSON.stringify({documentId}),
+        data   : JSON.stringify({accessToken, documentId}),
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
         }
     })

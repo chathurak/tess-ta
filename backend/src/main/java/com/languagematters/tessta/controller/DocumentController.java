@@ -3,11 +3,17 @@ package com.languagematters.tessta.controller;
 import com.languagematters.tessta.grammar.util.DBUtils;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
-import org.springframework.web.bind.annotation.*;
+import com.languagematters.tessta.security.CurrentUser;
+import com.languagematters.tessta.security.UserPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.languagematters.tessta.Temp.USER_ID;
 
 @RestController
 @RequestMapping("/api/document")
@@ -22,8 +28,8 @@ public class DocumentController {
     }
 
     @GetMapping
-    public List<UserFile> getUserFiles() {
-        return documentServices.getDocuments(USER_ID);
+    public List<UserFile> getUserFiles(@CurrentUser UserPrincipal currentUser) {
+        return documentServices.getDocuments(currentUser.getId());
     }
 
     @DeleteMapping

@@ -12,8 +12,8 @@ public class ConfusionMap {
     // TODO :  Make this more efficient by first reading the whole text and count the unique characters
     // TODO : Two hash maps => Multidimensional array of integers
 
-    private HashMap<String, HashMap<String, Integer>> countMap = new HashMap<>();
-    private HashMap<String, HashMap<String, ArrayList<String>>> wordMap = new HashMap<>();
+    private final HashMap<String, HashMap<String, Integer>> countMap = new HashMap<>();
+    private final HashMap<String, HashMap<String, ArrayList<String>>> wordMap = new HashMap<>();
 
     public ConfusionMap(DiffList diffList) {
         List<CustomDiff> deltas = diffList.getCustomDiffs();
@@ -68,7 +68,7 @@ public class ConfusionMap {
         return countMap.keySet();
     }
 
-    public Set<String> getOutputKeySet(String inputKey){
+    public Set<String> getOutputKeySet(String inputKey) {
         return countMap.get(inputKey).keySet();
     }
 

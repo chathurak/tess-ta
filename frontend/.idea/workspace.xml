@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="894de738-adbf-44b4-afd2-1e319bcd8128" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/oauth2redirecthandler/OAuth2RedirectHandler.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/oauth2redirecthandler/OAuth2RedirectHandler.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/managementconsole/ManagementConsole.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managementconsole/ManagementConsole.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/signin/SignIn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/signin/SignIn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/settings/Settings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/settings/Settings.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/task.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/task.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +46,12 @@
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/settings" />
+      <recent name="$PROJECT_DIR$/src/components" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -79,7 +85,11 @@
       <workItem from="1586797659293" duration="4351000" />
       <workItem from="1586855754876" duration="9074000" />
       <workItem from="1587233504488" duration="3776000" />
-      <workItem from="1587238993130" duration="325000" />
+      <workItem from="1587238993130" duration="1958000" />
+      <workItem from="1587264189177" duration="747000" />
+      <workItem from="1587265428669" duration="4534000" />
+      <workItem from="1587285022279" duration="796000" />
+      <workItem from="1587287188032" duration="125000" />
     </task>
     <servers />
   </component>
@@ -87,22 +97,22 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="311" key="GridCell.Tab.0.bottom" timestamp="1587238574197">
+    <state width="1899" height="311" key="GridCell.Tab.0.bottom" timestamp="1587287175491">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
-    <state width="1899" height="311" key="GridCell.Tab.0.bottom/0.23.1920.1120@0.23.1920.1120" timestamp="1587238574197" />
-    <state width="1899" height="311" key="GridCell.Tab.0.center" timestamp="1587238574196">
+    <state width="1899" height="311" key="GridCell.Tab.0.bottom/0.23.1920.1120@0.23.1920.1120" timestamp="1587287175491" />
+    <state width="1899" height="311" key="GridCell.Tab.0.center" timestamp="1587287175491">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
-    <state width="1899" height="311" key="GridCell.Tab.0.center/0.23.1920.1120@0.23.1920.1120" timestamp="1587238574196" />
-    <state width="1899" height="311" key="GridCell.Tab.0.left" timestamp="1587238574196">
+    <state width="1899" height="311" key="GridCell.Tab.0.center/0.23.1920.1120@0.23.1920.1120" timestamp="1587287175491" />
+    <state width="1899" height="311" key="GridCell.Tab.0.left" timestamp="1587287175490">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
-    <state width="1899" height="311" key="GridCell.Tab.0.left/0.23.1920.1120@0.23.1920.1120" timestamp="1587238574196" />
-    <state width="1899" height="311" key="GridCell.Tab.0.right" timestamp="1587238574196">
+    <state width="1899" height="311" key="GridCell.Tab.0.left/0.23.1920.1120@0.23.1920.1120" timestamp="1587287175490" />
+    <state width="1899" height="311" key="GridCell.Tab.0.right" timestamp="1587287175491">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
-    <state width="1899" height="311" key="GridCell.Tab.0.right/0.23.1920.1120@0.23.1920.1120" timestamp="1587238574196" />
+    <state width="1899" height="311" key="GridCell.Tab.0.right/0.23.1920.1120@0.23.1920.1120" timestamp="1587287175491" />
     <state width="1899" height="383" key="GridCell.Tab.1.bottom" timestamp="1587238574127">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
@@ -151,10 +161,14 @@
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
     <state width="1899" height="383" key="GridCell.Tab.3.right/0.23.1920.1120@0.23.1920.1120" timestamp="1587238574128" />
-    <state x="461" y="222" key="SettingsEditor" timestamp="1586856568038">
+    <state x="461" y="222" key="SettingsEditor" timestamp="1587242335259">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>
-    <state x="461" y="222" key="SettingsEditor/0.23.1920.1120@0.23.1920.1120" timestamp="1586856568038" />
+    <state x="461" y="222" key="SettingsEditor/0.23.1920.1120@0.23.1920.1120" timestamp="1587242335259" />
+    <state x="100" y="123" width="1720" height="920" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587268317945">
+      <screen x="0" y="23" width="1920" height="1120" />
+    </state>
+    <state x="100" y="123" width="1720" height="920" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1920.1120@0.23.1920.1120" timestamp="1587268317945" />
     <state x="660" y="218" width="600" height="729" key="find.popup" timestamp="1586829248250">
       <screen x="0" y="23" width="1920" height="1120" />
     </state>

@@ -1,46 +1,46 @@
-import * as React        from "react";
-import Button            from "@material-ui/core/Button";
-import TextField         from "@material-ui/core/TextField";
-import Dialog            from "@material-ui/core/Dialog";
-import DialogActions     from "@material-ui/core/DialogActions";
-import DialogContent     from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle       from "@material-ui/core/DialogTitle";
+import * as React        from 'react'
+import Button            from '@material-ui/core/Button'
+import TextField         from '@material-ui/core/TextField'
+import Dialog            from '@material-ui/core/Dialog'
+import DialogActions     from '@material-ui/core/DialogActions'
+import DialogContent     from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle       from '@material-ui/core/DialogTitle'
 
 export default function FormDialog(props) {
-    const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState(props.value);
+    const [open, setOpen]   = React.useState(false)
+    const [value, setValue] = React.useState(props.value)
 
     function handleClickOpen() {
-        setOpen(true);
+        setOpen(true)
     }
 
     function handleCancel() {
-        setOpen(false);
+        setOpen(false)
     }
 
     function handleOk() {
-        setOpen(false);
-        props.onOk(value);
+        setOpen(false)
+        props.onOk(value)
     }
 
     function handleChange(event) {
-        setValue(event.target.value);
+        setValue(event.target.value)
     }
 
     return (
         <div>
             <Button
-                variant = "outlined"
-                color   = "secondary"
-                onClick = {handleClickOpen}
+                variant="outlined"
+                color="secondary"
+                onClick={handleClickOpen}
             >
                 {props.label}
             </Button>
             <Dialog
-                open            = {open}
-                onClose         = {handleCancel}
-                aria-labelledby = "form-dialog-title"
+                open={open}
+                onClose={handleCancel}
+                aria-labelledby="form-dialog-title"
             >
                 <DialogTitle id="form-dialog-title">{props.title}</DialogTitle>
                 <DialogContent>
@@ -64,5 +64,5 @@ export default function FormDialog(props) {
                 </DialogActions>
             </Dialog>
         </div>
-    );
+    )
 }

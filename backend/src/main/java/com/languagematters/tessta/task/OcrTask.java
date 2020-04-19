@@ -19,12 +19,18 @@ import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,6 +80,8 @@ public class OcrTask {
     }
 
     public void process() {
+        System.out.println("Access tokennnnnnn");
+        System.out.println(accessToken);
         try {
             Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
             Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);

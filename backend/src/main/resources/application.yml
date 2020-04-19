@@ -21,7 +21,9 @@ spring:
                         scope:
                             - email
                             - profile
+#                            - openid
                             - https://www.googleapis.com/auth/drive.file
+#                            - https://www.googleapis.com/auth/drive.appdata
 app:
     auth:
         tokenSecret: 926D96C90030DD58429D2751AC1BDBBC

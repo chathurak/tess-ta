@@ -3,15 +3,34 @@ package com.languagematters.tessta.report.type;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.model.*;
+import com.google.api.services.sheets.v4.model.AddConditionalFormatRuleRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
+import com.google.api.services.sheets.v4.model.BatchUpdateValuesRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateValuesResponse;
+import com.google.api.services.sheets.v4.model.BooleanCondition;
+import com.google.api.services.sheets.v4.model.BooleanRule;
+import com.google.api.services.sheets.v4.model.CellFormat;
+import com.google.api.services.sheets.v4.model.Color;
+import com.google.api.services.sheets.v4.model.ConditionValue;
+import com.google.api.services.sheets.v4.model.ConditionalFormatRule;
+import com.google.api.services.sheets.v4.model.DimensionProperties;
+import com.google.api.services.sheets.v4.model.DimensionRange;
+import com.google.api.services.sheets.v4.model.GridRange;
+import com.google.api.services.sheets.v4.model.Request;
+import com.google.api.services.sheets.v4.model.UpdateDimensionPropertiesRequest;
+import com.google.api.services.sheets.v4.model.ValueRange;
 import com.languagematters.tessta.report.model.ConfusionMap;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ConfusionSummaryReport {
 
-    private List<List<Object>> rows;
+    private final List<List<Object>> rows;
 
     public ConfusionSummaryReport(ConfusionMap confusionMap) {
         rows = new ArrayList<>();

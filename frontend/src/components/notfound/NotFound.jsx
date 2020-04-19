@@ -26,7 +26,7 @@ class NotFound extends Component {
 
 NotFound.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme  : PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired
 }
 
 export default withStyles(styles, {withTheme: true})(NotFound)

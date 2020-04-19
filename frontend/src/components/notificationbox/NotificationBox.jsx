@@ -1,36 +1,36 @@
-import React           from 'react';
+import React           from 'react'
 import {withStyles}    from '@material-ui/core/styles'
 import {styles}        from './styles'
-import Snackbar        from '@material-ui/core/Snackbar';
-import IconButton      from '@material-ui/core/IconButton';
-import CloseIcon       from '@material-ui/icons/Close';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar        from '@material-ui/core/Snackbar'
+import IconButton      from '@material-ui/core/IconButton'
+import CloseIcon       from '@material-ui/icons/Close'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 
-class NotificationBox extends React.Component  {
+class NotificationBox extends React.Component {
     constructor(props) {
-        super(props);
-    
+        super(props)
+
         this.state = {
-            open: false,
+            open   : false,
             message: this.props.message,
-            type: 'success'
-        };
+            type   : 'success'
+        }
     }
 
     showSuccess = (message) => {
         this.setState({
             message: message,
-            type: 'success',
-            open: true
+            type   : 'success',
+            open   : true
         })
     }
 
     showError = (message) => {
         this.setState({
             message: message,
-            type: 'error',
-            open: true
+            type   : 'error',
+            open   : true
         })
     }
 
@@ -50,27 +50,27 @@ class NotificationBox extends React.Component  {
                         root: classes.root
                     }}
                     anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left"
-                    }} 
+                        vertical  : 'bottom',
+                        horizontal: 'left'
+                    }}
                     autoHideDuration={3000}
                     onClose={this.handleClose}
                     open={this.state.open}
                 >
-                    <SnackbarContent 
+                    <SnackbarContent
                         message={<span>{this.state.message}</span>}
                         className={classes[this.state.type]}
                         action={
-                        <IconButton color="inherit" onClick={this.handleClose}>
-                            <CloseIcon />
-                        </IconButton>
-                    }
+                            <IconButton color="inherit" onClick={this.handleClose}>
+                                <CloseIcon/>
+                            </IconButton>
+                        }
                     >
                     </SnackbarContent>
                 </Snackbar>
             </div>
         )
- 
+
     };
 }
 

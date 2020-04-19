@@ -1,21 +1,21 @@
-import * as React        from "react";
-import Button            from "@material-ui/core/Button";
-import Dialog            from "@material-ui/core/Dialog";
-import DialogActions     from "@material-ui/core/DialogActions";
-import DialogContent     from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle       from "@material-ui/core/DialogTitle";
+import * as React        from 'react'
+import Button            from '@material-ui/core/Button'
+import Dialog            from '@material-ui/core/Dialog'
+import DialogActions     from '@material-ui/core/DialogActions'
+import DialogContent     from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle       from '@material-ui/core/DialogTitle'
 
-export default class FormDialog extends React.Component  {
+export default class FormDialog extends React.Component {
     constructor(props) {
-        super(props);
-    
+        super(props)
+
         this.state = {
-            action: this.props.action,
-            title: this.props.title,
+            action : this.props.action,
+            title  : this.props.title,
             message: this.props.message,
-            open: false,
-        };
+            open   : false
+        }
     }
 
     show = () => {
@@ -34,7 +34,7 @@ export default class FormDialog extends React.Component  {
         this.setState({
             open: false
         })
-        this.props.onOk(this.state.value);
+        this.props.onOk(this.state.value)
     }
 
     render() {
@@ -61,6 +61,6 @@ export default class FormDialog extends React.Component  {
                 </Dialog>
             </div>
         )
- 
+
     };
 }

@@ -4,6 +4,8 @@ import com.languagematters.tessta.grammar.model.WordObj;
 import com.languagematters.tessta.grammar.service.GrammarService;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.services.TaskServices;
+import com.languagematters.tessta.security.CurrentUser;
+import com.languagematters.tessta.security.UserPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.languagematters.tessta.Temp.USERNAME;
 
 @RestController
 public class GrammarController {
@@ -26,9 +26,9 @@ public class GrammarController {
     }
 
     @RequestMapping(value = "/api/grammar/process", method = RequestMethod.GET)
-    public Map<String, Object> process(@RequestParam(value = "taskId") int taskId) {
+    public Map<String, Object> process(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "taskId") int taskId) {
 
-        String text = this.taskServices.getTaskOutputContent(taskId, USERNAME);
+        String text = this.taskServices.getTaskOutputContent(taskId, currentUser.getEmail());
         List<WordObj> result = grammarService.process(text);
 
         Map<String, Object> res = new HashMap<>();

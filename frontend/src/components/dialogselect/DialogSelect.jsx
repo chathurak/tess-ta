@@ -1,22 +1,22 @@
-import * as React        from "react";
-import Button            from "@material-ui/core/Button";
-import Dialog            from "@material-ui/core/Dialog";
-import DialogActions     from "@material-ui/core/DialogActions";
-import DialogContent     from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle       from "@material-ui/core/DialogTitle";
-import List              from '@material-ui/core/List';
-import ListItem          from '@material-ui/core/ListItem';
-import ListItemText      from '@material-ui/core/ListItemText';
+import * as React        from 'react'
+import Button            from '@material-ui/core/Button'
+import Dialog            from '@material-ui/core/Dialog'
+import DialogActions     from '@material-ui/core/DialogActions'
+import DialogContent     from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle       from '@material-ui/core/DialogTitle'
+import List              from '@material-ui/core/List'
+import ListItem          from '@material-ui/core/ListItem'
+import ListItemText      from '@material-ui/core/ListItemText'
 
-export default class FormDialog extends React.Component  {
+export default class FormDialog extends React.Component {
     constructor(props) {
-        super(props);
-    
+        super(props)
+
         this.state = {
-            open: false,
-            items: this.props.items,
-        };
+            open : false,
+            items: this.props.items
+        }
     }
 
     show = () => {
@@ -35,7 +35,7 @@ export default class FormDialog extends React.Component  {
         this.setState({
             open: false
         })
-        this.props.onOk(index);
+        this.props.onOk(index)
     }
 
     handleChange = (event) => {
@@ -48,9 +48,9 @@ export default class FormDialog extends React.Component  {
         return (
             <div>
                 <Dialog
-                    open            = {this.state.open}
-                    onClose         = {this.handleCancel}
-                    aria-labelledby = "form-dialog-title"
+                    open={this.state.open}
+                    onClose={this.handleCancel}
+                    aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>
                     <DialogContent>
@@ -59,7 +59,7 @@ export default class FormDialog extends React.Component  {
                         <List component="nav" aria-label="main mailbox folders">
                             {this.props.items.map((item, index) => (
                                 <ListItem button onClick={() => this.handleOk(index)} key={index}>
-                                    <ListItemText primary={item} />
+                                    <ListItemText primary={item}/>
                                 </ListItem>
                             ))}
                         </List>
@@ -73,6 +73,6 @@ export default class FormDialog extends React.Component  {
                 </Dialog>
             </div>
         )
- 
+
     };
 }

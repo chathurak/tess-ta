@@ -2,16 +2,18 @@ package com.languagematters.tessta.controller;
 
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
+import com.languagematters.tessta.security.CurrentUser;
+import com.languagematters.tessta.security.UserPrincipal;
 import com.languagematters.tessta.service.StorageServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Date;
-
-import static com.languagematters.tessta.Temp.USERNAME;
-import static com.languagematters.tessta.Temp.USER_ID;
 
 @RestController
 @RequestMapping("/api/file")
@@ -26,17 +28,15 @@ public class FileController {
     }
 
     @PostMapping("/process")
-    public ResponseEntity<String> process(@RequestParam("filepond") MultipartFile file) {
-        Date timestamp = new Date();
-
+    public ResponseEntity<String> process(@CurrentUser UserPrincipal currentUser, @RequestParam("filepond") MultipartFile file) {
         try {
             UserFile userFile = new UserFile();
-            userFile.setUserId(USER_ID);
+            userFile.setUserId(currentUser.getId());
             userFile.setName(file.getOriginalFilename());
             userFile.setOriginalFileName(file.getOriginalFilename());
             int fileId = documentServices.createDocument(userFile);
 
-            storageServices.store(file, String.format("%s/%d/", USERNAME, fileId));
+            storageServices.store(file, String.format("%s/%d/", currentUser.getEmail(), fileId));
 
             return ResponseEntity
                     .status(HttpStatus.OK)

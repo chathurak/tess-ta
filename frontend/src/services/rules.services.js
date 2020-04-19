@@ -10,8 +10,8 @@ const getRules = (ruleType) => {
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
         }
     }).then((res) => {
-        let result = res.data;
-        result.sort();
+        let result = res.data
+        result.sort()
 
         return new Promise((resolve, reject) => {
             resolve(result)

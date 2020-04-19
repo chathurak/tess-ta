@@ -1,10 +1,10 @@
-import { green, red } from '@material-ui/core/colors';
+import {green, red} from '@material-ui/core/colors'
 
 export const styles = (theme) => ({
     success: {
         backgroundColor: green[600]
     },
-    error: {
+    error  : {
         backgroundColor: red[600]
     }
 })

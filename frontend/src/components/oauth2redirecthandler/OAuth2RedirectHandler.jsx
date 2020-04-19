@@ -1,17 +1,11 @@
-import React from 'react'
-import {Redirect, withRouter} from 'react-router-dom'
+import React          from 'react'
+import {withRouter}   from 'react-router-dom'
 import {ACCESS_TOKEN} from '../../constants/auth.constants'
-import {withStyles} from '@material-ui/core/styles'
-import {styles} from '../../pages/signin/styles'
 
 class OAuth2RedirectHandler extends React.Component {
 
-    constructor(props) {
-        super(props)
-    }
-
     getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
+        name      = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
         let regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
 
         let results = regex.exec(this.props.location.search)

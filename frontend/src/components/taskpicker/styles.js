@@ -10,11 +10,11 @@ export const styles = (theme) => ({
     datetimepicker    : {
         width: '180px',
 
-        margin: theme.spacing(1.5),
+        margin: theme.spacing(1.5)
     },
     select            : {
         width: '300px',
 
-        padding: theme.spacing(1.5),
+        padding: theme.spacing(1.5)
     }
 })

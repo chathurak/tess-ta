@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import static com.languagematters.tessta.report.google.Operation.*;
+import static com.languagematters.tessta.report.google.Operation.DELETE;
+import static com.languagematters.tessta.report.google.Operation.EQUAL;
+import static com.languagematters.tessta.report.google.Operation.INSERT;
 
 public class DiffServices {
 

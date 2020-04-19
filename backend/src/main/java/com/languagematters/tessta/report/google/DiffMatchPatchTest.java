@@ -5,14 +5,19 @@ import com.languagematters.tessta.report.google.DiffMatchPatch.LinesToCharsResul
 import com.languagematters.tessta.report.google.DiffMatchPatch.Patch;
 import junit.framework.TestCase;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class DiffMatchPatchTest extends TestCase {
 
     private DiffMatchPatch dmp;
-    private Operation DELETE = Operation.DELETE;
-    private Operation EQUAL = Operation.EQUAL;
-    private Operation INSERT = Operation.INSERT;
+    private final Operation DELETE = Operation.DELETE;
+    private final Operation EQUAL = Operation.EQUAL;
+    private final Operation INSERT = Operation.INSERT;
 
     // Construct the two texts which made up the diff originally.
     private static String[] diff_rebuildtexts(LinkedList<Diff> diffs) {
@@ -405,10 +410,10 @@ public class DiffMatchPatchTest extends TestCase {
         // Verify pool of unchanged characters.
         diffs = diffList(new Diff(INSERT, "A-Z _-z 0-9 - _ . ! ~ * ' ( ) ; / ? : @ & = + $ , # "));
         String text2 = dmp.diff_text2(diffs);
-        assertEquals("diff_text2: Unchanged characters.", "A-Z _-z 0-9 - _ . ! ~ * \' ( ) ; / ? : @ & = + $ , # ", text2);
+        assertEquals("diff_text2: Unchanged characters.", "A-Z _-z 0-9 - _ . ! ~ * ' ( ) ; / ? : @ & = + $ , # ", text2);
 
         delta = dmp.diff_toDelta(diffs);
-        assertEquals("diff_toDelta: Unchanged characters.", "+A-Z _-z 0-9 - _ . ! ~ * \' ( ) ; / ? : @ & = + $ , # ", delta);
+        assertEquals("diff_toDelta: Unchanged characters.", "+A-Z _-z 0-9 - _ . ! ~ * ' ( ) ; / ? : @ & = + $ , # ", delta);
 
         // Convert delta string into _ diff.
         assertEquals("diff_fromDelta: Unchanged characters.", diffs, dmp.diff_fromDelta("", delta));

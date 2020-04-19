@@ -7,7 +7,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +26,13 @@ public class DocumentServices {
         this.appProperties = appProperties;
     }
 
-    public List<UserFile> getDocuments(int userId) {
+    public List<UserFile> getDocuments(long userId) {
         List<UserFile> userFiles = new ArrayList<>();
 
         try {
             String sql = "SELECT * FROM document where user_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, userId);
+            statement.setLong(1, userId);
 
             ResultSet result = statement.executeQuery();
             while (result.next()) {
@@ -46,13 +50,13 @@ public class DocumentServices {
         return userFiles;
     }
 
-    public UserFile getDocument(int documentId) {
+    public UserFile getDocument(long documentId) {
         UserFile userFile = new UserFile();
 
         try {
             String sql = "SELECT * FROM document WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, documentId);
+            statement.setLong(1, documentId);
 
             ResultSet result = statement.executeQuery();
             while (result.next()) {
@@ -70,9 +74,9 @@ public class DocumentServices {
 
     public int createDocument(@NotNull UserFile userFile) {
         try {
-            String sql = "INSERT INTO document (user_id, name, original_file_name, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO document (user_id, name, original_file_name) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, userFile.getUserId());
+            statement.setLong(1, userFile.getUserId());
             statement.setString(2, userFile.getName());
             statement.setString(3, userFile.getOriginalFileName());
 

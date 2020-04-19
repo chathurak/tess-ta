@@ -11,8 +11,8 @@ const getWords = () => {
         }
     }).then((res) => {
         // console.log(res.data) // TODO: temp
-        let result = res.data;
-        result.sort();
+        let result = res.data
+        result.sort()
 
         return new Promise((resolve, reject) => {
             resolve(result)

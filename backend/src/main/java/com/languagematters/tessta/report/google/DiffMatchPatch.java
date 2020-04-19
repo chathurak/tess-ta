@@ -1,10 +1,16 @@
 package com.languagematters.tessta.report.google;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,14 +64,14 @@ public class DiffMatchPatch {
     /**
      * The number of bits in an int.
      */
-    private short Match_MaxBits = 32;
+    private final short Match_MaxBits = 32;
     // Define some regex patterns for matching boundaries.
-    private Pattern BLANKLINEEND
+    private final Pattern BLANKLINEEND
             = Pattern.compile("\\n\\r?\\n\\Z", Pattern.DOTALL);
 
 
     //  DIFF FUNCTIONS
-    private Pattern BLANKLINESTART
+    private final Pattern BLANKLINESTART
             = Pattern.compile("\\A\\r?\\n\\r?\\n", Pattern.DOTALL);
 
     /**
@@ -1545,7 +1551,7 @@ public class DiffMatchPatch {
             // Nothing to match.
             return -1;
         } else if (loc + pattern.length() <= text.length()
-                && text.substring(loc, loc + pattern.length()).equals(pattern)) {
+                && text.startsWith(pattern, loc)) {
             // Perfect match at the perfect spot!  (Includes case of null pattern)
             return loc;
         } else {

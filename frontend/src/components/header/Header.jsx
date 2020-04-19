@@ -1,16 +1,16 @@
-import {withStyles}          from '@material-ui/core/styles'
-import AppBar                from '@material-ui/core/AppBar/index'
-import IconButton            from '@material-ui/core/IconButton/index'
-import Toolbar               from '@material-ui/core/Toolbar/index'
-import Typography            from '@material-ui/core/Typography/index'
-import MenuIcon              from '@material-ui/icons/Menu'
-import PropTypes             from 'prop-types'
-import * as React            from 'react'
-import {styles}              from './styles'
+import {withStyles} from '@material-ui/core/styles'
+import AppBar       from '@material-ui/core/AppBar/index'
+import IconButton   from '@material-ui/core/IconButton/index'
+import Toolbar      from '@material-ui/core/Toolbar/index'
+import Typography   from '@material-ui/core/Typography/index'
+import MenuIcon     from '@material-ui/icons/Menu'
+import PropTypes    from 'prop-types'
+import * as React   from 'react'
+import {styles}     from './styles'
 
 class Header extends React.Component {
     state = {
-        mobileOpen: false,
+        mobileOpen: false
     }
 
     handleDrawerToggle = () => {
@@ -42,7 +42,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles, {withTheme: true})(Header)

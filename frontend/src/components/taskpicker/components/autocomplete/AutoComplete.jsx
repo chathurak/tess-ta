@@ -21,20 +21,20 @@ const components = {
     Option,
     Placeholder,
     SingleValue,
-    ValueContainer,
+    ValueContainer
 }
 
 class AutoComplete extends React.Component {
 
     state = {
         single: null,
-        multi : null,
+        multi : null
     }
 
     handleChange = (name, outerFun) => {
         return value => {
             this.setState({
-                [name]: value,
+                [name]: value
             })
 
             outerFun(value)
@@ -50,9 +50,9 @@ class AutoComplete extends React.Component {
                 ...base,
                 color    : theme.palette.text.primary,
                 '& input': {
-                    font: 'inherit',
-                },
-            }),
+                    font: 'inherit'
+                }
+            })
         }
 
         return (
@@ -64,8 +64,8 @@ class AutoComplete extends React.Component {
                         textFieldProps={{
                             label          : this.props.label,
                             InputLabelProps: {
-                                shrink: true,
-                            },
+                                shrink: true
+                            }
                         }}
                         options={options}
                         components={components}
@@ -84,7 +84,7 @@ class AutoComplete extends React.Component {
 
 AutoComplete.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme  : PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired
 }
 
 export default withStyles(styles, {withTheme: true})(AutoComplete)

@@ -4,19 +4,23 @@ import com.languagematters.tessta.library.model.Task;
 import com.languagematters.tessta.library.model.UserFile;
 import com.languagematters.tessta.library.services.DocumentServices;
 import com.languagematters.tessta.library.services.TaskServices;
+import com.languagematters.tessta.security.CurrentUser;
+import com.languagematters.tessta.security.UserPrincipal;
 import com.languagematters.tessta.service.AsynchronousServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
-
-import static com.languagematters.tessta.Temp.USERNAME;
-import static com.languagematters.tessta.Temp.USER_ACCESS_TOKEN;
 
 @RestController
 @RequestMapping("/api/task")
@@ -43,11 +47,9 @@ public class TaskController {
     }
 
     @PostMapping("/schedule")
-    public ResponseEntity<String> process(@Valid @RequestBody ScheduleTaskRequest scheduleTaskRequest) {
+    public ResponseEntity<String> process(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody ScheduleTaskRequest scheduleTaskRequest) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         String taskId = LocalDateTime.now().format(formatter);
-
-        Date timestamp = new Date();
 
         UserFile userFile = this.documentServices.getDocument(scheduleTaskRequest.getDocumentId());
 
@@ -60,7 +62,7 @@ public class TaskController {
         try {
             taskServices.createTask(task); // Store task entry in db
 
-            asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, USERNAME, USER_ACCESS_TOKEN, userFile.getOriginalFileName());
+            asynchronousServices.executeOcrTask(scheduleTaskRequest.getDocumentId(), taskId, currentUser.getEmail(), scheduleTaskRequest.getAccessToken(), userFile.getOriginalFileName());
 
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -77,7 +79,16 @@ public class TaskController {
 
 class ScheduleTaskRequest {
 
+    private String accessToken;
     private int documentId;
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
     public int getDocumentId() {
         return documentId;

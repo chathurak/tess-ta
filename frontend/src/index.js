@@ -13,7 +13,7 @@ ReactDOM.render(
     <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <BrowserRouter>
-                <App />
+                <App/>
             </BrowserRouter>
         </MuiPickersUtilsProvider>
     </MuiThemeProvider>,

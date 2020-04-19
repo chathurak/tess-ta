@@ -17,8 +17,8 @@ class Control extends Component {
                         className: this.props.selectProps.classes.input,
                         inputRef : this.props.innerRef,
                         children : this.props.children,
-                        ...this.props.innerProps,
-                    },
+                        ...this.props.innerProps
+                    }
                 }}
                 {...this.props.selectProps.textFieldProps}
             />

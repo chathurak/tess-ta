@@ -1,11 +1,11 @@
-import React from 'react';
-import {Route, Redirect} from "react-router-dom";
-import * as PropTypes from "prop-types";
+import React             from 'react'
+import {Redirect, Route} from 'react-router-dom'
+import * as PropTypes    from 'prop-types'
 
 
 class PrivateRoute extends React.Component {
     render() {
-        const {component: Component, authenticated, ...rest} = this.props;
+        const {component: Component, authenticated, ...rest} = this.props
 
         return (
             <Route
@@ -17,18 +17,18 @@ class PrivateRoute extends React.Component {
                         <Redirect
                             to={{
                                 pathname: '/signin',
-                                state: {from: props.location}
+                                state   : {from: props.location}
                             }}
                         />
                     )
                 }
             />
-        );
+        )
     }
 }
 
 PrivateRoute.propTypes = {
-    component: PropTypes.any,
+    component    : PropTypes.any,
     authenticated: PropTypes.any
 }
 

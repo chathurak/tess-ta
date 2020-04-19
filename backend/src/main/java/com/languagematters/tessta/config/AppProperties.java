@@ -13,6 +13,22 @@ public class AppProperties {
     private final Store store = new Store();
     private final MySQL mysql = new MySQL();
 
+    public Auth getAuth() {
+        return auth;
+    }
+
+    public OAuth2 getOauth2() {
+        return oauth2;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public MySQL getMysql() {
+        return mysql;
+    }
+
     public static class Auth {
         private String tokenSecret;
         private long tokenExpirationMsec;
@@ -95,21 +111,5 @@ public class AppProperties {
         public void setPassword(String password) {
             this.password = password;
         }
-    }
-
-    public Auth getAuth() {
-        return auth;
-    }
-
-    public OAuth2 getOauth2() {
-        return oauth2;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public MySQL getMysql() {
-        return mysql;
     }
 }

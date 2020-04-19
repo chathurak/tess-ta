@@ -3,11 +3,14 @@ package com.languagematters.tessta.library.services;
 import com.languagematters.tessta.config.AppProperties;
 import com.languagematters.tessta.grammar.util.FileUtils;
 import com.languagematters.tessta.library.model.Task;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,11 +81,11 @@ public class TaskServices {
 
     public int createTask(Task task) {
         try {
-            String sql = "INSERT INTO task (document_id, tessdata_id, created_at, updated_at, name) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO task (document_id, tessdata_id, name) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, task.getDocumentId());
             statement.setInt(2, task.getTessdataId());
-            statement.setString(5, task.getName());
+            statement.setString(3, task.getName());
 
             int rowsInserted = statement.executeUpdate();
             ResultSet result = statement.getGeneratedKeys();

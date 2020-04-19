@@ -13,7 +13,7 @@ class DocumentPicker extends React.Component {
 
         this.state = {
             // The first commit of Material-UI
-            selectedDate    : new Date('2014-08-18T21:11:54')
+            selectedDate: new Date('2014-08-18T21:11:54')
         }
     }
 
@@ -85,7 +85,7 @@ class DocumentPicker extends React.Component {
 
 DocumentPicker.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme  : PropTypes.object.isRequired,
+    theme  : PropTypes.object.isRequired
 }
 
 export default withStyles(styles, {withTheme: true})(DocumentPicker)
