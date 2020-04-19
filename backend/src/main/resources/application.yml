@@ -33,8 +33,8 @@ app:
             - http://localhost:3000/oauth2/redirect
             - http://ocrsrilanka.com/oauth2/redirect
     store:
-        tessdata: ~/ocr/tessdata
-        tempstore: ~/ocr/storage
+        tessdata: ./tessdata
+        tempstore: /Users/ivantha/ocr/storage
     mysql:
         uri: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
         user: root

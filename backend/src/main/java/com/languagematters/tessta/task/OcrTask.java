@@ -80,8 +80,6 @@ public class OcrTask {
     }
 
     public void process() {
-        System.out.println("Access tokennnnnnn");
-        System.out.println(accessToken);
         try {
             Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
             Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
