@@ -13,14 +13,11 @@ services:
     ]
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
-      - "~/ocr/mysql:/var/lib/mysql"
+      # - "~/ocr/mysql:/var/lib/mysql"
     ports:
       - "3306"
     environment:
       MYSQL_DATABASE: "tesseract_ta"
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_USER: "tessuser"
-      MYSQL_PASSWORD: "leonie-mysql@ocr"
     expose:
       - "3306"
   phpmyadmin:
@@ -40,8 +37,8 @@ services:
     container_name: tessta-daemon
     hostname: tessta-daemon
     ports:
-      - "4000"
-      - "80:4000"
+      - "3000:3000"
+      - "4000:4000"
     volumes:
       - "~/ocr/tessdata:/ocr/tessdata"
       - "~/ocr/storage:/ocr/storage"

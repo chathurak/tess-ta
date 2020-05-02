@@ -3,13 +3,14 @@ FROM sumedhe/tesseract:latest
 # Environment varialbes
 ENV OCR_DIR       /ocr
 ENV TESSTA_BE_DIR ${OCR_DIR}/backend
-ENV TESSTA_FE_DIR ${_DIR}/frontend
+ENV TESSTA_FE_DIR ${OCR_DIR}/frontend
 ENV TESSDATA_DIR  ${TESS_TA_DIR}/tessdata
 ENV STORAGE_DIR   ${TESS_TA_DIR}/storage
 ENV LOG_FILE      ${OCR_DIR}/log.txt
 
 # Install Dependencies
-RUN apt-get update && apt-get install -y --fix-missing \
+RUN apt-get update && \
+    apt-get install -y --fix-missing \
     curl \
     wget \
     unzip \
@@ -25,28 +26,13 @@ RUN apt-get update && apt-get install -y --fix-missing \
     locales\
     imagemagick
 
-WORKDIR ${OCR_DIR}/build
-
-# Create log
-RUN touch ${LOG_FILE}
-
-# Copy tess-ta backend repo
-ADD ./database/db.sql           ${TESS_TA_DIR}/database/db.sql
-ADD ./backend/src               ${TESSTA_BE_DIR}/src
-ADD ./backend/pom.xml           ${TESSTA_BE_DIR}/pom.xml
-# ADD ./backend/start-services.sh ${TESSTA_BE_DIR}/start-services.sh
-
-# Copy tess-ta frontend repo
-ADD ./frontend/src          ${TESSTA_FE_DIR}/src
-ADD ./frontend/public       ${TESSTA_FE_DIR}/public
-ADD ./frontend/package.json ${TESSTA_FE_DIR}/package.json
-ADD ./frontend/yarn.lock    ${TESSTA_FE_DIR}/yarn.lock
-
-# Change working directory
-WORKDIR ${OCR_DIR}
-
-# Build tess-ta
-RUN cd ${TESSTA_BE_DIR} && mvn clean verify package -Prelease -DskipTests
+# Install Yarn
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y nodejs yarn
+RUN npm install pm2 -g
 
 # Setup fonts
 RUN locale-gen en_US.UTF-8
@@ -54,11 +40,22 @@ ENV LANG       en_US.UTF-8
 ENV LANGUAGE   en_US:en
 ENV LC_ALL     en_US.UTF-8
 
-ADD ./backend/start-services.sh ${TESSTA_BE_DIR}/start-services.sh
+# Copy project files
+ADD ./backend           ${TESSTA_BE_DIR}
+ADD ./frontend          ${TESSTA_FE_DIR}
+ADD ./start_services.sh ${OCR_DIR}
 
-# Export ports
+# Build tess-ta
+RUN cd ${TESSTA_BE_DIR} && mvn clean verify package -Prelease -DskipTests
+RUN cd ${TESSTA_FE_DIR} && yarn install
+
+# Create log file
+RUN touch ${LOG_FILE}
+
+WORKDIR ${OCR_DIR}
+
 EXPOSE 4000
+EXPOSE 3000
 
-WORKDIR ${TESSTA_BE_DIR}
-CMD sh start-services.sh
+CMD sh start_services.sh
 

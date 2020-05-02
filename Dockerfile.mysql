@@ -1,6 +1,8 @@
 # Dockerfile.mysql
 FROM mysql:8.0
 
+ENV MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
 # Make the "en_US.UTF-8" locale to let mysql to enable utf-8 by default
 RUN apt-get update && \
     apt-get install -y locales && \
