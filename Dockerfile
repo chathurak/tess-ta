@@ -40,22 +40,25 @@ ENV LANG       en_US.UTF-8
 ENV LANGUAGE   en_US:en
 ENV LC_ALL     en_US.UTF-8
 
-# Copy project files
+# Build backend
 ADD ./backend           ${TESSTA_BE_DIR}
+RUN cd ${TESSTA_BE_DIR} && mvn clean verify package -Prelease -DskipTests
+
+# Build frontend
 ADD ./frontend          ${TESSTA_FE_DIR}
+RUN cd ${TESSTA_FE_DIR} && yarn install
+
 ADD ./start_services.sh ${OCR_DIR}
 
-# Build tess-ta
-RUN cd ${TESSTA_BE_DIR} && mvn clean verify package -Prelease -DskipTests
-RUN cd ${TESSTA_FE_DIR} && yarn install
+# Yarn expose port
+ENV PORT 8080
 
 # Create log file
 RUN touch ${LOG_FILE}
 
 WORKDIR ${OCR_DIR}
 
-EXPOSE 4000
-EXPOSE 3000
+EXPOSE 8443
+EXPOSE 8080
 
 CMD sh start_services.sh
-
