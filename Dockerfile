@@ -51,14 +51,14 @@ RUN cd ${TESSTA_FE_DIR} && yarn install
 ADD ./start_services.sh ${OCR_DIR}
 
 # Yarn expose port
-ENV PORT 8080
+ENV PORT 80
 
 # Create log file
 RUN touch ${LOG_FILE}
 
 WORKDIR ${OCR_DIR}
 
-EXPOSE 8443
+EXPOSE 80
 EXPOSE 8080
 
 CMD sh start_services.sh

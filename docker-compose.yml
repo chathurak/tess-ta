@@ -13,7 +13,7 @@ services:
     ]
     volumes:
       - "./database:/docker-entrypoint-initdb.d"
-      # - "~/ocr/mysql:/var/lib/mysql"
+      - "~/ocr/mysql:/var/lib/mysql"
     ports:
       - "3306"
     environment:
@@ -37,7 +37,7 @@ services:
     container_name: tessta-daemon
     hostname: tessta-daemon
     ports:
-      - "8443:8443"
+      - "80:80"
       - "8080:8080"
     volumes:
       - "~/ocr/tessdata:/ocr/tessdata"

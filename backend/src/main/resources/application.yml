@@ -1,5 +1,5 @@
 server:
-    port: 8443
+    port: 8080
 spring:
     datasource:
         driverClassName: com.mysql.jdbc.Driver
@@ -30,7 +30,7 @@ app:
         tokenExpirationMsec: 864000000
     oauth2:
         authorizedRedirectUris:
-            - http://localhost:8080/oauth2/redirect
+            - http://localhost/oauth2/redirect
             - http://ocrsrilanka.com/oauth2/redirect
     store:
         tessdata: ./tessdata
