@@ -1,7 +1,7 @@
 import {ACCESS_TOKEN} from '../../../../constants/auth.constants'
 
 export const config = {
-    url    : 'http://localhost:4000/api/file',
+    url    : 'http://localhost:8443/api/file',
     // url    : '/api/file',
     process: {
         url            : '/process',
