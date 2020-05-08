@@ -85,7 +85,7 @@ class FileManagerPanel extends React.Component {
                             <div className={classes.documentPaneTitle}>
                                 <p className={classes.documentPaneTitleName}>Name</p>
                             </div>
-                            {this.state.documents !== null && this.state.documents !== [] && this.state.documents.map(
+                            {this.state.documents !== undefined && this.state.documents !== [] && this.state.documents.map(
                                 (document, i) => (
                                     <div key={i} className={classes.document}
                                          onClick={() => this.handleDocumentSelect(document.id)}>
