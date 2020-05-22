@@ -26,8 +26,6 @@ public class ImageServices {
         cmdLine.addArgument(outputPath);
         cmdLine.addArgument("--fonts_dir");
         cmdLine.addArgument(appProperties.getStore().getTessdata());
-        cmdLine.addArgument("--font");
-        cmdLine.addArgument("Iskoola Pota", false);
 
         Map<String, String> customEnvironment = null;
         customEnvironment = EnvironmentUtils.getProcEnvironment();
