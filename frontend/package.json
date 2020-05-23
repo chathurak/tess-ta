@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "analyze": "GENERATE_SOURCEMAP=true react-scripts build && source-map-explorer 'build/static/js/*.js'"
   },
-  "proxy": "http://localhost:8443",
+  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": "react-app"
   },
