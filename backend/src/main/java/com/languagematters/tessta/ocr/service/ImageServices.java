@@ -26,7 +26,8 @@ public class ImageServices {
         cmdLine.addArgument(outputPath);
         cmdLine.addArgument("--fonts_dir");
         cmdLine.addArgument(appProperties.getStore().getTessdata());
-
+        cmdLine.addArgument("--font");
+        cmdLine.addArgument("Latha", false);
         Map<String, String> customEnvironment = null;
         customEnvironment = EnvironmentUtils.getProcEnvironment();
         customEnvironment.put("PANGOCAIRO_BACKEND", "fc");
