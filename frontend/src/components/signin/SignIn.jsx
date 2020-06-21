@@ -38,7 +38,7 @@ class SignIn extends React.Component {
                 <Container className={classes.container} component="main" maxWidth="xs">
                     <Button fullWidth variant="contained" color="primary" className={classes.submit}
                             startIcon={<LockOpenIcon/>}
-                            onClick={event => window.location.href = 'http://localhost:8443/oauth2/authorize/google?redirect_uri=http://localhost:8080/oauth2/redirect'}>
+                            onClick={event => window.location.href = 'http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect'}>
                         Sign in
                     </Button>
                 </Container>

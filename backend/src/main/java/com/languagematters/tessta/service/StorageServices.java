@@ -43,7 +43,7 @@ public class StorageServices {
             Files.createDirectories(rootLocation.resolve(location));
             Files.copy(file.getInputStream(), rootLocation.resolve(location + file.getOriginalFilename()));
         } catch (Exception e) {
-            throw new RuntimeException("FAIL!");
+            throw new RuntimeException(e.getMessage());
         }
     }
 
