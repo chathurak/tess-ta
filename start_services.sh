@@ -5,7 +5,7 @@
 ################################################
 
 # Start frontend
-cd ${TESSTA_FE_DIR} && pm2 start yarn --interpreter bash --name api -- start-dev
+cd ${TESSTA_FE_DIR} && pm2 start yarn --interpreter bash --name api -- start-prod
 
 sleep 20
 
