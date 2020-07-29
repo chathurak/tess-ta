@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
+// import java.util.ArrayList;
+// import java.util.Iterator;
 import java.util.Map;
 
 @RestController
@@ -37,6 +39,23 @@ public class GrammarController {
 
         return res;
     }
+
+    // @RequestMapping(value = "/api/grammar/getSuggetions", method = RequestMethod.GET)
+    // public Map<String, Object> getSuggetions(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "word") String word) {
+    //     String temp = "";
+    //     ArrayList<String> worldlist = new ArrayList<String>();
+    //     worldlist = grammarService.getSuggestionWords(word);
+    //     Iterator<String> iterator = worldlist.iterator();
+    //     while(iterator.hasNext()){
+    //         temp = temp + iterator.next() + " ";
+    //     }
+    //     List<WordObj> result = grammarService.process(temp);
+    //     Map<String, Object> res = new HashMap<>();
+    //     res.put("input", temp);
+    //     res.put("output", result);
+
+    //     return res;
+    // }
 
 //    @RequestMapping(value = "/api/grammar/get-test-dir-list", method = RequestMethod.GET)
 //    public List<Map<String, String>> getTestDirectoryList() {

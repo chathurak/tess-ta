@@ -9,7 +9,7 @@ ENV STORAGE_DIR   ${TESS_TA_DIR}/storage
 ENV LOG_FILE      ${OCR_DIR}/log.txt
 
 # Install Dependencies
-RUN apt-get update && \
+RUN apt-get update --fix-missing && \
     apt-get install -y --fix-missing \
     curl \
     wget \
@@ -51,14 +51,14 @@ RUN cd ${TESSTA_FE_DIR} && yarn install
 ADD ./start_services.sh ${OCR_DIR}
 
 # Yarn expose port
-ENV PORT 8080
+ENV PORT 3000
 
 # Create log file
 RUN touch ${LOG_FILE}
 
 WORKDIR ${OCR_DIR}
 
-EXPOSE 8443
+EXPOSE 3000
 EXPOSE 8080
 
 CMD sh start_services.sh

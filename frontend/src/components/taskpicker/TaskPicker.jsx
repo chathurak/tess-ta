@@ -24,6 +24,7 @@ class TaskPicker extends React.Component {
 
     handleDocumentChange = (document) => {
         this.setState({selectedDocument: document})
+        this.promiseUserTasks();
     }
 
     promiseUserTasks = () => {
@@ -43,6 +44,7 @@ class TaskPicker extends React.Component {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(options)
+                console.log(options)
             }, 1000)
         })
     }

@@ -34,7 +34,7 @@ app:
             - http://ocrsrilanka.com/oauth2/redirect
     store:
         tessdata: ./tessdata
-        tempstore: /home/sumedhe/Deskop/storage
+        tempstore: /mnt/c/users/mendis/chamith/storage
     mysql:
         uri: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
         user: root

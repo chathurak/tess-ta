@@ -37,7 +37,7 @@ services:
     container_name: tessta-daemon
     hostname: tessta-daemon
     ports:
-      - "8443:8443"
+      - "3000:3000"
       - "8080:8080"
     volumes:
       - "~/ocr/tessdata:/ocr/tessdata"

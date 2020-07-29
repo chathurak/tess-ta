@@ -10,6 +10,7 @@
     "@material-ui/styles": "^4.9.10",
     "axios": "^0.19.2",
     "date-fns": "^2.4.1",
+    "env-cmd": "^10.1.0",
     "file-saver": "^2.0.2",
     "filepond": "^4.13.4",
     "filepond-plugin-image-preview": "^4.6.1",
@@ -30,8 +31,12 @@
     "source-map-explorer": "^2.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start-dev": "env-cmd -f .env.development react-scripts start",
+    "build-dev": "env-cmd dev react-scripts build",
+    "start-qa": "env-cmd qa react-scripts start",
+    "build-qa": "env-cmd qa react-scripts build",
+    "start-prod": "env-cmd -f .env.production react-scripts start",
+    "build-prod": "env-cmd prod react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "GENERATE_SOURCEMAP=true react-scripts build && source-map-explorer 'build/static/js/*.js'"

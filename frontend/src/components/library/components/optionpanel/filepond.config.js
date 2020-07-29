@@ -1,7 +1,7 @@
 import {ACCESS_TOKEN} from '../../../../constants/auth.constants'
 
 export const config = {
-    url    : 'http://localhost:8080/api/file',
+    url    : process.env.REACT_APP_API_URL_BE+'/api/file',
     // url    : '/api/file',
     process: {
         url            : '/process',

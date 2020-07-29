@@ -157,6 +157,12 @@
             <artifactId>guava</artifactId>
             <version>28.1-jre</version>
         </dependency>
+        <!--Check for similarity-->
+        <!-- <dependency>
+        <groupId>info.debatty</groupId>
+            <artifactId>java-string-similarity</artifactId>
+            <version>RELEASE</version>
+        </dependency> -->
         <!--Test-->
         <dependency>
             <groupId>junit</groupId>

@@ -54,11 +54,29 @@ class CheckerPanel extends React.Component {
             })
     }
 
-    handleEditWord = (indexLine, indexWord) => {
+    handleEditWord = async (indexLine, indexWord) => {
+        var dl = []
         var s = this.state.dataLines[indexLine][indexWord].suggestions.map(s => {
             return s.value
         })
-
+        console.log(s)
+        
+        // let options = await grammarServices.getSuggestions(s[0])
+        // .then(words => {
+        //     dl = grammar.docToDataLines(words.output)
+        //     console.log(dl)
+        //     console.log(dl[0].flag)
+        //     return dl;
+        // })
+        // .catch(err => {
+        //     console.log(err)
+        // })
+        // console.log(options)
+        // options[0].forEach(ele => {
+        //     ele.flags[0] = "CHANGED";
+        //     s.push(ele.value);
+        // })
+        // console.log(s)
         this.setState({
             currentLineIndex  : indexLine,
             currentWordIndex  : indexWord,
@@ -100,6 +118,7 @@ class CheckerPanel extends React.Component {
         var data                                                                = this.state.dataLines
         data[this.state.currentLineIndex][this.state.currentWordIndex].selected = selectedIndex
         this.setState({data: data})
+        console.log('here')
     }
 
     handleExport = (selectedTask) => {
@@ -124,6 +143,7 @@ class CheckerPanel extends React.Component {
 
     // Get styles for a letter or a word
     getTextStyle = (item) => {
+        // console.log(item)
         if (item.flags.length === 0) {
             return
         }
