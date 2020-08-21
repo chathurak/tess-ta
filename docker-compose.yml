@@ -4,6 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.mysql
+    # restart: always
+    security_opt:
+    - seccomp:unconfined
     container_name: mysql-daemon
     hostname: mysql-daemon
     # command: mysqld --user=root --verbose
@@ -11,13 +14,17 @@ services:
       'mysqld', '--character-set-server=utf8',
       '--default-authentication-plugin=mysql_native_password'
     ]
-    volumes:
-      - "./database:/docker-entrypoint-initdb.d"
-      # - "~/ocr/mysql:/var/lib/mysql"
+    # volumes:
+    #   - ./database/db3.sql:/docker-entrypoint-initdb.d/db3.sql
+    #   - "~/ocr/mysql:/var/lib/mysql"
     ports:
       - "3306"
     environment:
       MYSQL_DATABASE: "tesseract_ta"
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_USER: "tessuser"
+      MYSQL_PASSWORD: "leonie-mysql@ocr"
+      # MYSQL_INITDB_SKIP_TZINFO: 1
     expose:
       - "3306"
   phpmyadmin:
@@ -33,6 +40,7 @@ services:
     depends_on:
       - mysql
   tessta:
+    restart: always
     build: .
     container_name: tessta-daemon
     hostname: tessta-daemon

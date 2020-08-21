@@ -1,6 +1,7 @@
 # Dockerfile.mysql
 FROM mysql:8.0
-
+ADD /database/db.sql /docker-entrypoint-initdb.d/db.sql
+#comment above line when hosting to server
 ENV MYSQL_ALLOW_EMPTY_PASSWORD=yes
 
 # Make the "en_US.UTF-8" locale to let mysql to enable utf-8 by default
