@@ -7,6 +7,7 @@ ENV TESSTA_FE_DIR ${OCR_DIR}/frontend
 ENV TESSDATA_DIR  ${TESS_TA_DIR}/tessdata
 ENV STORAGE_DIR   ${TESS_TA_DIR}/storage
 ENV LOG_FILE      ${OCR_DIR}/log.txt
+ENV ENVIRO        ${ENVIRO}
 
 # Install Dependencies
 RUN apt-get update --fix-missing && \
