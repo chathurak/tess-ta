@@ -31,6 +31,8 @@
     "source-map-explorer": "^2.1.2"
   },
   "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "start-dev": "env-cmd -f .env.development react-scripts start",
     "build-dev": "env-cmd dev react-scripts build",
     "start-qa": "env-cmd qa react-scripts start",
