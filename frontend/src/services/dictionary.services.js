@@ -1,10 +1,11 @@
 import axios          from 'axios/index'
 import {ACCESS_TOKEN} from '../constants/auth.constants'
 
-const getWords = () => {
+const getWords = (type) => {
+    console.log(type)
     return axios.request({
         method : 'get',
-        url    : `/api/dictionary`,
+        url    : `/api/dictionary?type=${type}`,
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
@@ -22,10 +23,10 @@ const getWords = () => {
     })
 }
 
-const addWord = (word) => {
+const addWord = (word,type) => {
     return axios.request({
         method : 'post',
-        url    : `/api/dictionary?word=${word}`,
+        url    : `/api/dictionary?word=${word}&type=${type}`,
         headers: {
             'Content-Type' : 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)

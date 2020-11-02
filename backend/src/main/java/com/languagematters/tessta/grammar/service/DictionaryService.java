@@ -25,8 +25,13 @@ public class DictionaryService {
         this.connection = connection;
     }
 
-    // Load dictionary words
-    public void load() {
+    // Load dictionary words based on type
+    public void load(String type) {
+        words = dbUtils.loadValues("select * from dictionary where type = "+type, "word");
+    }
+
+    // load all dictionary words
+    public void loadAll() {
         words = dbUtils.loadValues("select * from dictionary", "word");
     }
 
@@ -66,10 +71,12 @@ public class DictionaryService {
     }
 
     // Add new word to the dictionary
-    public int addWord(String word) {
+    public int addWord(String word,String type) {
         try {
-            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO dictionary(word) VALUES(?)");
+            type = "2";
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO dictionary(word,type) VALUES(?,?)");
             pstmt.setString(1, word);
+            pstmt.setString(2, type);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
