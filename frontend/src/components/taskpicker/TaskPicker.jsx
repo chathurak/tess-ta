@@ -23,8 +23,10 @@ class TaskPicker extends React.Component {
     }
 
     handleDocumentChange = (document) => {
-        this.setState({selectedDocument: document})
-        this.promiseUserTasks();
+        console.log(document)
+        this.setState({selectedDocument: document}, () => {
+            this.promiseUserTasks();
+        })
     }
 
     promiseUserTasks = () => {

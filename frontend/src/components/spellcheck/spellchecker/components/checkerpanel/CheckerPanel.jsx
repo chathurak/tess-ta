@@ -313,8 +313,8 @@ class CheckerPanel extends React.Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell>#</TableCell>
-                                <TableCell>Before process</TableCell>
-                                <TableCell>After process</TableCell>
+                                <TableCell>Before Grammar Check</TableCell>
+                                <TableCell>Results After Grammar Processing</TableCell>
                             </TableRow>
                         </TableHead>
 
