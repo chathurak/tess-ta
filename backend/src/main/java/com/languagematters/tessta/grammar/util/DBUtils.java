@@ -48,7 +48,6 @@ public class DBUtils {
         HashSet<String> data = new HashSet<>();
 
         Statement statement;
-
         try {
             statement = connection.createStatement();
             statement.executeUpdate("SET NAMES 'utf8'");

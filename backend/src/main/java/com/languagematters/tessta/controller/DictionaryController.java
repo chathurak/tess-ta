@@ -23,14 +23,14 @@ public class DictionaryController {
     }
 
     @GetMapping
-    public List<String> getWords() {
-        dictionaryService.load();
+    public List<String> getWords(@RequestParam("type") String type) {
+        dictionaryService.load(type);
         return dictionaryService.getWords();
     }
 
     @PostMapping
-    public int addWord(@RequestParam("word") String word) {
-        return dictionaryService.addWord(word);
+    public int addWord(@RequestParam("word") String word,@RequestParam("type") String type) {
+        return dictionaryService.addWord(word,type);
     }
 
     @PostMapping("/bulk")

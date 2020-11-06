@@ -28,36 +28,49 @@ class Dictionary extends React.Component {
                 size : 0
             },
             inputText          : '',
-            selectedWord       : ''
+            selectedWord       : '',
         }
     }
+
+    type = '1'
 
     handleInputTextChange = (e, text) => {
         this.setState({inputText: text})
     }
 
     handleDictionaryWordClick = (e, index) => {
-        let selectedWord = this.state.dictionaryPrimary.words[index]
+        let selectedWord
+        if(this.type === '1')
+            selectedWord = this.state.dictionaryPrimary.words[index]
+        else if(this.type === '2')   
+            selectedWord = this.state.dictionarySecondary.words[index]
         this.setState({inputText: selectedWord})
         this.setState({selectedWord: selectedWord})
     }
 
     dictionaryPrimaryWords = (props) => {
+        // this.setState({type: '1'})
+        this.type = '1'
         const {index, style} = props
         return (
             <ListItem button style={style} key={index} onClick={(e) => this.handleDictionaryWordClick(e, index)}>
                 <ListItemText primary={this.state.dictionaryPrimary.words[index]}/>
             </ListItem>
         )
+        // this.state.type = '1'
     }
 
     dictionarySecondaryWords = (props) => {
+        // this.setState({type: '2'})
+        this.type = '2'
         const {index, style} = props
         return (
             <ListItem button style={style} key={index} onClick={(e) => this.handleDictionaryWordClick(e, index)}>
                 <ListItemText primary={this.state.dictionarySecondary.words[index]}/>
             </ListItem>
         )
+        // this.state.type = '2'
+        
     }
 
     handleAdd = () => {
@@ -67,7 +80,7 @@ class Dictionary extends React.Component {
         }
 
 
-        dictionaryServices.addWord(this.state.inputText)
+        dictionaryServices.addWord(this.state.inputText,this.state.type)
             .then((res) => {
                 this.notificationBox.showSuccess(`Successfully Added '${this.state.inputText}'`)
                 this.handleLoad()
@@ -113,18 +126,51 @@ class Dictionary extends React.Component {
     }
 
     handleLoad = () => {
-        dictionaryServices.getWords()
+        dictionaryServices.getWords(this.type)
             .then((words) => {
-                this.setState({
-                    dictionaryPrimary: {
-                        words: words,
-                        size : words.length
-                    }
-                })
+                if(this.type === '1'){
+                    this.setState({
+                        dictionaryPrimary: {
+                            words: words,
+                            size : words.length
+                        },
+                        dictionarySecondary: {
+                            words: '',
+                            size : ''
+                        }
+                    })
+                } else if(this.type === '2') {
+                    this.setState({
+                        dictionarySecondary: {
+                            words: words,
+                            size : words.length
+                        },
+                        dictionaryPrimary: {
+                            words: '',
+                            size : ''
+                        }
+                    })
+                }
             })
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    changeTypeToPrimary = () => {
+        // this.setState({type: '1'}, () => {
+        //     this.handleLoad()
+        // })
+        this.type = '1'
+        this.handleLoad()
+    }
+
+    changeTypeToSecondary = () => {
+        // this.setState({type: '2'}, () => {
+        //     this.handleLoad();
+        // })
+        this.type = '2'
+        this.handleLoad()
     }
 
     render() {
@@ -167,7 +213,7 @@ class Dictionary extends React.Component {
                                         <h2 className={classes.dictionaryTitle}>Primary Word Inventory</h2>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <IconButton className={classes.margin} onClick={this.handleLoad}>
+                                        <IconButton className={classes.margin} onClick={this.changeTypeToPrimary}>
                                             <RefreshIcon fontSize="large"/>
                                         </IconButton>
                                     </Grid>
@@ -189,7 +235,7 @@ class Dictionary extends React.Component {
                                         <h2 className={classes.dictionaryTitle}>Secondary Word Inventory</h2>
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <IconButton className={classes.margin} onClick={this.handleLoad}>
+                                        <IconButton className={classes.margin} onClick={this.changeTypeToSecondary}>
                                             <RefreshIcon fontSize="large"/>
                                         </IconButton>
                                     </Grid>

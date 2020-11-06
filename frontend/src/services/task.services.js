@@ -1,8 +1,9 @@
 import axios                          from 'axios/index'
 import {ACCESS_TOKEN, G_ACCESS_TOKEN} from '../constants/auth.constants'
 
-const getTasks = (documentId) => {
-    return axios.request({
+const getTasks = async (documentId) => {
+    console.log(documentId)
+    let res = axios.request({
         method : 'get',
         url    : `/api/task?documentId=${documentId}`,
         headers: {
@@ -26,6 +27,7 @@ const getTasks = (documentId) => {
     }).catch((error) => {
         console.log(error)
     })
+    return res;
 }
 
 const scheduleTask = (documentId) => {

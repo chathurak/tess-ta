@@ -3,7 +3,7 @@ server:
 spring:
     datasource:
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
+        url: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true
         username: root
         password:
     servlet:
@@ -31,12 +31,12 @@ app:
     oauth2:
         authorizedRedirectUris:
             - http://localhost:3000/oauth2/redirect
-            - http://ocrsrilanka.com/oauth2/redirect
+            - http://ocrsrilanka.com:3000/oauth2/redirect
     store:
         tessdata: ./tessdata
         tempstore: /mnt/c/users/mendis/chamith/storage
     mysql:
-        uri: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
+        uri: jdbc:mysql://localhost:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true
         user: root
         password:
 
@@ -44,11 +44,11 @@ app:
 spring:
     profiles: release
     datasource:
-        url: jdbc:mysql://mysql-daemon:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
+        url: jdbc:mysql://mysql-daemon:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true
         username: tessuser
         password: leonie-mysql@ocr
 app:
     mysql:
-        uri: jdbc:mysql://mysql-daemon:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false
+        uri: jdbc:mysql://mysql-daemon:3306/tesseract_ta?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true
         user: tessuser
         password: leonie-mysql@ocr

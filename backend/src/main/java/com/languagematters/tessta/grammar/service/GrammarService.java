@@ -56,7 +56,7 @@ public class GrammarService {
     public List<WordObj> process(String text) {
         // Load rules TODO: Set load once
         rules.load();
-        dictionaryService.load();
+        dictionaryService.loadAll();
 
         // Mandatory Check
         text = mandatoryChecker.check(text);
