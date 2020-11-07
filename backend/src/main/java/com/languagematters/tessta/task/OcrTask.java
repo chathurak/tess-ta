@@ -83,11 +83,15 @@ public class OcrTask {
         try {
             Drive drive = GoogleAPIServices.getDriveInstance(accessToken);
             Sheets sheets = GoogleAPIServices.getSheetsInstance(accessToken);
-
+            String dateUploaded = taskId.substring(0,8);
+            dateUploaded = dateUploaded.substring(0,4)+"_"+dateUploaded.substring(4,6)+"_"+dateUploaded.substring(6);
+            String timeUploaded = taskId.substring(8);
+            String gdriveDerectoryName = this.originalFileName+"_"+dateUploaded+"_"+timeUploaded;
             // Create output gdrive directory
-            System.out.printf("%s : Create output gdrive directory%n", taskId);
+            System.out.printf("%s : Create output gdrive directory%n", gdriveDerectoryName);
             com.google.api.services.drive.model.File parentDirMetadata = new com.google.api.services.drive.model.File();
-            parentDirMetadata.setName(taskId);
+            // change gdrive name from taskid to gdriveDerectoryName as client requirement 2020/11/07
+            parentDirMetadata.setName(gdriveDerectoryName);
             parentDirMetadata.setMimeType("application/vnd.google-apps.folder");
             com.google.api.services.drive.model.File parentDir = drive.files()
                     .create(parentDirMetadata)
@@ -103,6 +107,7 @@ public class OcrTask {
             Files.createDirectories(taskDir.toPath());
             System.out.println(taskDir.toPath());
 
+            // Added the capability of running a png file
             if (extension.equals("txt")) {
                 // Text to image
                 System.out.printf("%s : Text to image%n", taskId);
@@ -110,7 +115,7 @@ public class OcrTask {
             } else if (extension.equals("tiff") || extension.equals("tif")) {
                 File taskFile = new File(String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
                 FileUtils.copyFile(originalFile, taskFile);
-            } else if (extension.equals("jpeg") || extension.equals("jpg")) {
+            } else if (extension.equals("jpeg") || extension.equals("jpg") || extension.equals("png")) {
                 File taskFile = new File(String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME));
                 imageServices.jpeg2tiff(getExecutor(), originalFile.getAbsolutePath(), taskFile.getAbsolutePath());
             }
@@ -156,6 +161,7 @@ public class OcrTask {
             System.out.printf("%s : Upload files%n", taskId);
             ArrayList<Upload> uploadFileList = new ArrayList<>();
 
+            // Added the capability of running a png file
             if (extension.equals("txt")) {
                 uploadFileList.add(new Upload(originalFileName, "text/plain", originalFile.getAbsolutePath()));
                 uploadFileList.add(new Upload(String.format("%s.tif", T2I_OUTPUT_FILE_NAME), "image/tiff", String.format("%s/%s.tif", taskDir.getAbsolutePath(), T2I_OUTPUT_FILE_NAME)));
@@ -163,6 +169,8 @@ public class OcrTask {
                 uploadFileList.add(new Upload(originalFileName, "image/jpeg", originalFile.getAbsolutePath()));
             } else if (extension.equals("tiff")) {
                 uploadFileList.add(new Upload(originalFileName, "image/tiff", originalFile.getAbsolutePath()));
+            } else if (extension.equals("png")) {
+                uploadFileList.add(new Upload(originalFileName, "image/png", originalFile.getAbsolutePath()));
             }
             uploadFileList.add(new Upload(String.format("%s.txt", OCR_OUTPUT_FILE_NAME), "text/plain", String.format("%s/%s.txt", taskDir.getAbsolutePath(), OCR_OUTPUT_FILE_NAME)));
 
